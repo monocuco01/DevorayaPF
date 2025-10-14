@@ -1,0 +1,116 @@
+/* ===== PlatosSection.css — versión limpia y refinada ===== */
+.platos-section {
+  background: #fff;
+  padding: 2rem 1rem;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  margin-top: 50px;
+  color: #222;
+}
+
+/* Contenedor central (opcional) */
+.platos-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Título */
+.platos-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  gap: 0.5rem;
+  color: #111;
+}
+
+/* GRID responsive */
+.platos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* CARD (Link) */
+.plato-card {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 0.9rem;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(13, 13, 13, 0.06);
+  transition: transform 0.22s cubic-bezier(.2, .9, .3, 1), box-shadow 0.22s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 220px;
+
+  /* Quita subrayado y hereda color */
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Hover */
+.plato-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(13, 13, 13, 0.09);
+}
+
+/* Imagen */
+.plato-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+/* Texto dentro */
+.plato-card h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.05rem;
+  color: #111;
+}
+
+.plato-card p {
+  margin: 0 0 0.6rem 0;
+  color: #666;
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+/* Precio / meta info */
+.plato-meta {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plato-price {
+  color: #ff4b2b;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ===== Hover & Focus refinado ===== */
+.plato-card:focus,
+.plato-card:active {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 75, 43, 0.15);
+  text-decoration: none;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 720px) {
+  .platos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .platos-section {
+    padding: 1.25rem;
+    margin-top: 30px;
+  }
+  .plato-img {
+    height: 130px;
+  }
+}

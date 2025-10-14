@@ -1,0 +1,119 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  background-color: #14b8a6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease;
+}
+
+/* Estado scrolled */
+.navbar.scrolled {
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 65px;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  color: #2d2d2d;
+  margin-left: 20px;
+  transition: transform 0.3s ease;
+}
+
+.navbar.scrolled .navbar-logo {
+  transform: scale(0.95);
+}
+
+/* Botón */
+.navbar-login {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+  margin-right: 20px;
+}
+
+.navbar-login:hover {
+  background: #d62839;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+    height: 65px;
+  }
+
+  .navbar.scrolled {
+    height: 60px;
+  }
+
+  .navbar-login {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+/* ===== BARRA DE BÚSQUEDA ===== */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #e6e4e4;
+  border-radius: 25px;
+  padding: 0.55rem 1rem;
+  gap: 0.5rem;
+  width: 480px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s ease;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -10px);
+}
+
+/* Cuando se hace scroll aparece con animación */
+.navbar.scrolled .navbar-search {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Icono de lupa */
+.search-icon {
+  color: #666;
+  flex-shrink: 0;
+}
+
+/* Input del buscador */
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  flex: 1;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+/* Responsive: ocultar buscador en móvil */
+@media (max-width: 768px) {
+  .navbar-search {
+    display: none;
+  }
+}

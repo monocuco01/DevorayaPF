@@ -1,0 +1,193 @@
+.restaurant-page {
+  padding: 3rem 2rem;
+  color: #222;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+}
+
+/* ======= CABECERA ======= */
+.restaurant-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.restaurant-img {
+  width: 380px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 1rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.restaurant-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.restaurant-info h1 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-info p {
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.7rem 1.4rem;
+  background: #25d366;
+  color: white;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebe5a;
+  transform: translateY(-2px);
+}
+
+/* ======= MENÚ ======= */
+.menu-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+.plato-card {
+  background: #fff;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.plato-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.plato-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.plato-card h3 {
+  font-size: 1.1rem;
+  margin: 0.8rem 0 0.4rem;
+  color: #222;
+  margin-left: 10px;
+}
+
+.plato-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.6rem;
+  padding: 0 0.5rem;
+}
+
+.plato-precio {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #e63946;
+  font-size: 1rem;
+  margin-left: 10px;
+}
+
+/* ======= BOTÓN VOLVER ======= */
+.back-btn {
+  display: inline-block;
+  margin-top: 2.5rem;
+  text-decoration: none;
+  color: #0077ff;
+  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  border: 2px solid #0077ff;
+  border-radius: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #0077ff;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 768px) {
+  .restaurant-page {
+  padding: 0;
+  color: #222;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+  border-radius: 0;
+}
+  .restaurant-header {
+    flex-direction: column;
+    padding: 0;
+border-radius: 0;
+  }
+
+  .restaurant-img {
+    width: 100%;
+    height: 220px;
+  border-radius: 0;
+  }
+
+  .restaurant-info {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(6px);
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+
+  .restaurant-info h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .restaurant-info p {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .whatsapp-btn {
+    width: 80%;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+}

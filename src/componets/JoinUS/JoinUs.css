@@ -1,0 +1,132 @@
+.joinus {
+  position: relative;
+  background-color: #e4f4f3;
+  text-align: center;
+  padding: 5rem 2rem;
+  overflow: hidden;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.wave-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background: white;
+  border-bottom-left-radius: 50% 40px;
+  border-bottom-right-radius: 50% 40px;
+}
+
+.joinus-icon {
+  width: 120px;
+
+  margin-bottom: 1rem;
+  margin-top: -2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.joinus-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.joinus-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.joinus-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.joinus-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 2rem;
+  width: 300px;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.joinus-card:hover {
+  transform: translateY(-8px);
+}
+
+.joinus-card h3 {
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.joinus-card p {
+  color: #555;
+  margin: 0.8rem 0 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.joinus-img {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+}
+
+.joinus-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.joinus-btn {
+  background-color: #ff5a5f;
+  border: none;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.joinus-btn:hover {
+  background-color: #e1494e;
+}
+
+/* Versión inactiva */
+.joinus-card.coming {
+  opacity: 0.7;
+  filter: grayscale(1);
+}
+
+.coming-soon {
+  display: inline-block;
+  background: #ccc;
+  color: #333;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
