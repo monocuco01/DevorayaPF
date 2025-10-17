@@ -1,17 +1,20 @@
-/* 🔹 Layout principal */
+/* ===== CONTENEDOR GENERAL ===== */
 .auth-wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
+  background-color: #f9fafb;
+    font-family: "Poppins", sans-serif;
+
 }
 
-/* 🔹 Imagen a la izquierda */
+/* ===== LADO DE LA IMAGEN ===== */
 .auth-image {
   flex: 1;
-  background-color: #14b8a6;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f1f5f9;
 }
 
 .auth-image img {
@@ -20,76 +23,117 @@
   object-fit: cover;
 }
 
-/* 🔹 Formulario a la derecha */
+/* ===== LADO DEL FORMULARIO ===== */
 .auth-form {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px;
-  background-color: #ffffff;
-  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.05);
+  padding: 3rem 2rem;
+  background-color: #fff;
+  margin-bottom: 200px;
 }
 
 .auth-form h2 {
-  color: #14b8a6;
-  margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 1.5rem;
 }
 
 .auth-form form {
+  width: 100%;
+  max-width: 380px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  max-width: 350px;
 }
 
+/* ===== INPUTS ===== */
 .auth-form input {
-  padding: 12px;
+  padding: 12px 14px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  border: 1px solid #ccc;
   font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
+.auth-form input:focus {
+  border-color: #e63946;
+}
+
+/* ===== BOTÓN ===== */
 .auth-form button {
-  background: #14b8a6;
-  color: white;
-  border: none;
   padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
+  background-color: #e63946;
+  color: white;
   font-weight: bold;
-  transition: background 0.3s ease;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.25s ease;
 }
 
 .auth-form button:hover {
-  background: #0d9488;
+  background-color: #e63946;
 }
 
+/* ===== ENLACE REGISTRO ===== */
 .auth-form p {
-  margin-top: 15px;
-  font-size: 0.95rem;
+  margin-top: 1rem;
+  color: #555;
 }
 
 .auth-form span {
   color: #14b8a6;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
+  transition: color 0.2s ease;
 }
 
-/* 🔹 Responsive */
-@media (max-width: 900px) {
+.auth-form span:hover {
+  color: #0d9488;
+}
+
+/* ===== LOGO EN MODO MÓVIL ===== */
+.auth-logo-mobile {
+  display: none;
+  width: 120px;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
   .auth-wrapper {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
   }
 
+  /* Ocultar imagen */
   .auth-image {
-    height: 250px;
+    display: none;
+  }
+
+  /* Mostrar logo encima del formulario */
+  .auth-logo-mobile {
+    display: block;
+    margin-bottom: 100px;
   }
 
   .auth-form {
-    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-form h2 {
+    font-size: 1.5rem;
   }
 }

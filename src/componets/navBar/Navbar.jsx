@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
-import { Search } from "lucide-react"; // Icono de lupa
+import { useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 import Logo from "../../assets/logo.svg";
 import Logo2 from "../../assets/logo2.svg";
 import "./Navbar.css";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate(); // 👈 para redireccionar
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -43,7 +41,12 @@ export default function Navbar() {
       )}
 
       <div className="navbar-right">
-        <button className="navbar-login">Iniciar sesión</button>
+        <button
+          className="navbar-login"
+          onClick={() => navigate("/login")} // 👈 redirige al login
+        >
+          Iniciar sesión
+        </button>
       </div>
     </nav>
   );

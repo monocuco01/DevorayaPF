@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
-
+import Logo from "../../assets/log.png";
+import logo2 from "../../assets/logosolo.svg";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,41 +23,39 @@ function Login() {
   };
 
   return (
-    <div className="auth-wrapper">
-      {/* Imagen a la izquierda */}
-      <div className="auth-image">
-        <img
-          src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=900"
-          alt="Login visual"
-        />
-      </div>
+ <div className="auth-wrapper">
+  <div className="auth-image">
+    <img src={Logo} alt="Login visual" />
+  </div>
 
-      {/* Formulario a la derecha */}
-      <div className="auth-form">
-        <h2>Iniciar sesión</h2>
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Entrar</button>
-        </form>
-        <p>
-          ¿No tienes cuenta?{" "}
-          <span onClick={() => navigate("/register")}>Regístrate</span>
-        </p>
-      </div>
-    </div>
+  <div className="auth-form">
+    {/* Logo solo visible en móviles */}
+    <img src={logo2} alt="Logo móvil" className="auth-logo-mobile" />
+
+    <h2>Iniciar sesión</h2>
+    <form onSubmit={handleLogin}>
+      <input
+        type="email"
+        placeholder="Correo electrónico"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <button type="submit">Entrar</button>
+    </form>
+    <p>
+      ¿No tienes cuenta?{" "}
+      <span onClick={() => navigate("/register")}>Regístrate</span>
+    </p>
+  </div>
+</div>
   );
 }
 
