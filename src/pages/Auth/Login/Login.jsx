@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
-import Logo from "../../assets/log.png";
-import logo2 from "../../assets/logosolo.svg";
+import Logo from "../../../assets/log.png";
+import logo2 from "../../../assets/logosolo.svg";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -4,8 +4,9 @@
   min-height: 100vh;
   width: 100%;
   background-color: #f9fafb;
-    font-family: "Poppins", sans-serif;
-
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* ===== LADO DE LA IMAGEN ===== */
@@ -32,7 +33,9 @@
   align-items: center;
   padding: 3rem 2rem;
   background-color: #fff;
-  margin-bottom: 200px;
+
+  box-sizing: border-box;
+
 }
 
 .auth-form h2 {
@@ -78,7 +81,7 @@
 }
 
 .auth-form button:hover {
-  background-color: #e63946;
+  background-color: #d62839;
 }
 
 /* ===== ENLACE REGISTRO ===== */
@@ -112,7 +115,11 @@
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
+    overflow-x: hidden;
+    background-color: rgb(255, 255, 255);
+ 
   }
+ 
 
   /* Ocultar imagen */
   .auth-image {
@@ -131,9 +138,24 @@
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     padding: 2rem 1.5rem;
+    margin-bottom: 0;
   }
 
   .auth-form h2 {
     font-size: 1.5rem;
   }
+}
+
+/* ===== CORRECCIÓN SCROLL LATERAL ===== */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.auth-wrapper, .auth-form, .auth-image {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
