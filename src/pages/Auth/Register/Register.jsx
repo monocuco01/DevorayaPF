@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Login/Auth.css";
+import Swal from "sweetalert2";
+import "../../Auth/Login/Auth.css";
 import Logo from "../../../assets/log.png";
 import logo2 from "../../../assets/logosolo.svg";
+import api from "../../../api/api"; // tu instancia de Axios
 
 function Register() {
   const [nombre, setNombre] = useState("");
@@ -11,37 +13,42 @@ function Register() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+    try {
+      const { data } = await api.post("/auth/usuarios/register", {
+        nombre,
+        correo: email,
+        telefono,
+        contraseña: password,
+      });
 
-    // Validar si el correo ya existe
-    const existe = usuarios.some((u) => u.email === email);
-    if (existe) {
-      alert("Este correo ya está registrado 😕");
-      return;
+      Swal.fire({
+        icon: "success",
+        title: "Registro exitoso 🎉",
+        text: "¡Ahora puedes iniciar sesión!",
+        confirmButtonText: "Entrar",
+      }).then(() => {
+        navigate("/login");
+      });
+
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error en el registro 😕",
+        text: error.response?.data?.mensaje || "Ocurrió un error",
+      });
     }
-
-    // Crear usuario nuevo
-    const nuevoUsuario = { nombre, email, telefono, password };
-    usuarios.push(nuevoUsuario);
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-
-    alert("Registro exitoso 🎉 ¡Ahora puedes iniciar sesión!");
-    navigate("/login");
   };
 
   return (
     <div className="auth-wrapper">
-      {/* Imagen lateral (solo en escritorio) */}
       <div className="auth-image">
         <img src={Logo} alt="Registro visual" />
       </div>
 
-      {/* Formulario */}
       <div className="auth-form">
-        {/* Logo que solo aparece en móvil */}
         <img src={logo2} alt="Devoraya logo" className="auth-logo-mobile" />
 
         <h2>Crear cuenta</h2>

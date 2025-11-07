@@ -1,3 +1,4 @@
+/* === Navbar principal === */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -12,29 +13,26 @@
   transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease;
 }
 
-/* Estado scrolled */
 .navbar.scrolled {
   background-color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   height: 65px;
 }
 
-/* Logo */
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
   font-weight: bold;
   color: #2d2d2d;
   margin-left: 20px;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .navbar.scrolled .navbar-logo {
   transform: scale(0.95);
 }
 
-/* Botón */
 .navbar-login {
   background: #e63946;
   color: white;
@@ -43,8 +41,8 @@
   border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 10px;
   transition: background 0.25s ease, transform 0.2s ease;
-  margin-right: 20px;
 }
 
 .navbar-login:hover {
@@ -52,23 +50,51 @@
   transform: translateY(-2px);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 0 1rem;
-    height: 65px;
-  }
-
-  .navbar.scrolled {
-    height: 60px;
-  }
-
-  .navbar-login {
-    padding: 8px 16px;
-    font-size: 0.9rem;
-  }
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px;
 }
-/* ===== BARRA DE BÚSQUEDA ===== */
+
+.cart-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 20px;
+
+}
+.cart-button svg {
+  width: 24px;       /* tamaño base */
+  height: 24px;      /* tamaño base */
+  transform: scale(1.2) translateY(5px) translateX(-1.5px); /* aumenta tamaño y baja un poco */
+  transform-origin: center; /* importante para que escale desde el centro */
+  color: white;
+  transition: transform 0.2s ease;
+}
+.cart-button:hover svg {
+  transform: scale(1.3) translateY(4px); /* efecto hover más grande */
+}
+.cart-button[data-count]:after {
+  content: attr(data-count);
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-size: 12px;
+  background: #e63946;
+  color: white;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 18px;
+}
+
+/* Barra de búsqueda */
 .navbar-search {
   display: flex;
   align-items: center;
@@ -85,35 +111,145 @@
   transform: translate(-50%, -10px);
 }
 
-/* Cuando se hace scroll aparece con animación */
 .navbar.scrolled .navbar-search {
   opacity: 1;
   transform: translate(-50%, 0);
 }
 
-/* Icono de lupa */
-.search-icon {
-  color: #666;
-  flex-shrink: 0;
-}
-
-/* Input del buscador */
 .search-input {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 0.95rem;
   flex: 1;
-  color: #333;
 }
 
 .search-input::placeholder {
   color: #888;
 }
 
-/* Responsive: ocultar buscador en móvil */
+/* Responsive */
 @media (max-width: 768px) {
   .navbar-search {
     display: none;
   }
+  .navbar-login {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* === Carrito flotante === */
+.containerCartALL {
+  position: fixed;
+  top: 80px;
+  right: -400px; /* fuera de la pantalla */
+  width: 350px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  font-family: "Inter", sans-serif;
+  transition: right 0.5s ease-in-out;
+}
+
+.containerCartALL.open {
+  right: 10px; /* visible */
+}
+
+.containerCartALL h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.containerCartALL ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.containerCartALL li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.containerCartALL img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.containerCart {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.containerCart p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+.botoncitossumapave {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.botoncitossumapave button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 3px;
+  background: #e63946;
+  color: white;
+  cursor: pointer;
+}
+
+.botoncitossumapave button:hover {
+  background: #d62839;
+}
+
+/* Subtotal y botones */
+.subtotal-container {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.botonpaylink {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: #c79d70;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botonpaylink:hover {
+  background-color: #b0674f;
+}
+
+/* Overlay oscuro */
+.containerCartOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 998;
 }

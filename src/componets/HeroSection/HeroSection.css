@@ -19,10 +19,11 @@
 }
 
 .hero-content {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow ', sans-serif;
   text-align: left;
   max-width: 500px;
-  margin-bottom: 100px;
+  margin-bottom: 100px; 
+  font-weight: 100;
 }
 
 .hero-title {

@@ -1,29 +1,33 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import "./Categories.css";
-import { restaurantes } from "../../data/restaurants";
 import { useNavigate } from "react-router-dom";
+import api from "../../api/api"; // tu instancia de Axios
 
 export default function Categories() {
   const navigate = useNavigate();
+  const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Extraemos las categorías únicas del archivo restaurants.js
-  const categorias = useMemo(() => {
-    const unique = [];
-    restaurantes.forEach((r) => {
-      const nombre = r.categoriaRest.trim();
-      if (!unique.find((c) => c.name === nombre)) {
-        unique.push({
-          name: nombre,
-          image: r.imagen, // Usa la imagen del primer restaurante con esa categoría
-        });
+  // 🔄 Obtener categorías desde el backend
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const { data } = await api.get("/categorias");
+        setCategorias(data);
+      } catch (error) {
+        console.error("❌ Error al obtener categorías:", error);
+      } finally {
+        setLoading(false);
       }
-    });
-    return unique;
+    };
+    fetchCategorias();
   }, []);
 
   const handleClick = (nombre) => {
     navigate(`/categoria/${encodeURIComponent(nombre)}`);
   };
+
+  if (loading) return <p className="text-center text-gray-600">Cargando categorías...</p>;
 
   return (
     <section className="categories-section">
@@ -33,16 +37,16 @@ export default function Categories() {
           <div
             key={i}
             className="category-card"
-            onClick={() => handleClick(cat.name)}
+            onClick={() => handleClick(cat.nombre)}
           >
             <img
-              src={cat.image}
-              alt={cat.name}
+              src={cat.imgUrl}
+              alt={cat.nombre}
               className="category-img"
               loading="lazy"
             />
             <div className="category-overlay">
-              <p>{cat.name}</p>
+              <p>{cat.nombre}</p>
             </div>
           </div>
         ))}

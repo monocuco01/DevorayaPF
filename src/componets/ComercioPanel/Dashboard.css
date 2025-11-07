@@ -1,0 +1,78 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f9fafb;
+}
+
+.dashboard-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ff7043;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-logo {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.dashboard-nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+}
+
+.dashboard-nav-links li {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.dashboard-nav-links li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-nav-links li.active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.logout {
+  background: #d32f2f;
+  border-radius: 8px;
+}
+
+.dashboard-container {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.stats-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #555;
+}
+
+.stat-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ff7043;
+}
