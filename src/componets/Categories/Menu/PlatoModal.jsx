@@ -50,10 +50,10 @@ const handleSubmit = async (e) => {
     };
 
     if (platoEditar) {
-      await axios.put(`http://localhost:4000/platos/${platoEditar.id}`, platoData);
+      await axios.put(`https://devorayaback.onrender.com/platos/${platoEditar.id}`, platoData);
       //...
     } else {
-      await axios.post(`http://localhost:4000/platos`, platoData);
+      await axios.post(`https://devorayaback.onrender.com/platos`, platoData);
       //...
     }
 
