@@ -2,43 +2,43 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import "./Auth.css";
+import "../Login/Auth.css";
 import Logo from "../../../assets/log.png";
 import logo2 from "../../../assets/logosolo.svg";
-import api from "../../../api/api"; // tu instancia de Axios
+import api from "../../../api/api";
 
 const MySwal = withReactContent(Swal);
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function LoginComercio() {
+  const [correo, setCorreo] = useState("");
+  const [contraseña, setContraseña] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await api.post("/auth/login", {
-        correo: email,
-        contraseña: password,
+      const { data } = await api.post("/auth/comercios/login", {
+        correo,
+        contraseña,
       });
 
       localStorage.setItem("token", data.token);
-      localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
+      localStorage.setItem("comercioActivo", JSON.stringify(data.comercio));
 
       MySwal.fire({
         icon: "success",
-        title: `Bienvenido, ${data.usuario.nombre}!`,
+        title: `Bienvenido, ${data.comercio.nombreComercio}!`,
         showConfirmButton: false,
         timer: 2000,
       });
 
-      navigate("/");
+      navigate("/comercio/panel");
     } catch (error) {
       MySwal.fire({
         icon: "error",
-        title: "Credenciales incorrectas 😕",
-        text: error.response?.data?.mensaje || "Error al iniciar sesión",
+        title: "Error al iniciar sesión 😕",
+        text: error.response?.data?.mensaje || "Credenciales inválidas",
       });
     }
   };
@@ -52,32 +52,31 @@ function Login() {
       <div className="auth-form">
         <img src={logo2} alt="Logo móvil" className="auth-logo-mobile" />
 
-        <h2>Iniciar sesión</h2>
+        <h2>Iniciar sesión como comercio</h2>
 
         <form onSubmit={handleLogin}>
           <input
             type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Correo del comercio"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
             required
           />
           <input
             type="password"
             placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={contraseña}
+            onChange={(e) => setContraseña(e.target.value)}
             required
           />
           <button type="submit">Entrar</button>
         </form>
 
         <button
-          className="btn-comercio"
-          onClick={() => navigate("/login-comercio")}
+          onClick={() => navigate("/login")}
           style={{
             marginTop: "10px",
-            backgroundColor: "#ffffff",
+            backgroundColor: "#fff",
             border: "1px solid #ccc",
             color: "#333",
             padding: "10px",
@@ -85,16 +84,11 @@ function Login() {
             cursor: "pointer",
           }}
         >
-          ¿Eres comercio?
+          Volver al login de usuario
         </button>
-
-        <p>
-          ¿No tienes cuenta?{" "}
-          <span onClick={() => navigate("/register")}>Regístrate</span>
-        </p>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default LoginComercio;

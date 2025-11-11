@@ -8,6 +8,7 @@ import Register from "./pages/Auth/Register/Register";
 import { ToastContainer } from "react-toastify";
 import Checkout from "./pages/Checkout/Checkout";
 import Dashboard from "./componets/ComercioPanel/Dashboard";
+import LoginComercio from "./pages/Auth/LoginComercio/LoginComercio";
 function App() {
   return (
     <Router>
@@ -20,7 +21,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/checkout" element={<Checkout />} />
                       <Route path="/comercio/panel" element={<Dashboard />}/>
-
+<Route path="/login-comercio" element={<LoginComercio />} />
       </Routes>
             <ToastContainer />
     </Router>
