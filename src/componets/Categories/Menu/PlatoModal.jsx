@@ -39,44 +39,38 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
       [name]: type === "checkbox" ? checked : value,
     });
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const platoData = {
+      ...plato,
+      precio: Number(plato.precio),
+      comercio_id: Number(plato.comercio_id),
+      menu_id: Number(plato.menu_id)
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (platoEditar) {
-        await axios.put(`http://localhost:4000/platos/${platoEditar.id}`, plato);
-        Swal.fire({
-          icon: "success",
-          title: "Plato actualizado",
-          text: `"${plato.nombre}" fue actualizado correctamente.`,
-          background: "#1e1e1e",
-          color: "#fff",
-          confirmButtonColor: "#00c896",
-        });
-      } else {
-        await axios.post(`http://localhost:4000/platos`, plato);
-        Swal.fire({
-          icon: "success",
-          title: "Plato creado",
-          text: `"${plato.nombre}" fue agregado correctamente.`,
-          background: "#1e1e1e",
-          color: "#fff",
-          confirmButtonColor: "#00c896",
-        });
-      }
-      onClose();
-    } catch (error) {
-      console.error("❌ Error al guardar plato:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al guardar",
-        text: "Ocurrió un error al intentar guardar el plato.",
-        background: "#1e1e1e",
-        color: "#fff",
-        confirmButtonColor: "#e74c3c",
-      });
+    if (platoEditar) {
+      await axios.put(`http://localhost:4000/platos/${platoEditar.id}`, platoData);
+      //...
+    } else {
+      await axios.post(`http://localhost:4000/platos`, platoData);
+      //...
     }
-  };
+
+    onClose();
+  } catch (error) {
+    console.error("❌ Error al guardar plato:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error al guardar",
+      text: "Ocurrió un error al intentar guardar el plato.",
+      background: "#1e1e1e",
+      color: "#fff",
+      confirmButtonColor: "#e74c3c",
+    });
+  }
+};
+
 
   return (
     <div className="modal-overlay">
