@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "./Menu.css";
+import api from "../../../api/api";
 
 // 🔥 Aseguramos que SweetAlert esté siempre sobre todo
 Swal.mixin({
@@ -50,10 +51,10 @@ const handleSubmit = async (e) => {
     };
 
     if (platoEditar) {
-      await axios.put(`https://devorayaback.onrender.com/platos/${platoEditar.id}`, platoData);
+      await api.put(`/platos/${platoEditar.id}`, platoData);
       //...
     } else {
-      await axios.post(`https://devorayaback.onrender.com/platos`, platoData);
+      await api.post(`/platos`, platoData);
       //...
     }
 
