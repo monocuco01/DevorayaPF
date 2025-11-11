@@ -1,0 +1,333 @@
+/* ======== Estilo general oscuro ======== */
+body {
+
+  color: #f1f1f1;
+  font-family: "Inter", sans-serif;
+}
+
+/* ======== Contenedor principal ======== */
+.menu-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #121212, #1a1a1a);
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.menu-header h2 {
+  font-size: 1.8rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.agregar-btn {
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.agregar-btn:hover {
+  background-color: #16a085;
+}
+
+/* ======== Grid de platos ======== */
+.platos-lista {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+}
+
+.plato-cards {
+  background-color: #1e1e1e;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.plato-cards:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* ======== Imagen ======== */
+.plato-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-bottom: 2px solid #2c2c2c;
+}
+
+/* ======== Info del plato ======== */
+.plato-info {
+  padding: 1rem;
+}
+
+.plato-info h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.plato-desc {
+  font-size: 0.9rem;
+  color: #bdbdbd;
+  min-height: 48px;
+}
+
+.plato-precio {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1abc9c;
+  margin-top: 0.8rem;
+}
+
+/* ======== Botones ======== */
+.plato-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.8rem;
+  border-top: 1px solid #2c2c2c;
+  background-color: #171717;
+}
+
+.editar-btn,
+.eliminar-btn {
+  border: none;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.editar-btn {
+  background-color: #3498db;
+}
+
+.editar-btn:hover {
+  background-color: #2980b9;
+}
+
+.eliminar-btn {
+  background-color: #e74c3c;
+}
+
+.eliminar-btn:hover {
+  background-color: #c0392b;
+}
+
+/* ======== Mensajes ======== */
+.sin-platos {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #999;
+}
+
+/* ======== Modal (PlatoModal.jsx) ======== */
+.fixed {
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.bg-white {
+  background-color: #1f1f1f !important;
+  color: #f1f1f1;
+}
+
+input,
+textarea {
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #fff;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #1abc9c;
+  outline: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+.bg-gray-400 {
+  background-color: #555 !important;
+}
+
+.bg-gray-400:hover {
+  background-color: #666 !important;
+}
+
+.bg-green-600 {
+  background-color: #1abc9c !important;
+}
+
+.bg-green-600:hover {
+  background-color: #16a085 !important;
+}
+
+/* ======== Animaciones ======== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ======== Responsive ======== */
+@media (max-width: 1024px) {
+  .platos-lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .platos-lista {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .plato-img {
+    height: 200px;
+  }
+}
+/* ======== MODAL CORREGIDO ======== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background-color: #1f1f1f;
+  color: #f1f1f1;
+  padding: 2rem;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  animation: zoomIn 0.25s ease;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.modal-form input,
+.modal-form textarea {
+  background-color: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  color: #fff;
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  resize: none;
+}
+
+.modal-form input:focus,
+.modal-form textarea:focus {
+  border-color: #1abc9c;
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.cancelar-btn,
+.guardar-btn {
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: #fff;
+}
+
+.cancelar-btn {
+  background-color: #555;
+}
+
+.cancelar-btn:hover {
+  background-color: #666;
+}
+
+.guardar-btn {
+  background-color: #1abc9c;
+}
+
+.guardar-btn:hover {
+  background-color: #16a085;
+}
+
+/* Animaciones */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

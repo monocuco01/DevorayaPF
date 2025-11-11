@@ -1,60 +1,152 @@
+/* ======== Fondo del modal ======== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.65);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.3s ease;
 }
 
+/* ======== Contenedor del modal ======== */
 .modal-content {
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  width: 360px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  background: #1a1a1a;
+  color: #f1f1f1;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: slideUp 0.35s ease;
 }
 
-.modal-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
+/* ======== Encabezado ======== */
+.modal-content h2 {
+  color: #1abc9c;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 0.5rem;
 }
 
-.modal-select {
-  margin-top: 15px;
+/* ======== Texto principal ======== */
+.modal-content p {
+  margin: 0.4rem 0;
+  color: #d5d5d5;
+  font-size: 0.95rem;
 }
 
-.modal-select select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+/* ======== Platos del pedido ======== */
+.platos-container {
+  background: #222;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
 }
 
-.modal-buttons {
+.platos-container h3 {
+  color: #1abc9c;
+  margin-bottom: 0.6rem;
+}
+
+.platos-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.platos-container li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #2a2a2a;
+  color: #ddd;
+  font-size: 0.95rem;
+}
+
+.platos-container li:last-child {
+  border-bottom: none;
+}
+
+/* ======== Selector de estado ======== */
+.estado-container {
+  margin-top: 1.2rem;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  gap: 10px;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.btn-cerrar,
-.btn-guardar {
-  border: none;
+.estado-container label {
+  color: #1abc9c;
+  font-weight: 600;
+}
+
+.estado-container select {
+  background: #111;
+  color: #f1f1f1;
+  padding: 0.6rem;
   border-radius: 8px;
-  padding: 8px 14px;
+  border: 1px solid #2a2a2a;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.estado-container select:focus {
+  border-color: #1abc9c;
+}
+
+/* ======== Botón cerrar ======== */
+.cerrar-btns {
+  margin-top: 1.8rem;
+  width: 100%;
+  background-color: #1abc9c;
+  color: #fff;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-cerrar {
-  background: #eee;
+.cerrar-btns:hover {
+  background-color: #17a589;
+  transform: translateY(-2px);
 }
 
-.btn-guardar {
-  background: #007bff;
-  color: white;
+/* ======== Animaciones ======== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======== Responsive ======== */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1.4rem;
+  }
+
+  .modal-content h2 {
+    font-size: 1.3rem;
+  }
 }

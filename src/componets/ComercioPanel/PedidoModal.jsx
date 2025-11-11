@@ -1,6 +1,22 @@
 import { useState } from "react";
 import api from "../../api/api";
+import Swal from "sweetalert2";
 import "./PedidoModal.css";
+
+// 🔥 Aseguramos que SweetAlert esté siempre sobre todo
+Swal.mixin({
+  customClass: {
+    popup: "swal-super-top",
+  },
+});
+
+const style = document.createElement("style");
+style.innerHTML = `
+  .swal-super-top, .swal2-container {
+    z-index: 999999 !important;
+  }
+`;
+document.head.appendChild(style);
 
 function PedidoModal({ pedido, onClose, onStatusChange }) {
   const [estado, setEstado] = useState(pedido.estado);
@@ -10,16 +26,29 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
     setLoading(true);
     try {
       // ✅ Enviamos el campo correcto como lo espera el backend
-      const { data } = await api.put(`/pedidos/${pedido.id}/estado`, {
-        nuevoEstado,
-      });
+      await api.put(`/pedidos/${pedido.id}/estado`, { nuevoEstado });
 
       setEstado(nuevoEstado);
       onStatusChange(nuevoEstado);
-      alert("✅ Estado actualizado correctamente");
+
+      Swal.fire({
+        icon: "success",
+        title: "Estado actualizado",
+        text: `El pedido ahora está "${nuevoEstado}".`,
+        background: "#1e1e1e",
+        color: "#fff",
+        confirmButtonColor: "#00c896",
+      });
     } catch (error) {
       console.error("Error al actualizar estado:", error);
-      alert("❌ No se pudo actualizar el estado");
+      Swal.fire({
+        icon: "error",
+        title: "Error al actualizar",
+        text: "No se pudo actualizar el estado del pedido.",
+        background: "#1e1e1e",
+        color: "#fff",
+        confirmButtonColor: "#e74c3c",
+      });
     } finally {
       setLoading(false);
     }
@@ -44,7 +73,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
 
         {/* Listado de platos */}
         <div className="platos-container">
-          <h3>🧾 Platos del pedido</h3>
+          <h3> Platos del pedido</h3>
           <ul>
             {pedido.Platos?.map((plato) => (
               <li key={plato.id}>
@@ -71,7 +100,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
           </select>
         </div>
 
-        <button onClick={onClose} className="cerrar-btn">
+        <button onClick={onClose} className="cerrar-btns">
           Cerrar
         </button>
       </div>

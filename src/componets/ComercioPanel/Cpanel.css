@@ -1,0 +1,200 @@
+/* ======== Cpanel - Dark Elegant ======== */
+.cpanel-wrapper {
+  padding: 1.6rem;
+  background: linear-gradient(180deg, #0d0d0d, #141414);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  color: #f1f1f1;
+  font-family: "Inter", sans-serif;
+}
+
+/* header */
+.cpanel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cpanel-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #fff;
+  letter-spacing: 0.6px;
+}
+
+.cpanel-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.cpanel-refresh {
+  background: #1abc9c;
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(26,188,156,0.18);
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.cpanel-refresh:hover {
+  transform: translateY(-3px);
+  background: #16a085;
+}
+
+/* stats cards */
+.cpanel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.stat-card {
+  background: linear-gradient(180deg, #111, #171717);
+  border: 1px solid #232323;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+.stat-card small {
+  color: #bfbfbf;
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 1.4rem;
+  color: #1abc9c;
+}
+
+/* charts layout */
+.cpanel-charts {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+/* chart cards */
+.chart-card {
+  background: linear-gradient(180deg, #131313, #171717);
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.chart-card h3 {
+  margin: 0 0 0.6rem 0;
+  color: #e6f7f0;
+  font-size: 1rem;
+}
+
+/* sizes */
+.chart-card.large { grid-column: 1 / 2; min-height: 320px; }
+.chart-card.medium { grid-column: 2 / 3; min-height: 320px; }
+.chart-card.small { grid-column: 2 / 3; min-height: 200px; }
+
+/* chart area */
+.chart-area {
+  height: 260px;
+  position: relative;
+}
+
+/* doughnut tweaks */
+.chart-area.doughnut {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* recent list */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.recent-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f0f0f;
+  border: 1px solid #222;
+  padding: 0.6rem;
+  border-radius: 8px;
+}
+
+.recent-item small {
+  color: #bdbdbd;
+  display: block;
+  font-size: 0.85rem;
+}
+
+.ri-right {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.ri-amount {
+  font-weight: 700;
+  color: #1abc9c;
+}
+
+.ri-status {
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  text-transform: capitalize;
+  font-size: 0.85rem;
+  color: #111;
+  background: #ddd;
+}
+
+/* estado color classes (puedes expandir según tus estados) */
+.status-pendiente { background: #f1c40f; color: #111; }
+.status-aceptado { background: #1abc9c; color: #061313; }
+.status-en-camino { background: #3498db; color: #061313; }
+.status-entregado { background: #9b59b6; color: #fff; }
+.status-rechazado { background: #e74c3c; color: #fff; }
+
+/* loading / error */
+.cpanel-loading,
+.cpanel-error {
+  padding: 2rem;
+  text-align: center;
+  color: #d0d0d0;
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+  .cpanel-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cpanel-charts {
+    grid-template-columns: 1fr;
+  }
+  .chart-card.large,
+  .chart-card.medium,
+  .chart-card.small { grid-column: auto; }
+  .chart-area { height: 240px; }
+}
+
+@media (max-width: 600px) {
+  .cpanel-stats { grid-template-columns: 1fr; }
+  .chart-area { height: 200px; }
+  .chart-card { padding: 0.8rem; }
+  .cpanel-wrapper { padding: 1rem; }
+}

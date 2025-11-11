@@ -1,49 +1,97 @@
-.pedidos-container {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.pedidos-list-container {
+  background: #0d0d0d;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-.pedidos-title {
-  font-size: 20px;
+.pedidos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.pedidos-table th,
+.pedidos-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #222;
+}
+
+.pedidos-table th {
+  background: #1a1a1a;
   font-weight: 600;
-  color: #444;
-  margin-bottom: 15px;
 }
 
-.pedidos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.pedido-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 12px 15px;
-  transition: background 0.2s ease;
+.ver-btn {
+  background: #00ffb3;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.pedido-item:hover {
-  background-color: #f9f9f9;
+.ver-btn:hover {
+  background: #00c98a;
 }
 
-.pedido-cliente {
-  font-weight: 500;
-  color: #333;
-}
-
-.pedido-estado {
-  font-size: 14px;
-  color: #666;
-}
-
-.pedido-total {
-  color: #1a8f3d;
+/* 🔹 Colores de estado */
+.estado-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
   font-weight: 600;
+  text-transform: capitalize;
+}
+
+.estado-pendiente {
+  background: #ffcc00;
+  color: #000;
+}
+
+.estado-camino {
+  background: #0099ff;
+  color: #fff;
+}
+
+.estado-entregado {
+  background: #00e676;
+  color: #000;
+}
+
+.estado-cancelado {
+  background: #ff5252;
+  color: #fff;
+}
+
+.estado-default {
+  background: #9e9e9e;
+  color: #fff;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .pedidos-list-container {
+    padding: 1rem;
+  }
+
+  .pedidos-table th,
+  .pedidos-table td {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .ver-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .estado-tag {
+    font-size: 0.85rem;
+  }
 }
