@@ -8,9 +8,12 @@ import Register from "./pages/Auth/Register/Register";
 import { ToastContainer } from "react-toastify";
 import Checkout from "./pages/Checkout/Checkout";
 import Dashboard from "./componets/ComercioPanel/Dashboard";
+import { Analytics } from '@vercel/analytics/react';
+
 import LoginComercio from "./pages/Auth/LoginComercio/LoginComercio";
 function App() {
   return (
+    <div>
     <Router>
 
       <Routes>
@@ -25,6 +28,9 @@ function App() {
       </Routes>
             <ToastContainer />
     </Router>
+          <Analytics />
+
+    </div>
   );
 }
 
