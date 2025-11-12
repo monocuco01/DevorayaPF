@@ -25,7 +25,7 @@ const { agregarAlCarrito } = useCarrito();
 
       {/* Contenedor del carrito */}
       <div className={`containerCartALL ${open ? "open" : ""}`}>
-        <h3>🛒 Tu Carrito</h3>
+        <h3> Tu Carrito</h3>
         <ul>
           {carrito.length === 0 && <p>El carrito está vacío</p>}
           {carrito.map((item) => (

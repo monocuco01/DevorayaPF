@@ -1,120 +1,170 @@
-/* Ícono flotante */
-.carrito-icono {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #ff7300;
-  border: none;
-  color: white;
-  font-size: 1.8rem;
-  padding: 14px;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  z-index: 999;
-  transition: transform 0.2s;
-}
-
-.carrito-icono:hover {
-  transform: scale(1.1);
-}
-
-.badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background: red;
-  color: white;
-  font-size: 0.8rem;
-  border-radius: 50%;
-  padding: 3px 7px;
-}
-
-/* Modal */
-.modal-overlay {
+/* Fondo del overlay */
+.containerCartOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
   z-index: 998;
+  animation: fadeIn 0.3s ease;
 }
 
-.carrito-modal {
-  background: white;
+/* Contenedor principal */
+.containerCartALL {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 18px;
   padding: 25px;
-  border-radius: 15px;
   width: 90%;
-  max-width: 400px;
-  position: relative;
-  animation: aparecer 0.3s ease;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transform: translateY(40px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.cerrar-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
+/* Aparece con animación */
+.containerCartALL.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
 }
 
-.carrito-lista {
+/* Título */
+.containerCartALL h3 {
+  color: #00b9a3;
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 8px;
+  font-weight: 700;
+}
+
+/* Lista de productos */
+.containerCartALL ul {
   list-style: none;
   padding: 0;
-  margin: 15px 0;
-  max-height: 250px;
+  margin: 0;
+  max-height: 280px;
   overflow-y: auto;
 }
 
-.carrito-item {
+.containerCartALL ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.containerCartALL ul::-webkit-scrollbar-thumb {
+  background: #00b9a3;
+  border-radius: 10px;
+}
+
+/* Producto individual */
+.containerCartALL li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #ddd;
+  gap: 12px;
   padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.carrito-item img {
-  width: 50px;
-  height: 50px;
+.containerCartALL li img {
+  width: 55px;
+  height: 55px;
   border-radius: 10px;
   object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 185, 163, 0.25);
 }
 
-.carrito-total {
+/* Info del producto */
+.containerCart {
+  flex-grow: 1;
+}
+
+.containerCart p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+.containerCart p:nth-child(1) {
+  font-weight: 600;
+  color: #00b9a3;
+}
+
+/* Botones + - */
+.botoncitossumapave {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.botoncitossumapave button {
+  background: #e7f8f6;
+  border: none;
+  color: #00b9a3;
   font-size: 1.1rem;
-  margin-top: 10px;
-  text-align: right;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.finalizar-btn {
-  background: #ff7300;
+.botoncitossumapave button:hover {
+  background: #00b9a3;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Subtotal */
+.subtotal-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #00b9a3;
+}
+
+/* Botones principales */
+.botonpaylink {
+  background: linear-gradient(135deg, #00b9a3, #009688);
   color: white;
   width: 100%;
   border: none;
-  padding: 10px;
+  padding: 12px;
   margin-top: 15px;
-  border-radius: 8px;
-  font-weight: bold;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 185, 163, 0.4);
+  transition: all 0.3s ease;
 }
 
-.vacio {
+.botonpaylink:hover {
+  background: linear-gradient(135deg, #00c2aa, #00a891);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 185, 163, 0.5);
+}
+
+/* Estado vacío */
+.containerCartALL p {
   text-align: center;
-  color: #777;
-  margin: 20px 0;
+  color: #666;
+  font-style: italic;
 }
 
-@keyframes aparecer {
+/* Animación */
+@keyframes fadeIn {
   from {
-    transform: translateY(20px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
     opacity: 1;
   }
 }

@@ -151,18 +151,7 @@ body {
   color: #f1f1f1;
 }
 
-input,
-textarea {
-  background-color: #2a2a2a;
-  border: 1px solid #3a3a3a;
-  color: #fff;
-}
 
-input:focus,
-textarea:focus {
-  border-color: #1abc9c;
-  outline: none;
-}
 
 button {
   font-family: inherit;

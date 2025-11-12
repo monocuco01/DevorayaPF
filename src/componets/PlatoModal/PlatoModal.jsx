@@ -15,7 +15,7 @@ function PlatoModal({ plato, onClose }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>
           ✖
         </button>
@@ -26,7 +26,10 @@ function PlatoModal({ plato, onClose }) {
 
         <div className="modal-price">
           <span>Precio:</span>
-          <strong>${plato.precio.toLocaleString()}</strong>
+        <h3>
+  ${(plato.precio * cantidad).toLocaleString()}
+</h3>
+
         </div>
 
         <div className="modal-quantity">
@@ -42,12 +45,10 @@ function PlatoModal({ plato, onClose }) {
           </button>
         </div>
 
-        <div className="modal-total">
-          Total: <strong>${(plato.precio * cantidad).toLocaleString()}</strong>
-        </div>
+       
 
         <button className="add-btn" onClick={handleAdd}>
-          🛒 Agregar al carrito
+           Agregar al carrito
         </button>
       </div>
     </div>

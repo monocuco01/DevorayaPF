@@ -1,100 +1,149 @@
+/* Fondo del modal */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.7); /* Azul oscuro con transparencia */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+}
+
+/* Contenedor principal */
+.modal-contents {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 420px;
+  padding: 24px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: fadeIn 0.3s ease;
+  text-align: center;
+  color: #1e293b; /* Texto gris azulado */
+}
+
+/* Imagen */
+.modal-img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 2px solid #e2e8f0;
+}
+
+/* Título */
+.modal-contents h2 {
+  font-size: 1.6rem;
+  color: #0f172a; /* Azul muy oscuro */
+  margin-bottom: 8px;
+}
+
+/* Descripción */
+.modal-desc {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+/* Precio */
+.modal-price {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-in-out;
+  gap: 6px;
+  font-size: 1rem;
+  color: #1e293b;
+  margin-bottom: 12px;
 }
 
-.modal-content {
-  background: #fff;
-  border-radius: 16px;
-  padding: 24px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  position: relative;
-  animation: scaleIn 0.3s ease-in-out;
+.modal-price strong {
+  color: #0369a1;
+  font-weight: 600;
 }
 
+/* Controles de cantidad */
+.modal-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.qty-btn {
+  background: #e0f2fe;
+  border: none;
+  color: #0369a1;
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qty-btn:hover {
+  background: #0284c7;
+  color: white;
+}
+
+/* Total */
+.modal-total {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #0f172a;
+}
+
+.modal-total strong {
+  color: #0284c7;
+}
+
+/* Botón principal */
+.add-btn {
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(3, 105, 161, 0.3);
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #0369a1, #0ea5e9);
+  transform: translateY(-1px);
+}
+
+/* Botón de cerrar */
 .close-btn {
   position: absolute;
   top: 10px;
   right: 12px;
-  background: none;
+  background: transparent;
   border: none;
-  font-size: 20px;
+  font-size: 1.2rem;
+  color: #64748b;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
-.modal-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
+.close-btn:hover {
+  color: #0f172a;
 }
 
-.modal-desc {
-  color: #555;
-  margin: 12px 0;
-}
-
-.modal-price,
-.modal-total {
-  margin: 10px 0;
-  font-size: 18px;
-}
-
-.modal-quantity {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin: 16px 0;
-}
-
-.qty-btn {
-  width: 32px;
-  height: 32px;
-  border: none;
-  background: #eee;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.add-btn {
-  background: #ff6600;
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  width: 100%;
-  font-weight: bold;
-}
-
-.add-btn:hover {
-  background: #ff4500;
-}
-
+/* Animación */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleIn {
   from {
     transform: scale(0.95);
     opacity: 0;

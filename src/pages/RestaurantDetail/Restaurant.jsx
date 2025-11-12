@@ -56,7 +56,7 @@ function Restaurant() {
         </div>
       </div>
 
-      <h2 className="menu-title">🍽️ Platos</h2>
+      <h2 className="menu-title"> Platos</h2>
 
       <div className="menu-grid">
         {platos.length > 0 ? (
@@ -69,12 +69,14 @@ function Restaurant() {
               <img src={plato.imagen} alt={plato.nombre} className="plato-img" />
               <h3>{plato.nombre}</h3>
               <p>{plato.descripcion}</p>
-              <p className="plato-precio">${plato.precio.toLocaleString()}</p>
+              <p className="plato-precio"> 
+    ${plato.precio.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+      </p>
               {plato.destacado && <span className="plato-tag">⭐ Destacado</span>}
             </div>
           ))
         ) : (
-          <p>No hay platos disponibles por ahora 🍛</p>
+          <p>No hay platos disponibles por ahora </p>
         )}
       </div>
 

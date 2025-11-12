@@ -31,7 +31,7 @@ export default function Categories() {
 
   return (
     <section className="categories-section">
-      <h2 className="categories-title">🍴 Categorías</h2>
+      <h2 className="categories-title"> Categorías</h2>
       <div className="categories-grid">
         {categorias.map((cat, i) => (
           <div

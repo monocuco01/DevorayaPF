@@ -26,7 +26,7 @@ function PlatosSection() {
 
   return (
     <section className="platos-section">
-      <h2 className="platos-title">🍴 Establecimientos que te pueden gustar</h2>
+      <h2 className="platos-title"> Establecimientos que te pueden gustar</h2>
       <div className="platos-grid">
         {comercios.map((rest) => (
           <Link
