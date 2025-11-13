@@ -1,7 +1,8 @@
-/* ===== CategoriesSection.css — versión elegante y moderna ===== */
+/* ===== CategoriesSection.css — versión elegante y moderna con paleta Gourmet ===== */
 .categories-section {
   margin-top: 50px;
   padding: 2.5rem 1.5rem;
+  /* Fondo sutil: Mantenemos blancos/grises claros para la elegancia */
   background: linear-gradient(180deg, #fff 0%, #f6f6f6 100%);
   text-align: center;
   font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -10,7 +11,7 @@
 .categories-title {
   font-size: 1.9rem;
   font-weight: 700;
-  color: #111;
+  color: #800020; /* CAMBIO: Título en Vino Tinto (Borgoña) */
   margin-bottom: 2rem;
   letter-spacing: -0.5px;
 }
@@ -31,13 +32,15 @@
   overflow: hidden;
   cursor: pointer;
   background: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  /* CAMBIO: Sombra sutil con un pequeño borde de color dorado/cobre para resaltar */
+  box-shadow: 0 0 0 1.5px #B8733350, 0 4px 14px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  /* CAMBIO: Sombra de hover más pronunciada y con el borde dorado/cobre */
+  box-shadow: 0 0 0 2px #B87333, 0 8px 22px rgba(0, 0, 0, 0.1); 
 }
 
 /* IMAGEN */

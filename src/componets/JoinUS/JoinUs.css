@@ -1,10 +1,11 @@
 .joinus {
   position: relative;
-  background-color: #e4f4f3;
+  /* CAMBIO: Fondo suave a Gris Claro Cálido */
+  background-color: #f7f7f7; 
   text-align: center;
   padding: 5rem 2rem;
   overflow: hidden;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .wave-bg {
@@ -13,14 +14,13 @@
   left: 0;
   width: 100%;
   height: 80px;
-  background: white;
+  background: white; /* Se mantiene blanco para la transición */
   border-bottom-left-radius: 50% 40px;
   border-bottom-right-radius: 50% 40px;
 }
 
 .joinus-icon {
   width: 120px;
-
   margin-bottom: 1rem;
   margin-top: -2rem;
   position: relative;
@@ -30,7 +30,7 @@
 .joinus-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #111;
+  color: #800020; /* CAMBIO: Título en Vino Tinto */
   margin-bottom: 0.5rem;
   position: relative;
   z-index: 1;
@@ -100,7 +100,7 @@
 }
 
 .joinus-btn {
-  background-color: #ff5a5f;
+  background-color: #B87333; /* CAMBIO: Botón principal en Dorado/Cobre */
   border: none;
   color: #fff;
   padding: 0.7rem 1.5rem;
@@ -111,7 +111,7 @@
 }
 
 .joinus-btn:hover {
-  background-color: #e1494e;
+  background-color: #99622D; /* CAMBIO: Hover del botón en Dorado/Cobre más oscuro */
 }
 
 /* Versión inactiva */
@@ -122,8 +122,8 @@
 
 .coming-soon {
   display: inline-block;
-  background: #ccc;
-  color: #333;
+  background: #800020; /* CAMBIO: Etiqueta "Coming Soon" en Vino Tinto */
+  color: #fff;
   padding: 0.4rem 1rem;
   border-radius: 20px;
   font-weight: 600;

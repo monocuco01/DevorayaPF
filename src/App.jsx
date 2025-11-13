@@ -1,26 +1,31 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Restaurant from "./pages/RestaurantDetail/Restaurant";
-import DetailNavBar from "./componets/DetailNavBar/DetailNavBar";
 import CategoriaPage from "./pages/CategoriaPage/CategoriaPage";
 import Login from "./pages/Auth/Login/Login";
 import Register from "./pages/Auth/Register/Register";
-import { ToastContainer } from "react-toastify";
 import Checkout from "./pages/Checkout/Checkout";
 import Dashboard from "./componets/ComercioPanel/Dashboard";
-import { Analytics } from "@vercel/analytics/react";
 import LoginComercio from "./pages/Auth/LoginComercio/LoginComercio";
+import Navbar from "./componets/navBar/Navbar"; // 👈 tu navbar principal
+import { ToastContainer } from "react-toastify";
+import { Analytics } from "@vercel/analytics/react";
 
 function AppContent() {
   const location = useLocation();
 
-  // Oculta el DetailNavBar en la ruta /comercio/panel
+  // Ocultar navbar en rutas específicas
   const hideNavBarRoutes = ["/comercio/panel"];
   const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
 
+  // Agregar margin-bottom solo si NO estamos en "/"
+  const containerStyle = {
+    marginBottom: location.pathname !== "/" ? "0px" : "0",
+  };
+
   return (
-    <>
-      {shouldShowNavBar && <DetailNavBar />}
+    <div style={containerStyle}>
+      {shouldShowNavBar && <Navbar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -34,7 +39,7 @@ function AppContent() {
       </Routes>
 
       <ToastContainer />
-    </>
+    </div>
   );
 }
 

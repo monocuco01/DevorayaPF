@@ -1,14 +1,14 @@
 .hero {
   min-height: 80vh;
-  background-color: #14b8a6;
+  background-color: #800020; /* CAMBIO: Fondo principal del hero: Vino Tinto */
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 2rem;
   color: white;
-      justify-content: space-evenly;
-      text-align: left;
+  justify-content: space-evenly;
+  text-align: left;
 }
 
 .hero-phone img {
@@ -19,7 +19,7 @@
 }
 
 .hero-content {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow ', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow ', sans-serif;
   text-align: left;
   max-width: 500px;
   margin-bottom: 100px; 
@@ -42,7 +42,8 @@
   align-items: center;
   background: white;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  /* Añadimos un borde sutil en color Dorado/Cobre para sofisticación */
+  box-shadow: 0 0 0 2px #B87333, 0 2px 6px rgba(0, 0, 0, 0.15); /* CAMBIO: Borde/Sombra */
   width: 100%;
   max-width: 400px;
   overflow: hidden;
@@ -51,7 +52,7 @@
 
 .hero-input .hero-icon {
   padding: 0 0.75rem;
-  color: #6b7280;
+  color: #B87333; /* CAMBIO: Ícono de ubicación: Dorado/Cobre */
 }
 
 .hero-input input {
@@ -62,11 +63,14 @@
   color: #374151;
 }
 
+/* Nota: Los estilos de .hero-login ya fueron cambiados en el CSS del navbar
+   pero los modifico aquí también por si acaso (aunque se recomienda usar el
+   mismo estilo del .navbar-login para este elemento si es el mismo botón) */
 .hero-login {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  background: #ef4444;
+  background: #B87333; /* CAMBIO: Dorado/Cobre */
   color: white;
   padding: 0.5rem 1.5rem;
   border-radius: 9999px;
@@ -78,7 +82,7 @@
 }
 
 .hero-login:hover {
-  background: #dc2626;
+  background: #99622D; /* CAMBIO: Dorado/Cobre más oscuro */
 }
 
 .hero-wave {
@@ -98,6 +102,5 @@
 }
 
 .hero-wave path {
-  fill: #fff;
-
+  fill: #fff; /* Se mantiene blanco para que la ola contraste con el fondo oscuro y se funda con el resto de la página */
 }

@@ -1,4 +1,4 @@
-/* ===== PlatosSection.css — versión limpia y refinada ===== */
+/* ===== PlatosSection.css — versión limpia y refinada con paleta Gourmet ===== */
 .platos-section {
   background: #fff;
   padding: 2rem 1rem;
@@ -20,7 +20,7 @@
   font-weight: 700;
   display: flex;
   gap: 0.5rem;
-  color: #111;
+  color: #800020; /* CAMBIO: Título en Vino Tinto */
 }
 
 /* GRID responsive */
@@ -88,7 +88,7 @@
 }
 
 .plato-price {
-  color: #ff4b2b;
+  color: #B87333; /* CAMBIO: Precio en Dorado/Cobre */
   font-weight: 700;
   font-size: 1rem;
 }
@@ -97,7 +97,8 @@
 .plato-card:focus,
 .plato-card:active {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 75, 43, 0.15);
+  /* CAMBIO: Sombra de focus en Dorado/Cobre transparente */
+  box-shadow: 0 0 0 3px rgba(184, 115, 51, 0.25); 
   text-decoration: none;
 }
 

@@ -1,170 +1,235 @@
-/* Fondo del overlay */
+/* Overlay */
 .containerCartOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0,0,0,0.45);
   backdrop-filter: blur(6px);
   z-index: 998;
-  animation: fadeIn 0.3s ease;
-}
-
-/* Contenedor principal */
-.containerCartALL {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 18px;
-  padding: 25px;
-  width: 90%;
-  max-width: 420px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  transform: translateY(40px);
   opacity: 0;
   pointer-events: none;
-  transition: all 0.35s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: opacity 0.5s ease;
 }
 
-/* Aparece con animación */
-.containerCartALL.open {
-  transform: translateY(0);
+.containerCartOverlay.show {
   opacity: 1;
   pointer-events: all;
 }
 
-/* Título */
-.containerCartALL h3 {
-  color: #00b9a3;
+/* Panel lateral (caja) */
+.containerCartALL {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background: rgba(255,255,255,0.96);
+  border-radius: 18px 0 0 18px;
+  padding: 20px 20px 16px 20px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: -8px 0 30px rgba(0,0,0,0.25);
+  z-index: 999;
+
+  /* estado inicial fuera de pantalla (derecha) */
+  transform: translateX(110%);
+  opacity: 0;
+  transition:
+    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease;
+  display: flex;
+  flex-direction: column;
+
+  /* limitar altura total para permitir scroll interno */
+  max-height: 92vh;
+  overflow: hidden; /* el scroll quedará en la lista interna */
+}
+
+/* estado visible */
+.containerCartALL.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Botón X cerrar */
+.cart-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 36px;
   text-align: center;
-  font-size: 1.4rem;
-  margin-bottom: 15px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  padding-bottom: 8px;
+  cursor: pointer;
+  color: #444;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+  z-index: 1001;
+}
+.cart-close:hover {
+  background: rgba(0,0,0,0.06);
+  color: #000;
+}
+
+/* Encabezado */
+.containerCartALL h3 {
+  color: #800020;
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 8px 0 12px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding-bottom: 10px;
   font-weight: 700;
 }
 
-/* Lista de productos */
-.containerCartALL ul {
+/* Lista con scroll interno */
+.cart-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 280px;
   overflow-y: auto;
+  max-height: calc(92vh - 360px); /* ajusta si cambias footer/alto; evita que el panel crezca más */
+  margin-bottom: 12px;
 }
 
-.containerCartALL ul::-webkit-scrollbar {
+/* Scrollbar (WebKit) */
+.cart-list::-webkit-scrollbar {
   width: 6px;
 }
-
-.containerCartALL ul::-webkit-scrollbar-thumb {
-  background: #00b9a3;
+.cart-list::-webkit-scrollbar-thumb {
+  background: #B87333;
   border-radius: 10px;
 }
 
-/* Producto individual */
-.containerCartALL li {
+/* Item */
+.cart-item {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-.containerCartALL li img {
+.cart-item img {
   width: 55px;
   height: 55px;
   border-radius: 10px;
   object-fit: cover;
-  box-shadow: 0 2px 6px rgba(0, 185, 163, 0.25);
+  box-shadow: 0 2px 6px rgba(184,115,51,0.18);
+  flex-shrink: 0;
 }
 
 /* Info del producto */
 .containerCart {
   flex-grow: 1;
 }
-
-.containerCart p {
+.item-name {
   margin: 0;
+  color: #800020;
+  font-weight: 600;
+}
+.item-price {
+  margin: 4px 0 0 0;
   font-size: 0.95rem;
   color: #222;
 }
 
-.containerCart p:nth-child(1) {
-  font-weight: 600;
-  color: #00b9a3;
-}
-
-/* Botones + - */
+/* botones cantidad y acciones */
 .botoncitossumapave {
   display: flex;
   gap: 8px;
-  margin-top: 5px;
+  margin-top: 8px;
+  align-items: center;
 }
-
 .botoncitossumapave button {
-  background: #e7f8f6;
+  background: rgba(184,115,51,0.08);
   border: none;
-  color: #00b9a3;
-  font-size: 1.1rem;
-  width: 30px;
-  height: 30px;
+  color: #B87333;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.12s ease, background 0.12s ease;
 }
-
 .botoncitossumapave button:hover {
-  background: #00b9a3;
-  color: white;
-  transform: scale(1.1);
+  transform: scale(1.05);
+  background: #B87333;
+  color: #fff;
 }
 
-/* Subtotal */
+/* eliminar pequeño */
+.remove-btn {
+  margin-left: 8px;
+  background: transparent;
+  color: #999;
+  font-size: 0.85rem;
+  padding: 6px;
+  border-radius: 6px;
+}
+.remove-btn:hover {
+  color: #b00;
+}
+
+/* Subtotal / footer */
 .subtotal-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-  font-size: 1.1rem;
+  margin-top: 10px;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: #00b9a3;
+  color: #800020;
 }
 
-/* Botones principales */
+/* Botones de acción (primario y secundario) */
 .botonpaylink {
-  background: linear-gradient(135deg, #00b9a3, #009688);
+  background: linear-gradient(135deg, #B87333, #e2b07e);
   color: white;
   width: 100%;
   border: none;
   padding: 12px;
-  margin-top: 15px;
+  margin-top: 12px;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 185, 163, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(184,115,51,0.35);
+  transition: transform 0.18s ease;
+}
+.botonpaylink:hover { transform: translateY(-2px); }
+
+.botonpaylink.secondary {
+  background: transparent;
+  color: #800020;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: none;
 }
 
-.botonpaylink:hover {
-  background: linear-gradient(135deg, #00c2aa, #00a891);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 185, 163, 0.5);
-}
-
-/* Estado vacío */
-.containerCartALL p {
+/* Mensaje vacío */
+.empty-message {
   text-align: center;
   color: #666;
   font-style: italic;
+  padding: 18px 0;
 }
 
-/* Animación */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .containerCartALL {
+    right: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    padding: 16px;
   }
-  to {
-    opacity: 1;
+
+  .cart-list {
+    max-height: calc(92vh - 320px);
+  }
+
+  .cart-close {
+    top: 8px;
+    right: 8px;
   }
 }

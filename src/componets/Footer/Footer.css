@@ -1,5 +1,5 @@
 .footer {
-  background-color: #0d0d0d; 
+  background-color: #0d0d0d; /* Se mantiene oscuro */
   color: #fff;
   position: relative;
   overflow: hidden;
@@ -25,6 +25,8 @@
   width: 100%;
   height: 100%;
 }
+/* Si el SVG tiene un relleno (fill) que no es blanco, debe cambiarse a #fff 
+para que contraste con el fondo oscuro del .footer */
 
 /* Contenedor del footer */
 .footer-container {
@@ -74,7 +76,7 @@
 }
 
 .footer-column ul li a:hover {
-  color: #00b8ff; /* azul Devoraya */
+  color: #B87333; /* CAMBIO: Hover de enlaces a Dorado/Cobre */
 }
 
 /* Social */
@@ -88,7 +90,7 @@
   z-index: 2;
   text-align: center;
   padding-top: 30px;
-  border-top: 1px solid #222;
+  border-top: 1px solid #222; /* Se mantiene gris oscuro, discreto */
   margin-top: 40px;
   font-size: 0.9rem;
   color: #777;

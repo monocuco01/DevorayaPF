@@ -4,6 +4,7 @@
   font-family: "Poppins", sans-serif;
   background: #fafafa;
   min-height: 100vh;
+  margin-top: 40px;
 }
 
 /* ======= CABECERA ======= */
@@ -77,6 +78,86 @@
   text-align: center;
 }
 
+/* ==================================== */
+/* 🆕 BARRA DE FILTROS ESTILO CHIPS */
+/* ==================================== */
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 12px;
+    padding: 15px 0;
+    background-color: transparent;
+    margin: 10px 0 30px 0; 
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.filter-button, .filter-select, .reset-button {
+    /* Base para todos los filtros */
+    padding: 10px 18px;
+    border-radius: 25px; /* Más redondeado para parecer un chip */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    height: 45px; /* Altura uniforme */
+    display: flex;
+    align-items: center;
+}
+
+/* 1. Botón de Destacados (Chip) */
+.filter-button {
+    background-color: transparent;
+    border: 1px solid #c0c0c0; /* Borde gris suave por defecto */
+    color: #555;
+}
+
+.filter-button.active {
+    background-color: #B87333; /* Dorado/Cobre Relleno para activo */
+    border-color: #B87333;
+    color: white;
+    box-shadow: 0 3px 8px rgba(184, 115, 51, 0.2);
+}
+
+.filter-button:hover:not(.active) {
+    border-color: #B87333; /* Hover con Dorado/Cobre */
+}
+
+/* 2. Select/Dropdown (Precio) */
+.filter-select {
+    border: 1px solid #c0c0c0; 
+    background-color: #fff;
+    color: #555;
+    appearance: none; 
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23800020"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 35px; 
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #800020; /* Focus en Vino Tinto */
+}
+
+/* 3. Botón Limpiar Filtros */
+.reset-button {
+    background-color: transparent;
+    border: none; 
+    color: #800020; /* Texto Vino Tinto */
+    font-size: 0.9rem;
+    padding: 0;
+    margin-left: 5px; 
+    height: auto; /* Anula altura forzada */
+}
+
+.reset-button:hover {
+    text-decoration: underline;
+}
+
+/* ======= GRID Y PLATO CARD ======= */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -89,6 +170,7 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .plato-card:hover {
@@ -120,9 +202,20 @@
   display: block;
   margin-bottom: 1rem;
   font-weight: bold;
-  color: #e63946;
+  color: #800020; /* Color del precio en Vino Tinto */
   font-size: 1rem;
   margin-left: 10px;
+}
+
+.plato-tag {
+    background: #B87333; /* Dorado/Cobre */
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-bottom: 8px;
 }
 
 /* ======= BOTÓN VOLVER ======= */
@@ -130,64 +223,79 @@
   display: inline-block;
   margin-top: 2.5rem;
   text-decoration: none;
-  color: #0077ff;
+  color: #800020; /* Color de link en Vino Tinto */
   font-weight: 600;
   padding: 0.7rem 1.2rem;
-  border: 2px solid #0077ff;
+  border: 2px solid #800020;
   border-radius: 0.8rem;
   transition: all 0.3s ease;
 }
 
 .back-btn:hover {
-  background: #0077ff;
+  background: #800020;
   color: #fff;
   transform: translateY(-2px);
 }
 
 /* ======= RESPONSIVE ======= */
 @media (max-width: 768px) {
-  .restaurant-page {
-  padding: 0;
-  color: #222;
-  font-family: "Poppins", sans-serif;
-  background: #fafafa;
-  min-height: 100vh;
-  border-radius: 0;
-}
-  .restaurant-header {
-    flex-direction: column;
-    padding: 0;
-border-radius: 0;
-  }
+    .restaurant-page {
+        padding: 0;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+    .restaurant-header {
+        flex-direction: column;
+        padding: 0;
+        border-radius: 0;
+    }
 
-  .restaurant-img {
-    width: 100%;
-    height: 220px;
-  border-radius: 0;
-  }
+    .restaurant-img {
+        width: 100%;
+        height: 220px;
+        border-radius: 0;
+    }
 
-  .restaurant-info {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(6px);
-    padding: 1rem 1.5rem;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-  }
+    .restaurant-info {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(6px);
+        padding: 1rem 1.5rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
 
-  .restaurant-info h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.3rem;
-  }
+    .restaurant-info h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.3rem;
+    }
 
-  .restaurant-info p {
-    font-size: 0.9rem;
-    margin-bottom: 0.3rem;
-  }
+    .restaurant-info p {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
 
-  .whatsapp-btn {
-    width: 80%;
-    justify-content: center;
-    font-size: 0.95rem;
-  }
+    .whatsapp-btn {
+        width: 80%;
+        justify-content: center;
+        font-size: 0.95rem;
+    }
+    
+    /* Responsive para la barra de filtros */
+    .filter-bar {
+        padding: 10px 15px; 
+        justify-content: space-between; 
+        gap: 10px;
+    }
+
+    .filter-button, .filter-select {
+        flex-grow: 1;
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        text-align: center;
+    }
+
+    .menu-grid {
+      padding: 0 15px;
+    }
 }

@@ -1,76 +1,149 @@
+/* Estilos generales */
 .categoria-page {
-  margin-top: 100px;
-  padding: 2rem;
-  background: #fafafa;
-  min-height: 100vh;
-  font-family: "Poppins", sans-serif;
+    padding: 3rem 2rem;
+    color: #222;
+    font-family: "Poppins", sans-serif;
+    background: #fafafa;
+    min-height: 100vh;
+    margin-top: 40px;
 }
 
 .categoria-header {
-  text-align: center;
-  margin-bottom: 2rem;
+    margin-bottom: 25px;
 }
 
 .categoria-header h1 {
-  font-size: 2rem;
-  color: #222;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #800020; /* Título principal en Vino Tinto */
 }
 
-.categoria-header p {
-  color: #555;
+/* ==================================== */
+/* 🆕 BARRA DE FILTROS/CHIPS */
+/* ==================================== */
+
+.category-filter-bar {
+    display: flex;
+    overflow-x: scroll; /* Habilita el desplazamiento horizontal */
+    gap: 15px;
+    padding: 10px 0;
+    margin-bottom: 30px;
+    /* Estilos para ocultar la barra de desplazamiento */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
+.category-filter-bar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.category-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Evita que los chips se encojan */
+    padding: 10px 20px;
+    border-radius: 30px; /* Forma de chip */
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    
+    /* Estilo Inactivo */
+    background-color: #fff;
+    border: 2px solid #e0e0e0;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.category-chip:hover {
+    border-color: #B87333; /* Hover con borde Dorado/Cobre */
+}
+
+/* Estilo ACTIVO (Categoría seleccionada) */
+.category-chip.active {
+    background-color: #B87333; /* Fondo Dorado/Cobre Sólido */
+    color: white;
+    border-color: #99622D;
+    box-shadow: 0 4px 10px rgba(184, 115, 51, 0.3);
+}
+
+/* Estilos de Iconos (si los usas) */
+.chip-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.category-chip.active .chip-icon {
+    filter: none; /* Icono a color en el activo */
+}
+
+/* Estilos de tarjetas de comercios */
 .categoria-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .categoria-card {
-  background: #fff;
-  border-radius: 1rem;
-  overflow: hidden;
-  text-decoration: none;
-  color: #333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .categoria-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(128, 0, 32, 0.1); /* Sombra suave de Vino Tinto */
 }
 
 .categoria-card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
 }
 
 .categoria-card h3 {
-  font-size: 1.2rem;
-  margin: 0.6rem 1rem 0.3rem;
+    font-size: 1.2rem;
+    color: #800020; /* Título de tarjeta en Vino Tinto */
+    padding: 10px 15px 0;
+    margin: 0;
 }
 
 .categoria-card p {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0 1rem 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    padding: 0 15px 15px;
 }
 
 .sin-resultados {
-  text-align: center;
-  color: #777;
-  font-size: 1.1rem;
-  margin-top: 3rem;
+    text-align: center;
+    color: #800020;
+    font-size: 1.2rem;
+    margin-top: 50px;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .categoria-page {
-    padding: 1rem;
-  }
-
-  .categoria-card img {
-    height: 140px;
-  }
+    .categoria-page {
+        padding: 2rem 1rem;
+    }
+    
+    .categoria-header h1 {
+        font-size: 2rem;
+    }
+    
+    /* El carrusel de chips ya es responsive por el overflow-x */
+    .category-chip {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .categoria-grid {
+        gap: 15px;
+    }
 }
