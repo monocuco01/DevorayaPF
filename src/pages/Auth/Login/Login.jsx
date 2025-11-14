@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "./Auth.css";
-import Logo from "../../../assets/logo2.svg";
+import Logo from "../../../assets/fondoV.jpg";
 import logo2 from "../../../assets/logo2.svg";
 import api from "../../../api/api"; // tu instancia de Axios
 
