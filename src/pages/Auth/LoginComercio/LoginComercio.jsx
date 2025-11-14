@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "../Login/Auth.css";
-import Logo from "../../../assets/log.png";
+import Logo from "../../../assets/fondoV.jpg";
 import logo2 from "../../../assets/logosolo.svg";
 import api from "../../../api/api";
 
