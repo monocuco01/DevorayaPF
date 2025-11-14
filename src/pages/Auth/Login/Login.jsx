@@ -6,6 +6,7 @@ import "./Auth.css";
 import Logo from "../../../assets/fondoV.jpg";
 import logo2 from "../../../assets/logo2.svg";
 import api from "../../../api/api"; // tu instancia de Axios
+import Navbar from "../../../componets/navBar/Navbar";
 
 const MySwal = withReactContent(Swal);
 
@@ -44,7 +45,9 @@ function Login() {
   };
 
   return (
+    
     <div className="auth-wrapper">
+      <Navbar />
       <div className="auth-image">
         <img src={Logo} alt="Login visual" />
       </div>
