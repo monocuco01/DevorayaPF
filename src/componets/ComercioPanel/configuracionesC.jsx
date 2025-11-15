@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import api from "../../api/api";
 import Swal from "sweetalert2";
-import "./ConfiguracionesC.css";
+import "./configuracionesC.css";
 
 const getComercioId = () => {
   try {
