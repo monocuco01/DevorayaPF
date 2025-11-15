@@ -6,7 +6,7 @@ import PedidosList from "./PedidosList.jsx";
 import "./Dashboard.css";
 import Menu from "../Categories/Menu/Menu.jsx";
 import Cpanel from "./Cpanel.jsx";
-
+import ConfiguracionesC from "./configuracionesC.jsx";
 function Dashboard() {
   const [stats, setStats] = useState({
     totalPedidos: 0,
@@ -112,7 +112,7 @@ function Dashboard() {
         {activeTab === "inicio" && <Cpanel />}
         {activeTab === "pedidos" && <PedidosList />}
         {activeTab === "menu" && <Menu />}
-        {activeTab === "config" && <p>⚙️ Configuración del comercio.</p>}
+        {activeTab === "config" && <ConfiguracionesC />}
       </div>
     </div>
   );

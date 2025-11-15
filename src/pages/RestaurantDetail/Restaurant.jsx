@@ -14,6 +14,9 @@ const PRICE_FILTERS = [
     { label: "$$$ Alto", value: "high" },   // Precio > 30000
 ];
 
+// ⏱️ Frecuencia de refresco para el estado del comercio (en milisegundos)
+const REFRESH_INTERVAL = 30000; // 30 segundos
+
 function Restaurant() {
     const { id } = useParams();
     const [comercio, setComercio] = useState(null);
@@ -23,35 +26,63 @@ function Restaurant() {
     const { agregarProducto } = useCarrito();
     const [cantidad, setCantidad] = useState(1);
     // 🆕 ESTADO DE FILTROS
-    const [filtroDestacado, setFiltroDestacado] = useState(false); // true/false
-    const [filtroPrecio, setFiltroPrecio] = useState("all");      // 'all', 'low', 'medium', 'high'
-     
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data: comercioData } = await api.get(`/comercios/${id}`);
-                setComercio(comercioData);
+    const [filtroDestacado, setFiltroDestacado] = useState(false);
+    const [filtroPrecio, setFiltroPrecio] = useState("all");
 
-                const { data: platosData } = await api.get(`/platos/${id}`);
-                setPlatos(platosData);
-            } catch (error) {
-                console.error("Error al obtener los datos del restaurante:", error);
-            } finally {
-                setLoading(false);
+    // 🚩 FUNCIÓN CENTRAL PARA OBTENER DATOS
+    const fetchData = async (isInitialLoad = false) => {
+        try {
+            if (isInitialLoad) setLoading(true); 
+
+            // 1. Obtener datos del Comercio (incluyendo el estado 'estado')
+            const { data: comercioData } = await api.get(`/comercios/${id}`);
+            
+            // console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", comercioData);
+            setComercio(comercioData);
+console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", comercioData);
+            // 2. Obtener datos de los Platos
+            if (isInitialLoad || platos.length === 0) {
+                 const { data: platosData } = await api.get(`/platos/${id}`);
+                 setPlatos(platosData);
             }
-        };
+           
+        } catch (error) {
+            console.error("Error al obtener los datos del restaurante:", error);
+        } finally {
+            if (isInitialLoad) setLoading(false);
+        }
+    };
 
-        fetchData();
+    useEffect(() => {
+        // Ejecutamos la carga inicial
+        fetchData(true);
+
+        // 🆕 Establecer el intervalo de refresco para el estado del comercio
+        const intervalId = setInterval(() => {
+            fetchData(false);
+        }, REFRESH_INTERVAL);
+
+        // 🧹 FUNCIÓN DE LIMPIEZA
+        return () => clearInterval(intervalId);
     }, [id]);
+
+    // 🔹 Lógica para generar la lista de Métodos de Pago
+    const metodosDePago = [];
+    if (comercio && comercio.acepta_pago_contraentrega) {
+        metodosDePago.push("Contra Entrega");
+    }
+    if (comercio && comercio.acepta_pago_online) {
+        metodosDePago.push("Pago Online");
+    }
+    const metodosDePagoDisplay = metodosDePago.length > 0 ? metodosDePago.join(" / ") : "Efectivo";
+
 
     // 🆕 LÓGICA DE FILTRADO
     const platosFiltrados = platos.filter(plato => {
-        // 1. Filtro Destacados
         if (filtroDestacado && !plato.destacado) {
             return false;
         }
 
-        // 2. Filtro Precio
         if (filtroPrecio !== "all") {
             const precio = plato.precio;
             switch (filtroPrecio) {
@@ -74,7 +105,7 @@ function Restaurant() {
     if (loading) return <p className="text-center">Cargando restaurante...</p>;
     if (!comercio) return <div className="not-found">Restaurante no encontrado 😕</div>;
 
-    // 🔹 Función para agregar al carrito usando contexto + toast
+    // 🔹 Función para agregar al carrito
     const handleAddToCart = (plato, cantidad = 1) => {
         agregarProducto(plato, cantidad);
         toast.success(`${plato.nombre} agregado al carrito!`, {
@@ -87,20 +118,61 @@ function Restaurant() {
         <div className="restaurant-page">
             <div className="restaurant-header">
                 <img src={comercio.logo} alt={comercio.nombre} className="restaurant-img" />
-                <div className="restaurant-info">
-                    <h1>{comercio.nombre}</h1>
-                    <p>{comercio.descripcion}</p>
-                    <p><strong>Categoría:</strong> {comercio.Categorium?.nombre || "Sin categoría"}</p>
-                    <p><strong>Dirección:</strong> {comercio.direccion}</p>
+             <div className="restaurant-info">
+                {/* 1. Título y Descripción Principal */}
+                <h1 className="info-title">{comercio.nombre}</h1>
+                <p className="info-description">{comercio.descripcion}</p>
+
+                {/* 2. Información Clave con Iconos */}
+                <div className="info-key-details">
+                    <div className="detail-item">
+                        <span className="icon">📍</span>
+                        <p className="detail-text">{comercio.direccion}</p>
+                    </div>
+                    <div className="detail-item">
+                        <span className="icon">⏰</span>
+                        <p className="detail-text">{comercio.horario_apertura} - {comercio.horario_cierre}</p>
+                    </div>
+                    <div className="detail-item">
+                        <span className="icon">🛵</span>
+                        <p className="detail-text">
+                            {comercio.tiempo_promedio_entrega || "No especificado"} min 
+                            
+                        </p>
+                    </div>
                 </div>
+
+                {/* 3. Tags y Badges para Info Secundaria/Estado */}
+                <div className="info-badges">
+                    {/* Badge de Categoría */}
+                    <span className="badge category-badge">
+                        {comercio.Categorium?.nombre || "General"}
+                    </span>
+
+                    {/* 💳 Badge de Métodos de Pago */}
+                    <span className="badge payment-badge">
+                        💳 {metodosDePagoDisplay}
+                    </span>
+                    
+                    {/* 🛵 Badge de Tipo de Servicio */}
+                    <span className="badge service-badge">
+                        {comercio.tipo_servicio === 'domicilio' ? '🛵 Domicilio' : '🛍️ Recoger'}
+                    </span>
+
+                    {/* 🟢 Badge de Estado (CORREGIDO) */}
+                    <span className={`badge status-badge ${comercio.estado ? "status-open" : "status-closed"}`}>
+                        {comercio.estado ? "🟢 Abierto Ahora" : "🔴 Cerrado"}
+                    </span>
+                </div>
+            </div>
+
             </div>
 
             <h2 className="menu-title"> Menú de Platos</h2>
 
-            {/* 🆕 BARRA DE FILTROS AL ESTILO CHIP */}
+            {/* BARRA DE FILTROS AL ESTILO CHIP */}
             <div className="filter-bar">
                 
-                {/* Filtro 1: Destacados (Toggle Button) */}
                 <button 
                     onClick={() => setFiltroDestacado(!filtroDestacado)}
                     className={`filter-button destacados-button ${filtroDestacado ? 'active' : ''}`}
@@ -108,7 +180,6 @@ function Restaurant() {
                     ⭐ Destacados
                 </button>
                 
-                {/* Filtro 2: Precio (Select/Dropdown) */}
                 <select 
                     onChange={(e) => setFiltroPrecio(e.target.value)}
                     value={filtroPrecio}
@@ -121,7 +192,6 @@ function Restaurant() {
                     ))}
                 </select>
 
-                {/* Botón para resetear filtros */}
                 {(filtroDestacado || filtroPrecio !== 'all') && (
                     <button 
                         onClick={() => {
@@ -134,7 +204,7 @@ function Restaurant() {
                     </button>
                 )}
             </div>
-            {/* 🆕 FIN BARRA DE FILTROS */}
+            {/* FIN BARRA DE FILTROS */}
 
             <div className="menu-grid">
                 {platosFiltrados.length > 0 ? (
@@ -148,9 +218,8 @@ function Restaurant() {
                             <h3>{plato.nombre}</h3>
                             <p>{plato.descripcion}</p>
                             
-                            {/* 💰 CORRECCIÓN APLICADA AQUÍ */}
                             <p className="plato-precio"> 
-  ${(plato.precio * cantidad).toLocaleString()}
+                                ${plato.precio.toLocaleString()}
                             </p>
                             {plato.destacado && <span className="plato-tag">⭐ Destacado</span>}
                         </div>
@@ -158,6 +227,7 @@ function Restaurant() {
                 ) : (
                     <p className="no-platos">No hay platos que coincidan con los filtros aplicados. </p>
                 )}
+                
             </div>
 
             <Link to="/" className="back-btn">⬅ Volver al inicio</Link>

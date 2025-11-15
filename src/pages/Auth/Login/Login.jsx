@@ -5,8 +5,7 @@ import withReactContent from "sweetalert2-react-content";
 import "./Auth.css";
 import Logo from "../../../assets/fondoV.jpg";
 import logo2 from "../../../assets/logo2.svg";
-import api from "../../../api/api"; // tu instancia de Axios
-import Navbar from "../../../componets/navBar/Navbar";
+import api from "../../../api/api";
 
 const MySwal = withReactContent(Swal);
 
@@ -19,23 +18,36 @@ function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await api.post("/auth/login", {
+      const { data } = await api.post("usuarios/login", {
         correo: email,
         contraseña: password,
       });
 
+      console.log("DATOS LOGIN:", data);
+
+      // Guardar token y usuario
       localStorage.setItem("token", data.token);
       localStorage.setItem("usuarioActivo", JSON.stringify(data.usuario));
 
+      // Mensaje de éxito
       MySwal.fire({
         icon: "success",
         title: `Bienvenido, ${data.usuario.nombre}!`,
         showConfirmButton: false,
-        timer: 2000,
+        timer: 1500,
       });
 
+      // 🔥 SI ES ADMIN → REDIRIGIR AL PANEL ADMIN
+      if (data.usuario.admin === true) {
+        return navigate("/admin");
+      }
+
+      // Caso normal → home
       navigate("/");
+
     } catch (error) {
+      console.log(error.response?.data);
+
       MySwal.fire({
         icon: "error",
         title: "Credenciales incorrectas 😕",
@@ -45,13 +57,14 @@ function Login() {
   };
 
   return (
-    
     <div className="auth-wrapper">
-      <Navbar />
+
+      {/* Imagen izquierda */}
       <div className="auth-image">
         <img src={Logo} alt="Login visual" />
       </div>
 
+      {/* Formulario */}
       <div className="auth-form">
         <img src={logo2} alt="Logo móvil" className="auth-logo-mobile" />
 
@@ -65,6 +78,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
           <input
             type="password"
             placeholder="Contraseña"
@@ -72,9 +86,11 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           <button type="submit">Entrar</button>
         </form>
 
+        {/* Botón para comercio */}
         <button
           className="btn-comercio"
           onClick={() => navigate("/login-comercio")}

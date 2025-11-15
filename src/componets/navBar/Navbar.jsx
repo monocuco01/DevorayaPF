@@ -9,10 +9,14 @@ import { useCarrito } from "../Cart/CarritoContext.jsx";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [carritoOpen, setCarritoOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); 
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 Necesario para saber en qué ruta estamos
+  const location = useLocation();
   const { carrito } = useCarrito();
-  const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+  
+  const usuarioActivo = localStorage.getItem("usuarioActivo") 
+    ? JSON.parse(localStorage.getItem("usuarioActivo")) 
+    : null;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 300);
@@ -25,6 +29,17 @@ export default function Navbar() {
     localStorage.removeItem("usuarioActivo");
     navigate("/");
     window.location.reload();
+  };
+
+  const handleNavigateProfile = () => {
+    navigate("/perfil"); 
+    setMenuOpen(false);
+  };
+  
+  // FUNCIÓN NUEVA: Navegación a la página de pedidos
+  const handleNavigateOrders = () => {
+    navigate("/pedidos"); // 👈 Define esta ruta en tu Router
+    setMenuOpen(false);
   };
 
   // 👇 Ocultar navbar en ciertas rutas
@@ -85,9 +100,42 @@ export default function Navbar() {
               Iniciar sesión
             </button>
           ) : (
-            <button className="navbar-login" onClick={handleLogout}>
-              Cerrar sesión
-            </button>
+            // 💡 Sección de Perfil/Usuario Activo
+            <div className="navbar-profile-container">
+              <button
+                className="profile-icon-button"
+                onClick={() => setMenuOpen(!menuOpen)} // Toggle del menú
+                aria-expanded={menuOpen}
+              >
+                {/* Ícono de Usuario (ejemplo de SVG de Bootstrap Icons) */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#b3854d" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                  <path d="M.002 12a.5.5 0 0 1 .58.332C1.758 14.51 4.962 16 8 16s6.242-1.49 7.418-3.668a.5.5 0 0 1 .58-.332H.002z"/>
+                </svg>
+              </button>
+              
+              {menuOpen && (
+                <div className="profile-dropdown">
+                <div className="dropdown-header">
+  Hola, {usuarioActivo?.nombre?.split(" ")[0] || "Usuario"}!
+</div>
+
+                  <button className="dropdown-item" onClick={handleNavigateProfile}>
+                     Mi Perfil
+                  </button>
+                  
+                  {/* 👇 NUEVO BOTÓN PARA PEDIDOS 👇 */}
+                  <button className="dropdown-item" onClick={handleNavigateOrders}>
+                     Mis Pedidos
+                  </button>
+                  {/* 👆 FIN NUEVO BOTÓN 👆 */}
+
+                  <button className="dropdown-item logout" onClick={handleLogout}>
+                     Cerrar sesión
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </nav>

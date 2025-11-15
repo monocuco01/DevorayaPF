@@ -10,7 +10,8 @@ import LoginComercio from "./pages/Auth/LoginComercio/LoginComercio";
 import Navbar from "./componets/navBar/Navbar"; // 👈 tu navbar principal
 import { ToastContainer } from "react-toastify";
 import { Analytics } from "@vercel/analytics/react";
-
+import UserProfile from "./pages/UserProfile/UserProfile";
+import UserOrders from "./pages/UserProfile/UserOrders";
 function AppContent() {
   const location = useLocation();
 
@@ -36,6 +37,8 @@ function AppContent() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/comercio/panel" element={<Dashboard />} />
         <Route path="/login-comercio" element={<LoginComercio />} />
+        <Route path="/perfil" element={<UserProfile />} />
+        <Route path="/pedidos" element={<UserOrders />} />
       </Routes>
 
       <ToastContainer />

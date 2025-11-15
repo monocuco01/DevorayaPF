@@ -152,7 +152,17 @@ body {
 }
 
 
-
+.subir-imagen-btn{
+   background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+  margin-left: 40px;
+}
 button {
   font-family: inherit;
 }
