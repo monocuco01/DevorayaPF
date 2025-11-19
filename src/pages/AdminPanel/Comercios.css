@@ -1,0 +1,206 @@
+/* Archivo: src/components/admin/Comercios.css */
+
+.comercios-panel {
+    /* Estilos del contenedor */
+}
+
+.comercios-panel h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+/* --- HEADER Y BOTÓN --- */
+.comercios-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #00c896;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #00b080;
+}
+
+.btn-cancel {
+    background-color: #e74c3c;
+}
+.btn-cancel:hover {
+    background-color: #c0392b;
+}
+
+
+/* --- FORMULARIO --- */
+.comercio-form-container {
+    margin-top: 20px;
+}
+
+.comercio-form {
+    display: grid;
+    gap: 15px;
+    padding: 15px;
+}
+
+/* Estructura de 2 columnas para el formulario */
+.grid-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #34495e;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.comercio-form input[type="text"],
+.comercio-form input[type="email"],
+.comercio-form input[type="password"],
+.comercio-form input[type="number"],
+.comercio-form input[type="time"],
+.comercio-form select,
+.comercio-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.comercio-form textarea {
+    resize: vertical;
+}
+
+.full-width {
+    grid-column: 1 / -1; /* Ocupa ambas columnas */
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #ecf0f1;
+    color: #34495e;
+    border: 1px solid #bdc3c7;
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox-group input {
+    width: auto !important;
+    margin-left: 10px;
+    transform: scale(1.2);
+}
+
+
+/* --- TABLA DE COMERCIOS --- */
+
+.comercios-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.comercios-table thead th {
+    background-color: #f2f2f2;
+    padding: 12px;
+    text-align: left;
+    color: #34495e;
+    font-weight: 700;
+    border-bottom: 2px solid #ddd;
+}
+
+.comercios-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.comercios-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Etiquetas de Estado */
+.estado-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.estado-activo {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.estado-inactivo {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Botones de Acción de la Tabla */
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-right: 10px;
+    transition: color 0.2s;
+}
+
+.btn-edit {
+    color: #3498db;
+}
+.btn-edit:hover {
+    color: #2980b9;
+}
+
+.btn-desactivar {
+    color: #e74c3c; /* Rojo para desactivar */
+}
+.btn-desactivar:hover {
+    color: #c0392b;
+}
+
+.btn-activar {
+    color: #2ecc71; /* Verde para activar */
+}
+.btn-activar:hover {
+    color: #27ae60;
+}

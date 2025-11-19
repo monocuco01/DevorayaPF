@@ -1,0 +1,222 @@
+/* Archivo: src/components/admin/AdminLayout.css */
+
+/* ----------------------------------- */
+/* 1. CONTENEDOR PRINCIPAL Y BASE      */
+/* ----------------------------------- */
+
+.admin-layout-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f7fa; /* Fondo suave para el contenido */
+    font-family: 'Arial', sans-serif;
+}
+
+/* ----------------------------------- */
+/* 2. SIDEBAR DE NAVEGACIÓN            */
+/* ----------------------------------- */
+
+.admin-sidebar {
+    width: 250px; /* Ancho normal */
+    background-color: #2c3e50; /* Azul oscuro */
+    color: white;
+    padding: 20px 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; 
+    /* Propiedades de transición para ocultar */
+    transition: width 0.3s ease, padding 0.3s ease;
+    overflow: hidden; /* Oculta el contenido al reducir width */
+}
+
+.admin-logo {
+    font-size: 1.8em;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    color: #00c896; /* Color de acento para el logo */
+    transition: opacity 0.3s ease;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    padding: 12px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: background-color 0.2s, border-left 0.2s, padding-left 0.2s, opacity 0.2s;
+    font-size: 0.95em;
+    display: block; 
+}
+
+/* Estilo al pasar el mouse y al estar activo (usando Link/NavLink) */
+.nav-item:hover, 
+.nav-item.active { 
+    background-color: #34495e; /* Un tono un poco más claro */
+    border-left: 5px solid #00c896; /* Línea de color de acento */
+    padding-left: 15px;
+}
+
+/* --- ESTADO: SIDEBAR OCULTA --- */
+
+.admin-sidebar.closed {
+    width: 0; 
+    padding: 0;
+}
+
+/* Ocultar texto y logo cuando está cerrado */
+.admin-sidebar.closed .admin-logo,
+.admin-sidebar.closed .admin-nav .nav-item {
+    opacity: 0;
+    pointer-events: none; /* Deshabilita clics */
+}
+
+
+/* ----------------------------------- */
+/* 3. CONTENIDO PRINCIPAL Y HEADER     */
+/* ----------------------------------- */
+
+.admin-main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-header {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    display: flex;
+    /* Ajustado para el botón de toggle */
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilo del botón de toggle (Menú) */
+.toggle-sidebar-btn {
+    background-color: #00c896;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-right: 20px; /* Espacio entre el botón y el título */
+    transition: background-color 0.2s;
+    order: -1; /* Coloca el botón al principio de la fila */
+}
+
+.toggle-sidebar-btn:hover {
+    background-color: #00b080;
+}
+
+
+.admin-header h1 {
+    font-size: 1.4em;
+    color: #343a40;
+    margin: 0;
+    font-weight: 600;
+}
+
+.admin-header button {
+    background-color: #e74c3c; /* Rojo para cerrar sesión */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.admin-header button:hover {
+    background-color: #c0392b;
+}
+
+.admin-page-content {
+    padding: 30px;
+    flex-grow: 1;
+}
+
+/* ----------------------------------- */
+/* 4. ESTILOS DE PÁGINA INTERNA (CARDS)*/
+/* ----------------------------------- */
+
+/* Contenedor general de tarjetas o secciones */
+.section-card {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Títulos de sección */
+.admin-page-content h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.6em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* ----------------------------------- */
+/* 5. RESPONSIVIDAD (MÓVILES)          */
+/* ----------------------------------- */
+
+@media (max-width: 768px) {
+    .admin-layout-container {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        /* Estilos para que la barra se muestre encima del contenido en móvil */
+        position: fixed; 
+        height: 100vh;
+        z-index: 1000;
+        width: 250px;
+        transform: translateX(-100%); /* Oculta por defecto fuera de pantalla */
+        transition: transform 0.3s ease;
+    }
+
+    /* Cuando la barra no está cerrada, se mueve a la vista */
+    .admin-layout-container:not(.sidebar-closed) .admin-sidebar {
+        transform: translateX(0);
+    }
+    
+    /* En móvil, el botón de toggle es el que controla la visibilidad */
+    .admin-sidebar.closed {
+        width: 250px; /* Mantiene el ancho normal, pero transformado */
+        padding: 20px 0;
+    }
+    
+    .admin-sidebar.closed .admin-logo,
+    .admin-sidebar.closed .admin-nav .nav-item {
+        opacity: 1; /* Los elementos están visibles si el estado NO es 'closed' */
+        pointer-events: auto;
+    }
+
+    /* Ajustes en el Header para móvil */
+    .admin-header {
+        padding: 15px 15px;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.2em;
+        /* Oculta el título o lo hace más pequeño si el espacio es limitado */
+        /* display: none; */ 
+    }
+    
+    .toggle-sidebar-btn {
+        margin-right: 10px;
+        order: -1; 
+    }
+
+    .admin-page-content {
+        padding: 15px;
+    }
+}

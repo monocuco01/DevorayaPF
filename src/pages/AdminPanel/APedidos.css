@@ -1,0 +1,99 @@
+/* Archivo: src/components/admin/APedidos.css */
+
+.a-pedidos-panel {
+    padding: 20px;
+}
+
+.a-pedidos-panel h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+/* --- ESTILO GENERAL DE SECCIONES (section-card) --- */
+.section-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.section-card h3 {
+    color: #34495e;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+
+/* --- TABLA DE PEDIDOS --- */
+
+.pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+.pedidos-table thead th {
+    background-color: #f2f2f2;
+    padding: 15px 12px;
+    text-align: left;
+    color: #34495e;
+    font-weight: 700;
+    font-size: 0.95em;
+    border-bottom: 2px solid #ddd;
+}
+
+.pedidos-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+    font-size: 0.9em;
+    vertical-align: middle;
+}
+
+.pedidos-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Estilo para el nombre del comercio */
+.pedidos-table strong {
+    font-weight: 600;
+    color: #00c896; /* Color que contrasta con el texto normal */
+}
+
+/* --- ETIQUETA DE ESTADO DEL PEDIDO --- */
+.estado-tag-pedido {
+    display: inline-flex; /* Usar flex para alinear ícono y texto */
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    gap: 5px; /* Espacio entre ícono y texto */
+}
+
+/* --- BOTONES DE ACCIÓN --- */
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-right: 5px;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.btn-view {
+    color: #3498db; /* Azul para la acción de ver */
+}
+.btn-view:hover {
+    color: #2980b9;
+}

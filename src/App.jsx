@@ -12,21 +12,32 @@ import { ToastContainer } from "react-toastify";
 import { Analytics } from "@vercel/analytics/react";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import UserOrders from "./pages/UserProfile/UserOrders";
+import { AdminPanel } from "./pages/AdminPanel/AdminPanel";
 function AppContent() {
   const location = useLocation();
+  const currentPath = location.pathname;
 
-  // Ocultar navbar en rutas específicas
-  const hideNavBarRoutes = ["/comercio/panel"];
-  const shouldShowNavBar = !hideNavBarRoutes.includes(location.pathname);
+  // 🚀 Lógica de Ocultar Navbar Actualizada
+  const hideNavBarRoutes = [
+    "/comercio/panel", 
+    "/login-comercio", // Añadido si no quieres navbar en login comercio
+    "/login",          // Añadido si no quieres navbar en login usuario
+    "/register"        // Añadido si no quieres navbar en registro
+  ];
+  
+  // Condición principal: Ocultar si está en la lista O si comienza con /admin
+  const shouldShowNavBar = !hideNavBarRoutes.includes(currentPath) && 
+                           !currentPath.startsWith("/admin"); 
 
   // Agregar margin-bottom solo si NO estamos en "/"
   const containerStyle = {
-    marginBottom: location.pathname !== "/" ? "0px" : "0",
+    marginBottom: currentPath !== "/" ? "0px" : "0",
   };
 
   return (
     <div style={containerStyle}>
-      {shouldShowNavBar && <Navbar />}
+      {/* Muestra la Navbar solo si shouldShowNavBar es true */}
+      {shouldShowNavBar && <Navbar />} 
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -39,6 +50,9 @@ function AppContent() {
         <Route path="/login-comercio" element={<LoginComercio />} />
         <Route path="/perfil" element={<UserProfile />} />
         <Route path="/pedidos" element={<UserOrders />} />
+        
+        {/* 🚨 MUY IMPORTANTE: Cambia la ruta de admin para que cubra subrutas */}
+        <Route path="/admin/*" element={<AdminPanel />} /> 
       </Routes>
 
       <ToastContainer />
@@ -56,5 +70,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;

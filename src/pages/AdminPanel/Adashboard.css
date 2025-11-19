@@ -1,0 +1,92 @@
+/* Archivo: src/components/admin/Adashboard.css */
+
+.admin-dashboard h2 {
+    color: #2c3e50; /* Color del texto del encabezado */
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+/* --- GRID DE KPIS --- */
+.kpi-grid {
+    display: grid;
+    /* Adapta la rejilla para tener al menos 250px por columna */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* --- TARJETA KPI --- */
+.kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* La línea de color lateral se aplica inline en React */
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px); /* Pequeño efecto 3D al pasar el mouse */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.kpi-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6em; /* Aumenta el tamaño del emoji/icono */
+    margin-right: 15px;
+    /* El color de fondo se aplica inline en React */
+}
+
+.kpi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-title {
+    font-size: 0.9em;
+    color: #7f8c8d; /* Texto gris más suave */
+    margin-bottom: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.kpi-value {
+    font-size: 2em; /* Tamaño grande para el número */
+    font-weight: 800;
+    color: #34495e; /* Color oscuro para el valor */
+}
+
+/* --- TARJETAS DE SECCIÓN INFERIORES --- */
+.section-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.section-card h3 {
+    color: #34495e;
+    font-size: 1.4em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* --- MENSAJES DE ESTADO --- */
+.error-message {
+    padding: 15px;
+    background-color: #fceae9;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    font-weight: 500;
+}

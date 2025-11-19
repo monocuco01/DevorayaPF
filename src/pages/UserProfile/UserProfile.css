@@ -1,121 +1,221 @@
+/* Paleta de Colores DevoraYa (Sugerida)
+   --primary-blue: #007bff;
+   --success-green: #28a745;
+   --background-light: #f4f7f6;
+   --card-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+*/
+
+/* ============================================== */
 /* ==== Contenedor Principal ==== */
+/* ============================================== */
 .profile-container {
-  
-    max-width: 800px; 
-    margin: 60px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    max-width: 1000px; /* Aumentamos el ancho para más espacio */
+    margin: 100px auto;
+    padding: 30px;
+    background-color: #f4f7f6; /* Fondo más suave */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada y elegante */
 }
 
 .profile-container h2 {
     color: #333;
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 2em;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
+    margin-bottom: 35px;
+    font-size: 2.5em; /* Título más grande */
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
 }
 
+/* Línea decorativa bajo el título */
+.profile-container h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #007bff; /* Color primario */
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* ============================================== */
 /* ==== Estilo General de la Tarjeta de Sección ==== */
-/* El .profile-sections ya no necesita grid, pero lo mantenemos como contenedor */
+/* ============================================== */
 .section-card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    /* Sombra interna sutil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+    border-left: 5px solid #007bff; /* Toque de color lateral */
 }
 
 .section-card h3 {
-    color: #007bff; /* Color primario */
+    color: #007bff;
     margin-top: 0;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+    font-weight: 600;
 }
 
-/* ---------------------------------------------------- */
-/* === D A T O S   P E R S O N A L E S === */
-/* ---------------------------------------------------- */
+/* ============================================== */
+/* === D A T O S   P E R S O N A L E S === */
+/* ============================================== */
 
 /* Contenedor interno para los campos (GRID de dos columnas) */
 .personal-data-fields {
     display: grid;
-    /* Divide los campos en dos columnas iguales */
     grid-template-columns: 1fr 1fr; 
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 30px 25px; /* Más espacio entre filas y columnas */
+    margin-bottom: 30px;
 }
 
 /* Media query para móviles: una sola columna para los campos */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .personal-data-fields {
         grid-template-columns: 1fr;
     }
 }
 
-/* ==== Inputs y Labels ==== */
+/* ==== Labels ==== */
 .personal-data label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #555;
+    margin-bottom: 8px;
+    font-weight: 700; /* Más énfasis */
+    color: #333;
+    font-size: 0.95em;
 }
 
+/* ==== Inputs, Selects y Estilo General de Formulario ==== */
 .personal-data input[type="text"],
 .personal-data input[type="email"],
-.personal-data input[type="password"] {
+.personal-data input[type="password"],
+.personal-data select {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px 15px; /* Padding más generoso */
+    border: 1px solid #ddd;
+    border-radius: 6px; /* Bordes más suaves */
     box-sizing: border-box;
-    transition: border-color 0.2s;
-    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    margin-bottom: 5px; /* Reducimos el margin, el gap del grid ya ayuda */
+    background-color: #fafafa;
+    color: #333;
+    font-size: 1em;
+    appearance: none; /* Mejoramos la apariencia del select */
 }
 
-.personal-data input:focus {
-    border-color: #007bff;
+.personal-data input:focus,
+.personal-data select:focus {
+    border-color: #007bff; /* Color primario al enfocarse */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Sombra suave de enfoque */
+    background-color: #fff;
     outline: none;
 }
 
 .personal-data input[disabled] {
-    background-color: #eee;
-    color: #777;
+    background-color: #e9ecef;
+    color: #6c757d;
     cursor: not-allowed;
+    border: 1px dashed #ced4da;
 }
 
-/* ==== Título de Contraseña (separador) ==== */
+/* ==== Dirección — Layout de los Inputs ==== */
+.direccion-box {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+}
+
+.direccion-box label {
+    margin-bottom: 10px;
+}
+
+.direccion-grid {
+    display: grid;
+    /* Distribución de la grilla de dirección: 
+       Tipo | Número 1 | # | Número 2 | - | Número 3 | Dpto | Ciudad */
+    grid-template-columns: 1fr 0.6fr auto 0.6fr auto 0.6fr 1fr 1fr; 
+    gap: 8px;
+    align-items: center;
+}
+
+.direccion-grid span {
+    text-align: center;
+    font-weight: 600;
+    color: #777;
+    padding-top: 10px; /* Para alinear con los inputs */
+}
+
+/* Media query para la dirección en móviles (stacked) */
+@media (max-width: 768px) {
+    .direccion-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+        gap: 10px;
+    }
+
+    .direccion-grid select:nth-child(1) {
+        grid-column: 1 / 4; /* Tipo (Calle, Carrera, etc) ocupa 3/3 */
+    }
+    .direccion-grid input[name="numero1"] {
+        grid-column: 1 / 2;
+    }
+    .direccion-grid span:nth-of-type(1) { /* # */
+        display: none;
+    }
+    .direccion-grid input[name="numero2"] {
+        grid-column: 2 / 3;
+    }
+    .direccion-grid span:nth-of-type(2) { /* - */
+        display: none;
+    }
+    .direccion-grid input[name="numero3"] {
+        grid-column: 3 / 4;
+    }
+    .direccion-grid select:nth-last-child(2) { /* Departamento */
+        grid-column: 1 / 4;
+    }
+    .direccion-grid select:nth-last-child(1) { /* Ciudad */
+        grid-column: 1 / 4;
+    }
+}
+
+
+/* ==== Título de Contraseña ==== */
 .personal-data h4 {
-    /* Ocupa todo el ancho en el grid implícito */
     grid-column: 1 / -1; 
+    color: #007bff;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 1.2em;
 }
 
 
 /* ==== Botón de Guardar ==== */
 .btn-guardar-perfil {
-    margin-top: 20px;
-    padding: 12px 20px;
-    background-color: #28a745; 
+    margin-top: 30px;
+    padding: 14px 20px;
+    background-color: #28a745; /* Verde de éxito */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px; /* Bordes más redondeados */
     cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.2s, opacity 0.2s;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.1s;
     width: 100%;
     font-weight: bold;
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
 }
 
 .btn-guardar-perfil:hover:not(:disabled) {
     background-color: #218838;
+    transform: translateY(-1px);
 }
 
 .btn-guardar-perfil:disabled {
-    background-color: #999;
+    background-color: #ced4da; /* Gris más claro */
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.8;
+    box-shadow: none;
 }
 
 
@@ -123,8 +223,9 @@
 .loading-text, .error-text {
     text-align: center;
     padding: 50px;
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #6c757d;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-
-/* --- Se elimina todo el CSS relacionado con pedidos (.pedidos-list, .pedido-item, .status-*) --- */
