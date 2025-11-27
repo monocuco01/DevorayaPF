@@ -1,104 +1,70 @@
-/* Archivo: src/components/Checkout/Checkout.css (Estilo Rappi) */
+/* Archivo: src/components/Checkout/Checkout.css (Estilo Rappi - Versión 3) */
 
-/* ----------------------------------- */
-/* 1. ESTRUCTURA Y BASE                */
-/* ----------------------------------- */
+/* ---------------------- */
+/* 1. ESTRUCTURA GENERAL  */
+/* ---------------------- */
 
 .checkout-wrapper {
     max-width: 1100px;
+    width: 100%;
     margin: 100px auto;
-    padding: 20px 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Contenedor principal de dos columnas */
 .checkout-container {
     display: flex;
+    width: 100%;
     gap: 30px;
+    align-items: flex-start;
 }
 
 .checkout-left {
-    flex: 2; /* Los bloques de datos ocupan más espacio */
+    flex: 2;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
 }
 
 .checkout-right {
-    flex: 1; /* El resumen ocupa menos espacio */
+    flex: 1;
+    width: 100%;
 }
 
 /* Títulos y estados */
-.loading-state, .vacio-titulo {
+.loading-state,
+.vacio-titulo {
     text-align: center;
     font-size: 1.5em;
     color: #333;
     padding: 50px;
 }
-.boton-volver {
-    display: block;
-    width: 250px;
-    margin: 20px auto;
-    padding: 12px;
-    background-color: #f75555;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
 
-/* ----------------------------------- */
-/* 2. ESTILOS DE TARJETAS (CARDS)      */
-/* ----------------------------------- */
+/* ---------------------- */
+/* 2. TARJETAS / CARDS    */
+/* ---------------------- */
 
 .checkout-card {
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Sombra suave */
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .checkout-card h3 {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.3em;
+    gap: 12px;
+    font-size: 1.35em;
     color: #333;
-    margin-top: 0;
+    margin: 0 0 20px 0;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
 }
 
-.card-subtitle {
-    font-size: 0.9em;
-    font-weight: 600;
-    color: #666;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-}
-
-/* --- Input Groups con Iconos --- */
-.input-group {
-    display: flex;
-    align-items: center;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 0 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-}
-
-.input-group input,
-.input-group select,
-.checkout-card textarea {
-    flex-grow: 1;
-    border: none;
-    padding: 12px 10px;
-    font-size: 1em;
-    background: transparent;
-    outline: none;
-}
-
+/* Para el textarea que no tiene input-group */
 .checkout-card textarea {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
@@ -108,30 +74,140 @@
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
+    padding: 10px 12px;
+    outline: none;
 }
 
-.input-group input[readOnly] {
+/* ---------------------- */
+/* 3. INPUTS MEJORADOS    */
+/* ---------------------- */
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    height: 46px;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1em;
+}
+
+.input-group input[readonly] {
     cursor: default;
     color: #777;
 }
 
-/* ----------------------------------- */
-/* 3. RESUMEN DE PAGO (Derecha)        */
-/* ----------------------------------- */
+.checkout-card select {
+    width: 100%;
+    height: 46px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    margin-bottom: 20px;
+    font-size: 1em;
+    outline: none;
+}
+
+/* ---------------------- */
+/* 4. QR + COMPROBANTE    */
+/* ---------------------- */
+
+.qr-box {
+    border-top: 2px solid #f75555;
+    padding-top: 20px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.qr-box h4 {
+    font-size: 1.1em;
+    color: #f75555;
+    margin: 0;
+    font-weight: 700;
+}
+
+.qr-box p {
+    font-size: 0.95em;
+    margin: 0;
+    color: #555;
+}
+
+.qr-img {
+    max-width: 150px;
+    margin: 10px auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.label-comp {
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-top: 5px;
+}
+
+.cloudinary-upload-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.preview-comp {
+    display: block;
+    max-width: 120px !important;
+    height: auto;
+    margin: 10px auto 15px auto !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.qr-box input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+/* ---------------------- */
+/* 5. RESUMEN DE PAGO     */
+/* ---------------------- */
 
 .checkout-final-card {
-    position: sticky; /* Fija la tarjeta en el scroll */
-    top: 20px;
     background: white;
     padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+    position: sticky;
+    top: 20px;
+    width: 100%;
 }
 
 .total-lines {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-size: 1.05em;
     color: #555;
 }
@@ -151,25 +227,23 @@
     color: #000;
 }
 
-/* Botón principal */
 .boton-confirmar {
     width: 100%;
-    background-color: #f75555; /* Rojo Rappi como acento de acción */
+    height: 50px;
+    background: #f75555;
     color: white;
     border: none;
-    padding: 15px;
-    margin-top: 25px;
-    border-radius: 8px;
+    border-radius: 10px;
+    margin-top: 30px;
     font-size: 1.1em;
     font-weight: 700;
+    box-shadow: 0 3px 6px rgba(247,85,85,0.3);
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 3px 6px rgba(247, 85, 85, 0.4);
+    transition: background-color 0.2s;
 }
 
 .boton-confirmar:hover {
-    background-color: #e34c4c;
-    transform: translateY(-1px);
+    background: #e14b4b;
 }
 
 .boton-confirmar:disabled {
@@ -178,9 +252,9 @@
     box-shadow: none;
 }
 
-/* ----------------------------------- */
-/* 4. DETALLE DEL PEDIDO (Card 3)      */
-/* ----------------------------------- */
+/* ---------------------- */
+/* 6. DETALLE DE PEDIDO   */
+/* ---------------------- */
 
 .resumen-detalle-lista {
     border-top: 1px solid #eee;
@@ -190,9 +264,10 @@
 .detalle-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 0;
+    justify-content: space-between;
+    padding: 10px 0;
     border-bottom: 1px dotted #eee;
+    gap: 10px;
 }
 
 .detalle-cantidad {
@@ -214,61 +289,37 @@
     color: #555;
 }
 
-/* --- Tiempo estimado --- */
-.tiempo-estimado {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #fce8e8; /* Fondo sutil para el tiempo */
-    color: #f75555;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-weight: 600;
-}
-
-
-/* ----------------------------------- */
-/* 5. RESPONSIVIDAD                    */
-/* ----------------------------------- */
+/* ---------------------- */
+/* 7. RESPONSIVE          */
+/* ---------------------- */
 
 @media (max-width: 900px) {
     .checkout-container {
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
     }
 
     .checkout-right {
-        order: -1; /* Mueve el resumen al inicio en móvil */
-        width: 100%;
-    }
-
-    .checkout-left {
-        width: 100%;
+        order: -1;
     }
 
     .checkout-final-card {
-        position: static; /* Deshabilita el sticky en móvil */
-        margin-bottom: 20px;
+        position: static;
+        width: 100%;
     }
 }
 
 @media (max-width: 500px) {
     .checkout-wrapper {
-        margin: 0;
-        padding: 0;
-    }
-    
-    .checkout-container {
+        margin-top: 90px;
         padding: 10px;
     }
 
     .checkout-card {
-        padding: 15px;
-        border-radius: 0; /* Full width edge to edge */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 18px;
+        border-radius: 8px;
     }
-    
+
     .checkout-card h3 {
         font-size: 1.2em;
     }

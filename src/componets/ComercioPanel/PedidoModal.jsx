@@ -1,20 +1,20 @@
 import { useState } from "react";
 import api from "../../api/api";
 import Swal from "sweetalert2";
-import "./PedidoModal.css";
+import "./PedidoModal.css"; // Asegúrate de que este archivo CSS existe
 
 // --- Función de utilidad para formato de moneda ---
 const formatCurrency = (amount) => {
-    // Asegura un valor por defecto si es nulo o indefinido
-    const value = amount ?? 0;
-    
-    // Formatea como moneda. Ajusta 'es-CO' y 'COP' a tu región/moneda.
-    return value.toLocaleString('es-CO', {
-        style: 'currency',
-        currency: 'COP', 
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    });
+    // Asegura un valor por defecto si es nulo o indefinido
+    const value = amount ?? 0;
+    
+    // Formatea como moneda. Ajusta 'es-CO' y 'COP' a tu región/moneda.
+    return value.toLocaleString('es-CO', {
+        style: 'currency',
+        currency: 'COP', 
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    });
 };
 // --------------------------------------------------
 
@@ -34,8 +34,11 @@ style.innerHTML = `
 document.head.appendChild(style);
 
 function PedidoModal({ pedido, onClose, onStatusChange }) {
-  const [estado, setEstado] = useState(pedido.estado);
-  const [loading, setLoading] = useState(false);
+
+  console.log("📦 Pedido recibido en el modal:", pedido);
+
+  const [estado, setEstado] = useState(pedido.estado);
+  const [loading, setLoading] = useState(false);
 
   const handleEstadoChange = async (nuevoEstado) => {
     setLoading(true);
@@ -69,6 +72,50 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
     }
   };
 
+  // ==========================================
+  // 🆕 FUNCIÓN PARA RENDERIZAR DETALLES DE PAGO
+  // ==========================================
+  const renderPaymentDetails = () => {
+    // Asumimos que el método de pago se envía como 'Efectivo', 'Nequi', 'Daviplata', etc.
+    const isOnlinePayment = pedido.metodo_pago && pedido.metodo_pago !== 'Efectivo';
+    const hasComprobante = !!pedido.comprobante_url;
+
+    return (
+      <div className="payment-details-container">
+        <h3>Detalles de Pago</h3>
+        
+        <p>
+          <strong>Método:</strong> <span className="payment-method-tag">{pedido.metodo_pago || 'Efectivo'}</span>
+        </p>
+
+        {isOnlinePayment && pedido.referencia_pago && (
+          <p>
+            <strong>Referencia de Pago:</strong> <span className="payment-ref-tag">{pedido.referencia_pago}</span>
+          </p>
+        )}
+
+        {isOnlinePayment && hasComprobante && (
+          <div className="comprobante-section">
+            <h4>Comprobante Subido</h4>
+           <img 
+            src={pedido.comprobante_url} // Ya corregido
+            alt="Comprobante de pago" 
+            className="comprobante-preview"
+        />
+          </div>
+        )}
+        
+        {isOnlinePayment && !hasComprobante && (
+            <p className="payment-pending-msg">
+                El cliente aún no ha subido el comprobante de pago.
+            </p>
+        )}
+        
+      </div>
+    );
+  };
+  // ==========================================
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -79,19 +126,18 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         <p>
           <strong>Dirección:</strong> {pedido.direccion_entrega}
         </p>
-
-        {/* -------------------- CAMBIO CLAVE AÑADIDO AQUI -------------------- */}
         <p>
           <strong>Costo Domicilio:</strong> {formatCurrency(pedido.costo_envio)}
-        </p>
-        {/* ------------------------------------------------------------------ */}
-        
+        </p>   
         <p>
           <strong>Total:</strong> {formatCurrency(pedido.total)}
         </p>
         <p>
           <strong>Instrucciones:</strong> {pedido.instrucciones || "Ninguna"}
         </p>
+        
+        {/* 🆕 AÑADIMOS EL DETALLE DE PAGO AQUÍ */}
+        {renderPaymentDetails()}
 
         {/* Listado de platos */}
         <div className="platos-container">
