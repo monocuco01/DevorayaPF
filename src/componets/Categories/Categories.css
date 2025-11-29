@@ -1,96 +1,157 @@
-/* ===== CategoriesSection.css — versión elegante y moderna con paleta Gourmet ===== */
+/* ===== CategoriesSection.css — versión elegante y moderna con paleta ROJA/VIBRANTE ===== */
 .categories-section {
-  margin-top: 50px;
-  padding: 2.5rem 1.5rem;
-  /* Fondo sutil: Mantenemos blancos/grises claros para la elegancia */
-  background: linear-gradient(180deg, #fff 0%, #f6f6f6 100%);
-  text-align: center;
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    padding: 2.5rem 1.5rem;
+    /* Fondo sutil: Mantenemos blancos/grises claros para la elegancia */
+    background: linear-gradient(180deg, #fff 0%, #f6f6f6 100%);
+    text-align: center;
+    /* Asumiendo que usamos una fuente moderna como Poppins o Inter en todo el sitio */
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 .categories-title {
-  font-size: 1.9rem;
-  font-weight: 700;
-  color: #800020; /* CAMBIO: Título en Vino Tinto (Borgoña) */
-  margin-bottom: 2rem;
-  letter-spacing: -0.5px;
+    font-size: 1.9rem;
+    font-weight: 800; /* Un poco más de peso */
+    /* 🔥 CAMBIO DE COLOR: Gris oscuro alineado con el texto principal */
+    color: #343a40; 
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
 }
 
 /* GRID: limpio y adaptable */
 .categories-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* CARD */
 .category-card {
-  position: relative;
-  border-radius: 1.1rem;
-  overflow: hidden;
-  cursor: pointer;
-  background: #fff;
-  /* CAMBIO: Sombra sutil con un pequeño borde de color dorado/cobre para resaltar */
-  box-shadow: 0 0 0 1.5px #B8733350, 0 4px 14px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    /* Sombra inicial limpia y sutil */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-card:hover {
-  transform: translateY(-8px);
-  /* CAMBIO: Sombra de hover más pronunciada y con el borde dorado/cobre */
-  box-shadow: 0 0 0 2px #B87333, 0 8px 22px rgba(0, 0, 0, 0.1); 
+    transform: translateY(-8px);
+    /* 🔥 CAMBIO DE COLOR: Sombra de hover más pronunciada usando el Rojo Vibrante */
+    box-shadow: 0 0 0 2px #F75555, 0 10px 25px rgba(0, 0, 0, 0.1); 
 }
 
 /* IMAGEN */
 .category-img {
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.35s ease;
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
 }
 
 /* Pequeño zoom sutil en hover */
 .category-card:hover .category-img {
-  transform: scale(1.08);
+    transform: scale(1.08);
 }
 
 /* OVERLAY elegante */
 .category-overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 10%, rgba(0, 0, 0, 0));
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.3px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  border-bottom-left-radius: 1.1rem;
-  border-bottom-right-radius: 1.1rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    /* Degradado sutil para la legibilidad del texto blanco */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 10%, rgba(0, 0, 0, 0));
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 1.1rem;
+    border-bottom-right-radius: 1.1rem;
 }
 
 /* Animación de overlay al pasar el mouse */
 .category-card:hover .category-overlay {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0));
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0));
 }
 
 /* ===== Responsivo ===== */
 @media (max-width: 768px) {
-  .categories-grid {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 1rem;
-  }
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 1rem;
+    }
 
-  .category-img {
-    height: 110px;
-  }
+    .category-img {
+        height: 110px;
+    }
 
-  .category-overlay {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.6rem;
-  }
+    .category-overlay {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.6rem;
+    }
+}
+
+
+/* ==================================== */
+/* 5. SKELETON LOADER (SHIMMER EFFECT) */
+/* ==================================== */
+
+@keyframes shimmer {
+    /* Mueve el degradado de izquierda a derecha */
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.skeleton-card {
+    position: relative;
+    border-radius: 1.1rem;
+    overflow: hidden;
+    height: 180px; 
+    
+    /* 🔥 Configuración de la animación SHIMMER */
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+
+    /* Fondo base y el degradado de brillo (Ajustado a grises más claros) */
+    background: #e9e9e9; /* Fondo base del esqueleto: gris muy claro */
+    background-image: linear-gradient(to right, #e9e9e9 0%, #fefefe 20%, #e9e9e9 40%);
+    background-size: 1000px 100%; 
+}
+
+/* Placeholders de contenido */
+.skeleton-img {
+    width: 100%;
+    height: 130px; 
+    background-color: #dcdcdc; /* Un gris un poco más oscuro que el fondo */
+    display: block;
+}
+
+.skeleton-overlay {
+    /* Altura aproximada del padding/texto del overlay */
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 0.8rem;
+    background-color: #c9c9c9; /* Color de fondo del overlay */
+}
+
+.skeleton-text {
+    width: 60%;
+    height: 20px;
+    background-color: #b0b0b0; /* Color del texto placeholder */
+    border-radius: 4px;
 }

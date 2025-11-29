@@ -13,6 +13,7 @@
   left: 0;
   z-index: 1000;
   transition: background-color 0.4s ease, box-shadow 0.4s ease, height 0.3s ease;
+  margin-bottom: 50px;
 }
 
 .navbar.scrolled {
@@ -113,7 +114,7 @@
 .navbar-search {
   display: flex;
   align-items: center;
-  background: #e6e4e4;
+  background: #ffffff;
   border-radius: 25px;
   padding: 0.55rem 1rem;
   width: 480px;
@@ -129,11 +130,39 @@
   transform: translate(-50%, 0);
 }
 
+/* Contenedor que agrupa el input y el botón de lupa */
+
+
+/* El campo de texto real */
 .search-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  flex: 1;
+  width: 480px;
+
+      padding: 0.55rem 1rem; /* Ajusta el padding derecho para dejar espacio al ícono */
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+
+
+}
+
+/* El botón del ícono de lupa */
+.search-icon-button {
+    position: absolute;
+    right: 5px; /* Posiciona a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: #f75555; /* Color del tema */
+}
+
+.search-icon-button svg {
+    display: block;
 }
 
 .search-input::placeholder {

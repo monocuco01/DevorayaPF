@@ -9,7 +9,9 @@ import { useCarrito } from "../Cart/CarritoContext.jsx";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [carritoOpen, setCarritoOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); 
+  
   const navigate = useNavigate();
   const location = useLocation();
   const { carrito } = useCarrito();
@@ -36,13 +38,27 @@ export default function Navbar() {
     setMenuOpen(false);
   };
   
-  // FUNCIÓN NUEVA: Navegación a la página de pedidos
   const handleNavigateOrders = () => {
-    navigate("/pedidos"); // 👈 Define esta ruta en tu Router
+    navigate("/pedidos");
     setMenuOpen(false);
   };
+  
+  // Función para manejar la búsqueda al presionar Enter o al hacer clic
+  const executeSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/buscar/${encodeURIComponent(searchTerm.trim())}`);
+      // Opcional: limpiar la barra después de buscar
+      // setSearchTerm(""); 
+    }
+  };
 
-  // 👇 Ocultar navbar en ciertas rutas
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      executeSearch();
+      e.target.blur(); // Ocultar el teclado/quitar foco
+    }
+  };
+
   if (
     location.pathname.startsWith("/comercio") ||
     location.pathname.startsWith("/panel") ||
@@ -66,11 +82,25 @@ export default function Navbar() {
 
         {scrolled && (
           <div className="navbar-search">
-            <input
-              type="text"
-              placeholder="Buscar restaurante..."
-              className="search-input"
-            />
+             {/* 🔍 Contenedor de búsqueda con el ícono */}
+            <div className="search-input-container">
+              
+              <input
+                type="text"
+                placeholder="Buscar restaurante..."
+                className="search-input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={handleSearch} 
+              />
+              
+              {/* Botón/Ícono de Lupa para búsqueda visual */}
+              <button className="search-icon-button" onClick={executeSearch}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+              </button>
+            </div>
           </div>
         )}
 
@@ -100,14 +130,12 @@ export default function Navbar() {
               Iniciar sesión
             </button>
           ) : (
-            // 💡 Sección de Perfil/Usuario Activo
             <div className="navbar-profile-container">
               <button
                 className="profile-icon-button"
-                onClick={() => setMenuOpen(!menuOpen)} // Toggle del menú
+                onClick={() => setMenuOpen(!menuOpen)}
                 aria-expanded={menuOpen}
               >
-                {/* Ícono de Usuario (ejemplo de SVG de Bootstrap Icons) */}
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#b3854d" viewBox="0 0 16 16">
                   <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                   <path d="M.002 12a.5.5 0 0 1 .58.332C1.758 14.51 4.962 16 8 16s6.242-1.49 7.418-3.668a.5.5 0 0 1 .58-.332H.002z"/>
@@ -116,22 +144,20 @@ export default function Navbar() {
               
               {menuOpen && (
                 <div className="profile-dropdown">
-                <div className="dropdown-header">
-  Hola, {usuarioActivo?.nombre?.split(" ")[0] || "Usuario"}!
-</div>
+                  <div className="dropdown-header">
+                    Hola, {usuarioActivo?.nombre?.split(" ")[0] || "Usuario"}!
+                  </div>
 
                   <button className="dropdown-item" onClick={handleNavigateProfile}>
-                     Mi Perfil
+                      Mi Perfil
                   </button>
                   
-                  {/* 👇 NUEVO BOTÓN PARA PEDIDOS 👇 */}
                   <button className="dropdown-item" onClick={handleNavigateOrders}>
-                     Mis Pedidos
+                      Mis Pedidos
                   </button>
-                  {/* 👆 FIN NUEVO BOTÓN 👆 */}
 
                   <button className="dropdown-item logout" onClick={handleLogout}>
-                     Cerrar sesión
+                      Cerrar sesión
                   </button>
                 </div>
               )}

@@ -1,106 +1,181 @@
+/* ------------------------------------ */
+/* 1. Base y Layout */
+/* ------------------------------------ */
 .hero {
-  min-height: 80vh;
-  background-color: #800020; /* CAMBIO: Fondo principal del hero: Vino Tinto */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: white;
-  justify-content: space-evenly;
-  text-align: left;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 40px 0 40px; /* Padding superior para separar del navbar */
+    background-color:#800020;
+    overflow: hidden;
+    min-height: 500px; /* Altura mínima para asegurar visibilidad */
+}
+
+/* Contenido de texto y búsqueda */
+.hero-content {
+    max-width: 550px;
+    padding-right: 40px;
+    z-index: 10;
+   
+}
+
+/* Imagen del teléfono (solo visible en desktop) */
+.hero-phone {
+    flex-shrink: 0;
+    width: 350px;
+    height: 400px; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: -150px;
+    margin-right: 50px;
+    z-index: 10;
+    /* Efecto sutil para que parezca que flota */
+  
 }
 
 .hero-phone img {
-  width: 250px;
-  max-width: 100%;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-  margin-bottom: 2rem;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
 }
 
-.hero-content {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow ', sans-serif;
-  text-align: left;
-  max-width: 500px;
-  margin-bottom: 100px; 
-  font-weight: 100;
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
+/* ------------------------------------ */
+/* 2. Tipografía y Búsqueda */
+/* ------------------------------------ */
 .hero-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff; /* Gris oscuro */
+    line-height: 1.2;
+    margin-bottom: 10px;
 }
 
 .hero-subtitle {
-  font-size: 1.125rem;
-  margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    color: #ffffff; /* Gris medio */
+    margin-bottom: 30px;
 }
 
-.hero-input {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 0.5rem;
-  /* Añadimos un borde sutil en color Dorado/Cobre para sofisticación */
-  box-shadow: 0 0 0 2px #B87333, 0 2px 6px rgba(0, 0, 0, 0.15); /* CAMBIO: Borde/Sombra */
-  width: 100%;
-  max-width: 400px;
-  overflow: hidden;
-  margin: 0 auto;
+/* Contenedor de búsqueda */
+.hero-input-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 8px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
 }
 
-.hero-input .hero-icon {
-  padding: 0 0.75rem;
-  color: #B87333; /* CAMBIO: Ícono de ubicación: Dorado/Cobre */
+.hero-search-icon {
+    background: none;
+    border: none;
+    color: #F75555; /* Color del highlight */
+    padding: 0 8px;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
-.hero-input input {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  outline: none;
-  color: #374151;
+.hero-input-field {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 1rem;
+    color: #343a40;
 }
 
-/* Nota: Los estilos de .hero-login ya fueron cambiados en el CSS del navbar
-   pero los modifico aquí también por si acaso (aunque se recomienda usar el
-   mismo estilo del .navbar-login para este elemento si es el mismo botón) */
-.hero-login {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: #B87333; /* CAMBIO: Dorado/Cobre */
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 9999px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  transition: background 0.2s;
+.hero-search-button {
+    background: linear-gradient(135deg, #F75555, #E04545); /* Rojo vibrante */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    flex-shrink: 0;
 }
 
-.hero-login:hover {
-  background: #99622D; /* CAMBIO: Dorado/Cobre más oscuro */
+.hero-search-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #E04545, #D03535);
 }
+
+.hero-search-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ------------------------------------ */
+/* 3. Onda Decorativa */
+/* ------------------------------------ */
 
 .hero-wave {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  line-height: 0;
-
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    z-index: 5; /* Detrás del contenido, encima del fondo */
 }
 
 .hero-wave svg {
-  width: 100%;
-  height: 120px;
-  display: block;
-  margin-bottom: -10px;
+    display: block;
+    margin-top: 70px;
+    width: 100%;
+    height: 100%;
 }
 
 .hero-wave path {
-  fill: #fff; /* Se mantiene blanco para que la ola contraste con el fondo oscuro y se funda con el resto de la página */
+    fill: white; /* Color de la onda (debe ser el color de fondo de la siguiente sección) */
+}
+
+/* ------------------------------------ */
+/* 4. Ajustes Responsive (Móvil y Tablet) */
+/* ------------------------------------ */
+
+@media (max-width: 900px) {
+    
+    .hero {
+        /* Permite que el contenido se apile en pantallas más pequeñas */
+        flex-direction: column; 
+        padding: 20px 20px 50px 20px;
+        text-align: center; /* Centrar el texto en móviles */
+    }
+
+    /* 🔥 OCULTAR LA IMAGEN DEL TELÉFONO EN PANTALLAS PEQUEÑAS */
+    .hero-phone {
+        display: none;
+    }
+
+    .hero-content {
+        max-width: 100%; /* El contenido ocupa todo el ancho */
+        padding-right: 0; /* Quitar el padding derecho de desktop */
+        padding-bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    /* Centrar la barra de búsqueda */
+    .hero-input-container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 400px; /* Reducir un poco el tamaño máximo en móvil */
+    }
 }

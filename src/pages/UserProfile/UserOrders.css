@@ -1,14 +1,15 @@
-/* ------------------------- VARIABLES GLOBALES ------------------------- */
+/* ------------------------- VARIABLES GLOBALES (Alineadas con Rojo Vibrante) ------------------------- */
 
 :root {
-    --primary-color: #007bff; /* Azul estándar para acentos */
-    --background-color: #f4f7fa; /* Fondo muy claro y suave */
+    /* 🔥 CAMBIO: Rojo Vibrante como color principal */
+    --primary-color: #F75555; 
+    --background-color: #f6f6f6; /* Fondo muy claro y suave (Alineado con Profile) */
     --card-background: #ffffff;
-    --text-color: #343a40; /* Texto principal (casi negro) */
+    --text-color: #343a40; /* Texto principal (Gris Oscuro) */
     --secondary-text-color: #6c757d; /* Texto secundario (gris) */
     --border-color: #e9ecef; /* Borde sutil */
-    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra de hover más elegante */
     --border-radius-base: 8px;
     --border-radius-large: 12px;
 }
@@ -18,7 +19,8 @@
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    /* Usando Poppins para consistencia visual con el resto de la app */
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
     line-height: 1.6;
 }
 
@@ -26,8 +28,8 @@ body {
 
 .orders-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 100px auto;
+    max-width: 900px; /* Reducimos el ancho para que coincida con el Perfil */
+    margin: 50px auto 100px auto;
     padding: 0 20px;
 }
 
@@ -52,20 +54,22 @@ body {
     border-radius: var(--border-radius-base);
     padding: 15px 20px;
     border: 1px solid var(--border-color);
-    box-shadow: none;
+    box-shadow: var(--shadow-subtle);
     transition: all 0.2s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .pedido-item:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
-    border-color: #ced4da;
+    transform: translateY(-2px); /* Movimiento sutil */
+    border-color: #fce6e6; /* Borde muy claro en hover */
 }
 
 .pedido-item.expanded {
+    /* 🔥 CAMBIO: Borde lateral en Rojo Vibrante */
     border-left: 5px solid var(--primary-color);
-    background-color: #f7f9fc;
+    background-color: #fffafa; /* Fondo muy claro al expandirse */
 }
 
 /* ------------------------- HEADER Y DETALLES PRINCIPALES ------------------------- */
@@ -83,8 +87,9 @@ body {
 
 .restaurante-nombre {
     font-size: 1.15em;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0;
+    color: var(--text-color);
 }
 
 .info-columna p {
@@ -95,12 +100,15 @@ body {
 
 .total-estado-columna {
     text-align: right;
+    flex-shrink: 0;
+    margin-left: 15px;
 }
 
 .total-estado-columna .total-price {
     font-size: 1.3em;
     font-weight: 700;
-    color: var(--primary-color);
+    /* 🔥 CAMBIO: Total en Rojo Vibrante */
+    color: var(--primary-color); 
     margin-bottom: 5px;
     display: block;
 }
@@ -111,6 +119,11 @@ body {
     display: block;
     margin-left: 15px;
     color: var(--secondary-text-color);
+    transition: transform 0.2s ease;
+}
+
+.pedido-item.expanded .toggle-icon {
+    transform: rotate(180deg);
 }
 
 /* ------------------------- BADGE DE ESTADO ------------------------- */
@@ -125,10 +138,11 @@ body {
     display: inline-block;
 }
 
-.status-pendiente { background: #fff3cd; color: #856404; }
-.status-preparando { background: #cce5ff; color: #004085; }
-.status-en_camino { background: #fff0d9; color: #856404; }
-.status-entregado { background: #d4edda; color: #155724; }
+/* Colores de estado ajustados para una mejor legibilidad */
+.status-pendiente { background: #ffe4c4; color: #a0522d; } /* Naranja suave */
+.status-preparando { background: #ffebeb; color: #cc3737; } /* Rojo claro de la marca */
+.status-en_camino { background: #f0e6ff; color: #4b0082; } /* Morado suave */
+.status-entregado { background: #d4edda; color: #155724; } /* Verde de éxito */
 
 /* ------------------------- DETALLE Y PRODUCTOS ------------------------- */
 
@@ -179,7 +193,7 @@ body {
     justify-content: space-between;
     margin-bottom: 10px;
     position: relative;
-    padding: 0 5%; /* Ajuste para que la barra se vea bien */
+    padding: 0 5%; 
 }
 
 .step {
@@ -190,44 +204,113 @@ body {
     font-size: 0.85em;
     text-align: center;
     flex: 1;
-    z-index: 2; /* Asegura que el texto y el círculo estén sobre la barra */
+    z-index: 2; 
 }
 
 .step.active {
-    color: var(--primary-color);
+    /* 🔥 CAMBIO: Rojo Vibrante para el estado activo */
+    color: var(--primary-color); 
     font-weight: 600;
 }
 
 .circle {
-    width: 20px; /* Más grande */
+    width: 20px; 
     height: 20px;
     border-radius: 50%;
     background: var(--border-color);
-    border: 4px solid var(--card-background); /* Borde claro para que 'flote' */
+    border: 4px solid var(--card-background); 
     margin-bottom: 8px;
     transition: all 0.3s ease;
 }
 
 .step.active .circle {
-    background: var(--primary-color);
+    /* 🔥 CAMBIO: Fondo y sombra del círculo activo en Rojo Vibrante */
+    background: var(--primary-color); 
     border-color: var(--card-background);
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3); /* Anillo exterior que destaca */
+    box-shadow: 0 0 0 4px rgba(247, 85, 85, 0.3); 
 }
 
 .progress-bar {
     position: absolute;
-    top: 25px; /* Centra la línea horizontalmente en los círculos */
+    top: 25px; 
     left: 0;
     right: 0;
-    height: 6px; /* Más gruesa */
+    height: 6px; 
     background: var(--border-color);
     border-radius: 5px;
-    z-index: 1; /* Se asegura de que esté detrás de los círculos */
+    z-index: 1; 
 }
 
 .progress-fill {
     height: 100%;
-    background: var(--primary-color);
+    /* 🔥 CAMBIO: Relleno de la barra de progreso en Rojo Vibrante */
+    background: var(--primary-color); 
     transition: width 0.5s ease;
     border-radius: 5px;
+}
+
+/* ------------------------- RESPONSIVIDAD ------------------------- */
+
+/* Ajustes de la tarjeta de pedido en móvil (menos de 600px) */
+@media (max-width: 600px) {
+    .orders-container {
+        margin: 30px auto 50px auto;
+        padding: 0 10px;
+    }
+
+    .pedido-header {
+        flex-direction: column; /* Apila los elementos */
+        align-items: flex-start;
+        position: relative;
+        padding-right: 40px; /* Espacio para el icono */
+    }
+
+    .info-columna {
+        width: 100%;
+    }
+
+    .total-estado-columna {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding-top: 5px;
+        border-top: 1px dashed #f0f0f0;
+    }
+    
+    .total-estado-columna .total-price {
+        font-size: 1.2em;
+    }
+    
+    .estado-badge {
+        margin-left: auto; /* Mueve el badge a la derecha dentro de la columna */
+    }
+
+    .toggle-icon {
+        position: absolute; 
+        top: 25px;
+        right: 15px;
+        margin-left: 0;
+    }
+
+    /* Ajustes para la barra de progreso en móvil (para evitar que se apriete) */
+    .estado-steps {
+        padding: 0 2%;
+        gap: 2px;
+    }
+    .step {
+        font-size: 0.7em; /* Fuente más pequeña para que quepa */
+        padding: 0 1px;
+    }
+    .circle {
+        width: 16px; 
+        height: 16px;
+    }
+    .progress-bar {
+        top: 23px; 
+        height: 4px;
+    }
 }

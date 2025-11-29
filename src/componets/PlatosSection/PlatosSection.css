@@ -1,117 +1,197 @@
-/* ===== PlatosSection.css — versión limpia y refinada con paleta Gourmet ===== */
 .platos-section {
-  background: #fff;
-  padding: 2rem 1rem;
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  margin-top: 50px;
-  color: #222;
+    background: #fff;
+    padding: 2rem 1rem;
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    margin-top: 50px;
+    color: #222;
 }
 
 /* Contenedor central (opcional) */
 .platos-section .container {
-  max-width: 1200px;
-  margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Título */
 .platos-title {
-  font-size: 1.5rem;
-  margin-bottom: 1.25rem;
-  font-weight: 700;
-  display: flex;
-  gap: 0.5rem;
-  color: #800020; /* CAMBIO: Título en Vino Tinto */
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    /* 🔥 CAMBIO DE PESO: Aumentado a 800 para consistencia */
+    font-weight: 800; 
+    display: flex;
+    gap: 0.5rem;
+    /* 🔥 CAMBIO DE COLOR: Gris oscuro alineado con el resto de títulos */
+    color: #343a40; 
 }
 
 /* GRID responsive */
 .platos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
 }
 
 /* CARD (Link) */
 .plato-card {
-  background: #fafafa;
-  border-radius: 12px;
-  padding: 0.9rem;
-  text-align: left;
-  box-shadow: 0 6px 18px rgba(13, 13, 13, 0.06);
-  transition: transform 0.22s cubic-bezier(.2, .9, .3, 1), box-shadow 0.22s;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  min-height: 220px;
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 0.9rem;
+    text-align: left;
+    box-shadow: 0 6px 18px rgba(13, 13, 13, 0.06);
+    /* Transformación más suave y rápida para la tarjeta de platos */
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; 
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 220px;
 
-  /* Quita subrayado y hereda color */
-  text-decoration: none;
-  color: inherit;
+    /* Quita subrayado y hereda color */
+    text-decoration: none;
+    color: inherit;
 }
 
 /* Hover */
 .plato-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(13, 13, 13, 0.09);
+    transform: translateY(-4px); /* Movimiento un poco menos agresivo */
+    box-shadow: 0 10px 25px rgba(13, 13, 13, 0.1);
 }
 
 /* Imagen */
 .plato-img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.8rem;
-  display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    display: block;
 }
 
 /* Texto dentro */
 .plato-card h3 {
-  margin: 0 0 0.35rem 0;
-  font-size: 1.05rem;
-  color: #111;
+    margin: 0 0 0.35rem 0;
+    font-size: 1.05rem;
+    color: #111;
+    font-weight: 700;
 }
 
 .plato-card p {
-  margin: 0 0 0.6rem 0;
-  color: #666;
-  font-size: 0.92rem;
-  line-height: 1.3;
+    margin: 0 0 0.6rem 0;
+    color: #666;
+    font-size: 0.92rem;
+    line-height: 1.3;
 }
 
 /* Precio / meta info */
 .plato-meta {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .plato-price {
-  color: #B87333; /* CAMBIO: Precio en Dorado/Cobre */
-  font-weight: 700;
-  font-size: 1rem;
+    /* 🔥 CAMBIO DE COLOR: Precio en Rojo Vibrante */
+    color: #F75555; 
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 /* ===== Hover & Focus refinado ===== */
-.plato-card:focus,
-.plato-card:active {
-  outline: none;
-  /* CAMBIO: Sombra de focus en Dorado/Cobre transparente */
-  box-shadow: 0 0 0 3px rgba(184, 115, 51, 0.25); 
-  text-decoration: none;
+.plato-card:focus {
+    outline: none;
+    /* 🔥 CAMBIO DE COLOR: Sombra de focus en Rojo Vibrante transparente */
+    box-shadow: 0 0 0 3px rgba(247, 85, 85, 0.4); 
+    text-decoration: none;
 }
 
 /* ===== Responsivo ===== */
 @media (max-width: 720px) {
-  .platos-grid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-  .platos-section {
-    padding: 1.25rem;
-    margin-top: 30px;
-  }
-  .plato-img {
-    height: 130px;
-  }
+    .platos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .platos-section {
+        padding: 1.25rem;
+        margin-top: 30px;
+    }
+    .plato-img {
+        height: 130px;
+    }
+}
+/* ==================================== */
+/* 1. ANIMACIÓN SHIMMER */
+/* ==================================== */
+
+@keyframes shimmer {
+    /* Define el punto de inicio y fin del degradado animado */
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+/* ==================================== */
+/* 2. ESTILOS DEL SKELETON PARA PLATOS */
+/* ==================================== */
+
+.skeleton-plato-card {
+    /* Hereda estilos de .plato-card (sombra, bordes) pero anula el cursor */
+    cursor: default !important; 
+    
+    /* 🔥 Configuración de la animación SHIMMER */
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+
+    /* 🔥 FONDOS MÁS CLAROS: Consistencia con CategoriesSection */
+    background: #e9e9e9; 
+    background-image: linear-gradient(to right, #e9e9e9 0%, #fefefe 20%, #e9e9e9 40%);
+    background-size: 1000px 100%; 
+    
+    /* Asegúrate de que no haya transformaciones o sombras al hacer hover */
+    pointer-events: none;
+    transform: none !important;
+    box-shadow: 0 6px 18px rgba(13, 13, 13, 0.03) !important; /* Sombra sutil pero sin color */
+}
+
+/* Placeholder para la imagen del plato/logo */
+.skeleton-plato-img {
+    width: 100%;
+    height: 150px; 
+    /* 🔥 COLOR MÁS CLARO: Consistencia con CategoriesSection */
+    background-color: #dcdcdc;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Contenedor del texto para padding */
+.skeleton-plato-text-group {
+    padding: 10px 15px;
+}
+
+/* Placeholder para el título (h3) */
+.skeleton-plato-title {
+    width: 85%;
+    height: 20px;
+    background-color: #b0b0b0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Placeholder para la primera línea de descripción (p) */
+.skeleton-plato-desc {
+    width: 95%;
+    height: 14px;
+    background-color: #c9c9c9;
+    border-radius: 3px;
+    margin-bottom: 8px;
+}
+
+/* Placeholder para la segunda línea de descripción (p) */
+.skeleton-plato-desc.short {
+    width: 60%;
+    height: 14px;
 }

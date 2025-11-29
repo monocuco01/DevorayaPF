@@ -13,6 +13,7 @@ import { Analytics } from "@vercel/analytics/react";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import UserOrders from "./pages/UserProfile/UserOrders";
 import { AdminPanel } from "./pages/AdminPanel/AdminPanel";
+import SearchResults from "./pages/SearchResults/SearchResults";
 function AppContent() {
   const location = useLocation();
   const currentPath = location.pathname;
@@ -40,6 +41,7 @@ function AppContent() {
       {shouldShowNavBar && <Navbar />} 
 
       <Routes>
+        <Route path="/buscar/:termino" element={<SearchResults />} />
         <Route path="/" element={<Home />} />
         <Route path="/restaurant/:id" element={<Restaurant />} />
         <Route path="/categoria/:nombre" element={<CategoriaPage />} />

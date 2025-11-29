@@ -14,17 +14,66 @@ const PRICE_FILTERS = [
     { label: "$$$ Alto", value: "high" },   // Precio > 30000
 ];
 
-// ⏱️ Frecuencia de refresco para el estado del comercio (en milisegundos)
-const REFRESH_INTERVAL = 30000; // 30 segundos
+// ⏱️ Frecuencia de refresco para el estado del comercio (30 segundos)
+const REFRESH_INTERVAL = 30000; 
 
+// ===========================================
+// 🦴 COMPONENTES SKELETON (Efecto de Carga)
+// ===========================================
+
+// 1. Skeleton para la Cabecera
+const RestaurantHeaderSkeleton = () => (
+    <div className="restaurant-header skeleton-header">
+        <div className="restaurant-img skeleton-img-lg"></div>
+        <div className="restaurant-info">
+            <div className="info-title skeleton-text-title"></div>
+            <div className="info-description skeleton-text-md"></div>
+            <div className="info-description skeleton-text-sm"></div>
+            
+            <div className="info-key-details" style={{ marginTop: '20px' }}>
+                <div className="detail-item skeleton-text-sm"></div>
+                <div className="detail-item skeleton-text-sm"></div>
+                <div className="detail-item skeleton-text-sm"></div>
+            </div>
+            
+            <div className="info-badges">
+                 <div className="badge skeleton-badge"></div>
+                 <div className="badge skeleton-badge"></div>
+            </div>
+        </div>
+    </div>
+);
+
+// 2. Skeleton para las Tarjetas de Plato
+const PlatoCardSkeleton = ({ index }) => (
+    <div key={index} className="plato-card skeleton-card">
+        <div className="plato-img skeleton-plato-img"></div>
+        <div className="skeleton-text-group">
+            <div className="skeleton-plato-title"></div>
+            <div className="skeleton-plato-desc"></div>
+            <div className="skeleton-plato-price"></div>
+        </div>
+    </div>
+);
+
+// Cantidad de platos falsos a mostrar cargando
+const SKELETON_PLATO_COUNT = 6;
+const skeletonPlatoArray = Array.from({ length: SKELETON_PLATO_COUNT });
+
+
+// ===========================================
+// 🚀 COMPONENTE PRINCIPAL
+// ===========================================
 function Restaurant() {
     const { id } = useParams();
     const [comercio, setComercio] = useState(null);
     const [platos, setPlatos] = useState([]);
-    const [loading, setLoading] = useState(true);
+    
+    const [loading, setLoading] = useState(true); // Estado de carga
+    
     const [platoSeleccionado, setPlatoSeleccionado] = useState(null);
     const { agregarProducto } = useCarrito();
-    const [cantidad, setCantidad] = useState(1);
+    
     // 🆕 ESTADO DE FILTROS
     const [filtroDestacado, setFiltroDestacado] = useState(false);
     const [filtroPrecio, setFiltroPrecio] = useState("all");
@@ -34,12 +83,11 @@ function Restaurant() {
         try {
             if (isInitialLoad) setLoading(true); 
 
-            // 1. Obtener datos del Comercio (incluyendo el estado 'estado')
+            // 1. Obtener datos del Comercio
             const { data: comercioData } = await api.get(`/comercios/${id}`);
-            
-            // console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", comercioData);
             setComercio(comercioData);
-console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", comercioData);
+            // console.log("🚩 Datos del Comercio:", comercioData);
+
             // 2. Obtener datos de los Platos
             if (isInitialLoad || platos.length === 0) {
                  const { data: platosData } = await api.get(`/platos/${id}`);
@@ -57,53 +105,36 @@ console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", co
         // Ejecutamos la carga inicial
         fetchData(true);
 
-        // 🆕 Establecer el intervalo de refresco para el estado del comercio
+        // Intervalo de refresco
         const intervalId = setInterval(() => {
             fetchData(false);
         }, REFRESH_INTERVAL);
 
-        // 🧹 FUNCIÓN DE LIMPIEZA
         return () => clearInterval(intervalId);
     }, [id]);
 
     // 🔹 Lógica para generar la lista de Métodos de Pago
     const metodosDePago = [];
-    if (comercio && comercio.acepta_pago_contraentrega) {
-        metodosDePago.push("Contra Entrega");
-    }
-    if (comercio && comercio.acepta_pago_online) {
-        metodosDePago.push("Pago Online");
-    }
+    if (comercio && comercio.acepta_pago_contraentrega) metodosDePago.push("Contra Entrega");
+    if (comercio && comercio.acepta_pago_online) metodosDePago.push("Pago Online");
+    
     const metodosDePagoDisplay = metodosDePago.length > 0 ? metodosDePago.join(" / ") : "Efectivo";
-
 
     // 🆕 LÓGICA DE FILTRADO
     const platosFiltrados = platos.filter(plato => {
-        if (filtroDestacado && !plato.destacado) {
-            return false;
-        }
+        if (filtroDestacado && !plato.destacado) return false;
 
         if (filtroPrecio !== "all") {
             const precio = plato.precio;
             switch (filtroPrecio) {
-                case "low":
-                    if (precio > 15000) return false;
-                    break;
-                case "medium":
-                    if (precio <= 15000 || precio > 30000) return false;
-                    break;
-                case "high":
-                    if (precio <= 30000) return false;
-                    break;
-                default:
-                    break;
+                case "low": if (precio > 15000) return false; break;
+                case "medium": if (precio <= 15000 || precio > 30000) return false; break;
+                case "high": if (precio <= 30000) return false; break;
+                default: break;
             }
         }
         return true;
     });
-
-    if (loading) return <p className="text-center">Cargando restaurante...</p>;
-    if (!comercio) return <div className="not-found">Restaurante no encontrado 😕</div>;
 
     // 🔹 Función para agregar al carrito
     const handleAddToCart = (plato, cantidad = 1) => {
@@ -114,65 +145,88 @@ console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", co
         });
     };
 
+    // ===========================================
+    // 💀 RENDERIZADO DEL SKELETON LOADER
+    // ===========================================
+    if (loading) {
+        return (
+            <div className="restaurant-page">
+                {/* Skeleton del Header */}
+                <RestaurantHeaderSkeleton />
+                
+                <h2 className="menu-title"> Menú de Platos</h2>
+                
+                {/* Skeleton de la barra de filtros */}
+                <div className="filter-bar">
+                    <div className="filter-button skeleton-filter-btn"></div>
+                    <div className="filter-select skeleton-filter-btn"></div>
+                </div>
+
+                {/* Grid de Platos Skeleton */}
+                <div className="menu-grid">
+                    {skeletonPlatoArray.map((_, i) => (
+                        <PlatoCardSkeleton key={i} index={i} />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    // Validación si no existe comercio después de cargar
+    if (!comercio) return <div className="not-found">Restaurante no encontrado 😕</div>;
+
+    // ===========================================
+    // ✅ RENDERIZADO DEL CONTENIDO REAL
+    // ===========================================
     return (
         <div className="restaurant-page">
             <div className="restaurant-header">
                 <img src={comercio.logo} alt={comercio.nombre} className="restaurant-img" />
-             <div className="restaurant-info">
-                {/* 1. Título y Descripción Principal */}
-                <h1 className="info-title">{comercio.nombre}</h1>
-                <p className="info-description">{comercio.descripcion}</p>
+                <div className="restaurant-info">
+                    {/* 1. Título y Descripción */}
+                    <h1 className="info-title">{comercio.nombre}</h1>
+                    <p className="info-description">{comercio.descripcion}</p>
 
-                {/* 2. Información Clave con Iconos */}
-                <div className="info-key-details">
-                    <div className="detail-item">
-                        <span className="icon">📍</span>
-                        <p className="detail-text">{comercio.direccion}</p>
+                    {/* 2. Información Clave */}
+                    <div className="info-key-details">
+                        <div className="detail-item">
+                            <span className="icon">📍</span>
+                            <p className="detail-text">{comercio.direccion}</p>
+                        </div>
+                        <div className="detail-item">
+                            <span className="icon">⏰</span>
+                            <p className="detail-text">{comercio.horario_apertura} - {comercio.horario_cierre}</p>
+                        </div>
+                        <div className="detail-item">
+                            <span className="icon">🛵</span>
+                            <p className="detail-text">
+                                {comercio.tiempo_promedio_entrega || "No especificado"} min 
+                            </p>
+                        </div>
                     </div>
-                    <div className="detail-item">
-                        <span className="icon">⏰</span>
-                        <p className="detail-text">{comercio.horario_apertura} - {comercio.horario_cierre}</p>
-                    </div>
-                    <div className="detail-item">
-                        <span className="icon">🛵</span>
-                        <p className="detail-text">
-                            {comercio.tiempo_promedio_entrega || "No especificado"} min 
-                            
-                        </p>
+
+                    {/* 3. Tags y Badges */}
+                    <div className="info-badges">
+                        <span className="badge category-badge">
+                            {comercio.Categorium?.nombre || "General"}
+                        </span>
+                        <span className="badge payment-badge">
+                            💳 {metodosDePagoDisplay}
+                        </span>
+                        <span className="badge service-badge">
+                            {comercio.tipo_servicio === 'domicilio' ? '🛵 Domicilio' : '🛍️ Recoger'}
+                        </span>
+                        <span className={`badge status-badge ${comercio.estado ? "status-open" : "status-closed"}`}>
+                            {comercio.estado ? "🟢 Abierto Ahora" : "🔴 Cerrado"}
+                        </span>
                     </div>
                 </div>
-
-                {/* 3. Tags y Badges para Info Secundaria/Estado */}
-                <div className="info-badges">
-                    {/* Badge de Categoría */}
-                    <span className="badge category-badge">
-                        {comercio.Categorium?.nombre || "General"}
-                    </span>
-
-                    {/* 💳 Badge de Métodos de Pago */}
-                    <span className="badge payment-badge">
-                        💳 {metodosDePagoDisplay}
-                    </span>
-                    
-                    {/* 🛵 Badge de Tipo de Servicio */}
-                    <span className="badge service-badge">
-                        {comercio.tipo_servicio === 'domicilio' ? '🛵 Domicilio' : '🛍️ Recoger'}
-                    </span>
-
-                    {/* 🟢 Badge de Estado (CORREGIDO) */}
-                    <span className={`badge status-badge ${comercio.estado ? "status-open" : "status-closed"}`}>
-                        {comercio.estado ? "🟢 Abierto Ahora" : "🔴 Cerrado"}
-                    </span>
-                </div>
-            </div>
-
             </div>
 
             <h2 className="menu-title"> Menú de Platos</h2>
 
-            {/* BARRA DE FILTROS AL ESTILO CHIP */}
+            {/* BARRA DE FILTROS */}
             <div className="filter-bar">
-                
                 <button 
                     onClick={() => setFiltroDestacado(!filtroDestacado)}
                     className={`filter-button destacados-button ${filtroDestacado ? 'active' : ''}`}
@@ -204,8 +258,8 @@ console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", co
                     </button>
                 )}
             </div>
-            {/* FIN BARRA DE FILTROS */}
 
+            {/* GRID DE PLATOS */}
             <div className="menu-grid">
                 {platosFiltrados.length > 0 ? (
                     platosFiltrados.map((plato) => (
@@ -225,14 +279,13 @@ console.log("🚩 Datos del Comercio Recibidos (incluyendo estado Abierto):", co
                         </div>
                     ))
                 ) : (
-                    <p className="no-platos">No hay platos que coincidan con los filtros aplicados. </p>
+                    <p className="no-platos">No hay platos que coincidan con los filtros aplicados.</p>
                 )}
-                
             </div>
 
             <Link to="/" className="back-btn">⬅ Volver al inicio</Link>
 
-            {/* 🔹 Modal */}
+            {/* MODAL DE PLATO */}
             {platoSeleccionado && (
                 <PlatoModal
                     plato={platoSeleccionado}
