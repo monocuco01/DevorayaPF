@@ -1,13 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Swal from "sweetalert2";
 import "./Menu.css";
 import api from "../../../api/api";
 
-// 🔥 Aseguramos que SweetAlert esté siempre sobre todo
+// 🔥 SweetAlert siempre encima
 Swal.mixin({
-  customClass: {
-    popup: "swal-super-top",
-  },
+  customClass: { popup: "swal-super-top" },
 });
 
 const style = document.createElement("style");
@@ -29,10 +27,32 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
       imagen: "",
       disponible: true,
       destacado: false,
-      menu_id: 1,
+      menu_id: null,        // ← se llenará automáticamente
       comercio_id,
     }
   );
+
+  // 🚀 OBTENER AUTOMÁTICAMENTE EL menu_id DEL COMERCIO
+  useEffect(() => {
+    const cargarMenu = async () => {
+      try {
+        const { data } = await api.get(`/comercios/${comercio_id}`);
+
+        if (data?.Menus?.length > 0) {
+          const menuIdReal = data.Menus[0].id;
+
+          setPlato((prev) => ({
+            ...prev,
+            menu_id: menuIdReal,
+          }));
+        }
+      } catch (error) {
+        console.error("❌ Error cargando menú:", error);
+      }
+    };
+
+    if (!platoEditar) cargarMenu();
+  }, [comercio_id, platoEditar]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,7 +62,7 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
     });
   };
 
-  // 🚀 ABRIR CLOUDINARY WIDGET
+  // 🚀 CLOUDINARY
   const openWidget = () => {
     const cloudinaryConfig = {
       cloudName: "dziwyqnqk",

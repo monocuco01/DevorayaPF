@@ -75,7 +75,7 @@ const ComercioForm = ({ onCreationSuccess, onCancel }) => {
 
             // 2️⃣ Crear menú automático asociado a ese comercio
             await api.post('/menus', {
-                nombre: "Menú Principal",
+                nombre: "Menú Principals",
                 descripcion: "Menú generado automáticamente",
                 comercio_id: comercioId
             }, {
