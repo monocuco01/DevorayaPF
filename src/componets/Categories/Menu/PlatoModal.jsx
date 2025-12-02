@@ -27,8 +27,9 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
       imagen: "",
       disponible: true,
       destacado: false,
-      menu_id: null,        // ← se llenará automáticamente
+      menu_id: null,        
       comercio_id,
+      categoria: "", // Campo de texto para categoría
     }
   );
 
@@ -37,20 +38,13 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
     const cargarMenu = async () => {
       try {
         const { data } = await api.get(`/comercios/${comercio_id}`);
-
         if (data?.Menus?.length > 0) {
-          const menuIdReal = data.Menus[0].id;
-
-          setPlato((prev) => ({
-            ...prev,
-            menu_id: menuIdReal,
-          }));
+          setPlato((prev) => ({ ...prev, menu_id: data.Menus[0].id }));
         }
       } catch (error) {
         console.error("❌ Error cargando menú:", error);
       }
     };
-
     if (!platoEditar) cargarMenu();
   }, [comercio_id, platoEditar]);
 
@@ -159,6 +153,15 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
             required
           />
 
+          {/* Campo de texto para categoría */}
+          <input
+            type="text"
+            name="categoria"
+            value={plato.categoria}
+            onChange={handleChange}
+            placeholder="Categoría del plato"
+          />
+
           {/* Imagen */}
           <div className="imagen-input-group">
             <input
@@ -168,7 +171,6 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
               onChange={handleChange}
               placeholder="URL de la imagen"
             />
-
             <button
               type="button"
               className="subir-imagen-btn"

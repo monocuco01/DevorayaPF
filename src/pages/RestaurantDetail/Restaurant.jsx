@@ -6,7 +6,6 @@ import { useCarrito } from "../../componets/Cart/CarritoContext.jsx";
 import { toast } from "react-toastify";
 import "./Restaurant.css";
 
-// 🔹 Constante para los filtros de precio
 const PRICE_FILTERS = [
     { label: "Todos los precios", value: "all" },
     { label: "$ Económico", value: "low" },
@@ -14,11 +13,8 @@ const PRICE_FILTERS = [
     { label: "$$$ Alto", value: "high" },
 ];
 
-// ⏱️ Frecuencia de refresco
 const REFRESH_INTERVAL = 30000; 
 
-// ===========================================
-// 🦴 COMPONENTES SKELETON
 const RestaurantHeaderSkeleton = () => (
     <div className="restaurant-header skeleton-header">
         <div className="restaurant-img skeleton-img-lg"></div>
@@ -55,9 +51,6 @@ const PlatoCardSkeleton = ({ index }) => (
 const SKELETON_PLATO_COUNT = 6;
 const skeletonPlatoArray = Array.from({ length: SKELETON_PLATO_COUNT });
 
-// ===========================================
-// 🚀 COMPONENTE PRINCIPAL
-// ===========================================
 function Restaurant() {
     const { id } = useParams();
     const [comercio, setComercio] = useState(null);
@@ -69,16 +62,12 @@ function Restaurant() {
     const [filtroDestacado, setFiltroDestacado] = useState(false);
     const [filtroPrecio, setFiltroPrecio] = useState("all");
 
-    // ===========================================
-    // ✅ FORMATEO DE MONEDA SIN DECIMALES
     const formatCurrency = (amount) => {
         if (!amount) return "$0";
         const valorEntero = Math.floor(Number(amount));
         return "$" + valorEntero.toLocaleString('es-CO');
     };
 
-    // ===========================================
-    // FUNCIÓN PARA CARGAR DATOS
     const fetchData = async (isInitialLoad = false) => {
         try {
             if (isInitialLoad) setLoading(true);
@@ -103,13 +92,11 @@ function Restaurant() {
         return () => clearInterval(intervalId);
     }, [id]);
 
-    // Métodos de pago
     const metodosDePago = [];
     if (comercio?.acepta_pago_contraentrega) metodosDePago.push("Contra Entrega");
     if (comercio?.acepta_pago_online) metodosDePago.push("Pago Online");
     const metodosDePagoDisplay = metodosDePago.length > 0 ? metodosDePago.join(" / ") : "Efectivo";
 
-    // Filtrado de platos
     const platosFiltrados = platos.filter(plato => {
         if (filtroDestacado && !plato.destacado) return false;
 
@@ -129,6 +116,14 @@ function Restaurant() {
         agregarProducto(plato, cantidad);
         toast.success(`${plato.nombre} agregado al carrito!`, { position: "top-right", autoClose: 2000 });
     };
+
+    // Agrupar platos por categoría
+    const platosPorCategoria = platosFiltrados.reduce((acc, plato) => {
+        const cat = plato.categoria || "General";
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(plato);
+        return acc;
+    }, {});
 
     if (loading) {
         return (
@@ -196,21 +191,23 @@ function Restaurant() {
                 )}
             </div>
 
-            <div className="menu-grid">
-                {platosFiltrados.length > 0 ? (
-                    platosFiltrados.map(plato => (
-                        <div key={plato.id} className="plato-card" onClick={() => setPlatoSeleccionado(plato)}>
-                            <img src={plato.imagen} alt={plato.nombre} className="plato-img" />
-                            <h3>{plato.nombre}</h3>
-                            <p>{plato.descripcion}</p>
-                            <p className="plato-precio">{formatCurrency(plato.precio)}</p>
-                            {plato.destacado && <span className="plato-tag">⭐ Destacado</span>}
-                        </div>
-                    ))
-                ) : (
-                    <p className="no-platos">No hay platos que coincidan con los filtros aplicados.</p>
-                )}
-            </div>
+            {/* Renderizar platos agrupados por categoría */}
+            {Object.keys(platosPorCategoria).map(categoria => (
+                <div key={categoria} className="categoria-section">
+                    <h3 className="categoria-title">{categoria}</h3>
+                    <div className="menu-grid">
+                        {platosPorCategoria[categoria].map(plato => (
+                            <div key={plato.id} className="plato-card" onClick={() => setPlatoSeleccionado(plato)}>
+                                <img src={plato.imagen} alt={plato.nombre} className="plato-img" />
+                                <h3>{plato.nombre}</h3>
+                                <p>{plato.descripcion}</p>
+                                <p className="plato-precio">{formatCurrency(plato.precio)}</p>
+                                {plato.destacado && <span className="plato-tag">⭐ Destacado</span>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
 
             <Link to="/" className="back-btn">⬅ Volver al inicio</Link>
 
