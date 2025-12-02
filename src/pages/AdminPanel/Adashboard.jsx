@@ -6,22 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './Adashboard.css'; 
 
-// 🚨 IMPORTACIONES DE FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-    faUsers,       // Para Usuarios
-    faStore,       // Para Comercios
-    faClock,       // Para Pedidos Pendientes
-    faDollarSign,  // Para Ingresos
-    faChartBar     // Icono general para el título
+    faUsers,       
+    faStore,       
+    faClock,       
+    faDollarSign,  
+    faChartBar     
 } from '@fortawesome/free-solid-svg-icons';
 
-
-// Componente KpiCard para renderizar las estadísticas
 const KpiCard = ({ title, value, icon, color }) => (
     <div className="kpi-card" style={{ borderLeft: `5px solid ${color}` }}>
         <div className="kpi-icon" style={{ backgroundColor: color }}>
-            {/* Renderizamos el icono de Font Awesome con color blanco */}
             <FontAwesomeIcon icon={icon} style={{ color: 'white' }} /> 
         </div>
         <div className="kpi-info">
@@ -31,10 +27,7 @@ const KpiCard = ({ title, value, icon, color }) => (
     </div>
 );
 
-
-// 💡 USO DE EXPORT DEFAULT
 const Adashboard = () => {
-    // Estado inicial que coincide con el endpoint del backend (obtenerKpisAdmin)
     const [kpis, setKpis] = useState({
         totalUsuarios: 0,
         totalComercios: 0,
@@ -45,7 +38,6 @@ const Adashboard = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // Función para formatear moneda (asumiendo COP, como en la sugerencia anterior)
     const formatCurrency = (amount) => {
         return (amount ?? 0).toLocaleString('es-CO', { 
             style: 'currency', 
@@ -54,15 +46,12 @@ const Adashboard = () => {
         });
     };
 
-    // 🔄 Lógica de carga de estadísticas
     useEffect(() => {
         const fetchKpis = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const { data } = await api.get('/admin', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
                 
                 setKpis(data);
@@ -70,8 +59,6 @@ const Adashboard = () => {
 
             } catch (err) {
                 console.error("Error al cargar los KPIs del administrador:", err.response?.data || err.message);
-                
-                // Manejo de error de autenticación/autorización
                 if (err.response?.status === 401 || err.response?.status === 403) {
                      Swal.fire({
                         icon: 'error',
@@ -93,20 +80,17 @@ const Adashboard = () => {
         fetchKpis();
     }, [navigate]);
 
-    if (loading) {
-        return <div className="section-card">Cargando indicadores del sistema...</div>;
-    }
+    if (loading) return <div className="section-card">Cargando indicadores del sistema...</div>;
+    if (error) return <div className="section-card error-message">{error}</div>;
 
-    if (error) {
-        return <div className="section-card error-message">{error}</div>;
-    }
+    // ✅ Calcular 5% de comisión
+    const ingresosComision = kpis.totalIngresos * 0.05;
 
     return (
         <div className="admin-dashboard">
             <h2><FontAwesomeIcon icon={faChartBar} /> Resumen del Sistema</h2>
 
             <div className="kpi-grid">
-                
                 <KpiCard
                     title="Total de Usuarios"
                     value={kpis.totalUsuarios.toLocaleString()}
@@ -129,10 +113,17 @@ const Adashboard = () => {
                 />
 
                 <KpiCard
-                    title="Ingresos Totales (Est.)"
-                    value={formatCurrency(kpis.totalIngresos)}
+                    title="Ingresos Totales (5% comisión)"
+                    value={formatCurrency(ingresosComision)}
                     icon={faDollarSign}
                     color="#27ae60"
+                />
+
+                <KpiCard
+                    title="Ingresos Brutos Totales"
+                    value={formatCurrency(kpis.totalIngresos)}
+                    icon={faDollarSign}
+                    color="#8e44ad"
                 />
             </div>
             

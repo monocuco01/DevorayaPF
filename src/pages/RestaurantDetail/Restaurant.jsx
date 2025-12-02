@@ -9,19 +9,16 @@ import "./Restaurant.css";
 // 🔹 Constante para los filtros de precio
 const PRICE_FILTERS = [
     { label: "Todos los precios", value: "all" },
-    { label: "$ Económico", value: "low" },   // Precio <= 15000
-    { label: "$$ Medio", value: "medium" }, // 15000 < Precio <= 30000
-    { label: "$$$ Alto", value: "high" },   // Precio > 30000
+    { label: "$ Económico", value: "low" },
+    { label: "$$ Medio", value: "medium" },
+    { label: "$$$ Alto", value: "high" },
 ];
 
-// ⏱️ Frecuencia de refresco para el estado del comercio (30 segundos)
+// ⏱️ Frecuencia de refresco
 const REFRESH_INTERVAL = 30000; 
 
 // ===========================================
-// 🦴 COMPONENTES SKELETON (Efecto de Carga)
-// ===========================================
-
-// 1. Skeleton para la Cabecera
+// 🦴 COMPONENTES SKELETON
 const RestaurantHeaderSkeleton = () => (
     <div className="restaurant-header skeleton-header">
         <div className="restaurant-img skeleton-img-lg"></div>
@@ -44,7 +41,6 @@ const RestaurantHeaderSkeleton = () => (
     </div>
 );
 
-// 2. Skeleton para las Tarjetas de Plato
 const PlatoCardSkeleton = ({ index }) => (
     <div key={index} className="plato-card skeleton-card">
         <div className="plato-img skeleton-plato-img"></div>
@@ -56,10 +52,8 @@ const PlatoCardSkeleton = ({ index }) => (
     </div>
 );
 
-// Cantidad de platos falsos a mostrar cargando
 const SKELETON_PLATO_COUNT = 6;
 const skeletonPlatoArray = Array.from({ length: SKELETON_PLATO_COUNT });
-
 
 // ===========================================
 // 🚀 COMPONENTE PRINCIPAL
@@ -68,32 +62,34 @@ function Restaurant() {
     const { id } = useParams();
     const [comercio, setComercio] = useState(null);
     const [platos, setPlatos] = useState([]);
-    
-    const [loading, setLoading] = useState(true); // Estado de carga
-    
+    const [loading, setLoading] = useState(true);
     const [platoSeleccionado, setPlatoSeleccionado] = useState(null);
     const { agregarProducto } = useCarrito();
-    
-    // 🆕 ESTADO DE FILTROS
+
     const [filtroDestacado, setFiltroDestacado] = useState(false);
     const [filtroPrecio, setFiltroPrecio] = useState("all");
 
-    // 🚩 FUNCIÓN CENTRAL PARA OBTENER DATOS
+    // ===========================================
+    // ✅ FORMATEO DE MONEDA SIN DECIMALES
+    const formatCurrency = (amount) => {
+        if (!amount) return "$0";
+        const valorEntero = Math.floor(Number(amount));
+        return "$" + valorEntero.toLocaleString('es-CO');
+    };
+
+    // ===========================================
+    // FUNCIÓN PARA CARGAR DATOS
     const fetchData = async (isInitialLoad = false) => {
         try {
-            if (isInitialLoad) setLoading(true); 
+            if (isInitialLoad) setLoading(true);
 
-            // 1. Obtener datos del Comercio
             const { data: comercioData } = await api.get(`/comercios/${id}`);
             setComercio(comercioData);
-            // console.log("🚩 Datos del Comercio:", comercioData);
 
-            // 2. Obtener datos de los Platos
             if (isInitialLoad || platos.length === 0) {
-                 const { data: platosData } = await api.get(`/platos/${id}`);
-                 setPlatos(platosData);
+                const { data: platosData } = await api.get(`/platos/${id}`);
+                setPlatos(platosData);
             }
-           
         } catch (error) {
             console.error("Error al obtener los datos del restaurante:", error);
         } finally {
@@ -102,30 +98,23 @@ function Restaurant() {
     };
 
     useEffect(() => {
-        // Ejecutamos la carga inicial
         fetchData(true);
-
-        // Intervalo de refresco
-        const intervalId = setInterval(() => {
-            fetchData(false);
-        }, REFRESH_INTERVAL);
-
+        const intervalId = setInterval(() => fetchData(false), REFRESH_INTERVAL);
         return () => clearInterval(intervalId);
     }, [id]);
 
-    // 🔹 Lógica para generar la lista de Métodos de Pago
+    // Métodos de pago
     const metodosDePago = [];
-    if (comercio && comercio.acepta_pago_contraentrega) metodosDePago.push("Contra Entrega");
-    if (comercio && comercio.acepta_pago_online) metodosDePago.push("Pago Online");
-    
+    if (comercio?.acepta_pago_contraentrega) metodosDePago.push("Contra Entrega");
+    if (comercio?.acepta_pago_online) metodosDePago.push("Pago Online");
     const metodosDePagoDisplay = metodosDePago.length > 0 ? metodosDePago.join(" / ") : "Efectivo";
 
-    // 🆕 LÓGICA DE FILTRADO
+    // Filtrado de platos
     const platosFiltrados = platos.filter(plato => {
         if (filtroDestacado && !plato.destacado) return false;
 
         if (filtroPrecio !== "all") {
-            const precio = plato.precio;
+            const precio = Number(plato.precio);
             switch (filtroPrecio) {
                 case "low": if (precio > 15000) return false; break;
                 case "medium": if (precio <= 15000 || precio > 30000) return false; break;
@@ -136,58 +125,37 @@ function Restaurant() {
         return true;
     });
 
-    // 🔹 Función para agregar al carrito
     const handleAddToCart = (plato, cantidad = 1) => {
         agregarProducto(plato, cantidad);
-        toast.success(`${plato.nombre} agregado al carrito!`, {
-            position: "top-right",
-            autoClose: 2000,
-        });
+        toast.success(`${plato.nombre} agregado al carrito!`, { position: "top-right", autoClose: 2000 });
     };
 
-    // ===========================================
-    // 💀 RENDERIZADO DEL SKELETON LOADER
-    // ===========================================
     if (loading) {
         return (
             <div className="restaurant-page">
-                {/* Skeleton del Header */}
                 <RestaurantHeaderSkeleton />
-                
                 <h2 className="menu-title"> Menú de Platos</h2>
-                
-                {/* Skeleton de la barra de filtros */}
                 <div className="filter-bar">
                     <div className="filter-button skeleton-filter-btn"></div>
                     <div className="filter-select skeleton-filter-btn"></div>
                 </div>
-
-                {/* Grid de Platos Skeleton */}
                 <div className="menu-grid">
-                    {skeletonPlatoArray.map((_, i) => (
-                        <PlatoCardSkeleton key={i} index={i} />
-                    ))}
+                    {skeletonPlatoArray.map((_, i) => <PlatoCardSkeleton key={i} index={i} />)}
                 </div>
             </div>
         );
     }
 
-    // Validación si no existe comercio después de cargar
     if (!comercio) return <div className="not-found">Restaurante no encontrado 😕</div>;
 
-    // ===========================================
-    // ✅ RENDERIZADO DEL CONTENIDO REAL
-    // ===========================================
     return (
         <div className="restaurant-page">
             <div className="restaurant-header">
                 <img src={comercio.logo} alt={comercio.nombre} className="restaurant-img" />
                 <div className="restaurant-info">
-                    {/* 1. Título y Descripción */}
                     <h1 className="info-title">{comercio.nombre}</h1>
                     <p className="info-description">{comercio.descripcion}</p>
 
-                    {/* 2. Información Clave */}
                     <div className="info-key-details">
                         <div className="detail-item">
                             <span className="icon">📍</span>
@@ -199,20 +167,13 @@ function Restaurant() {
                         </div>
                         <div className="detail-item">
                             <span className="icon">🛵</span>
-                            <p className="detail-text">
-                                {comercio.tiempo_promedio_entrega || "No especificado"} min 
-                            </p>
+                            <p className="detail-text">{comercio.tiempo_promedio_entrega || "No especificado"} min </p>
                         </div>
                     </div>
 
-                    {/* 3. Tags y Badges */}
                     <div className="info-badges">
-                        <span className="badge category-badge">
-                            {comercio.Categorium?.nombre || "General"}
-                        </span>
-                        <span className="badge payment-badge">
-                            💳 {metodosDePagoDisplay}
-                        </span>
+                        <span className="badge category-badge">{comercio.Categorium?.nombre || "General"}</span>
+                        <span className="badge payment-badge">💳 {metodosDePagoDisplay}</span>
                         <span className="badge service-badge">
                             {comercio.tipo_servicio === 'domicilio' ? '🛵 Domicilio' : '🛍️ Recoger'}
                         </span>
@@ -225,56 +186,24 @@ function Restaurant() {
 
             <h2 className="menu-title"> Menú de Platos</h2>
 
-            {/* BARRA DE FILTROS */}
             <div className="filter-bar">
-                <button 
-                    onClick={() => setFiltroDestacado(!filtroDestacado)}
-                    className={`filter-button destacados-button ${filtroDestacado ? 'active' : ''}`}
-                >
-                    ⭐ Destacados
-                </button>
-                
-                <select 
-                    onChange={(e) => setFiltroPrecio(e.target.value)}
-                    value={filtroPrecio}
-                    className="filter-select"
-                >
-                    {PRICE_FILTERS.map(filter => (
-                        <option key={filter.value} value={filter.value}>
-                            {filter.label}
-                        </option>
-                    ))}
+                <button onClick={() => setFiltroDestacado(!filtroDestacado)} className={`filter-button destacados-button ${filtroDestacado ? 'active' : ''}`}>⭐ Destacados</button>
+                <select onChange={(e) => setFiltroPrecio(e.target.value)} value={filtroPrecio} className="filter-select">
+                    {PRICE_FILTERS.map(filter => <option key={filter.value} value={filter.value}>{filter.label}</option>)}
                 </select>
-
                 {(filtroDestacado || filtroPrecio !== 'all') && (
-                    <button 
-                        onClick={() => {
-                            setFiltroDestacado(false);
-                            setFiltroPrecio('all');
-                        }}
-                        className="reset-button"
-                    >
-                        ❌ Limpiar Filtros
-                    </button>
+                    <button onClick={() => { setFiltroDestacado(false); setFiltroPrecio('all'); }} className="reset-button">❌ Limpiar Filtros</button>
                 )}
             </div>
 
-            {/* GRID DE PLATOS */}
             <div className="menu-grid">
                 {platosFiltrados.length > 0 ? (
-                    platosFiltrados.map((plato) => (
-                        <div
-                            key={plato.id}
-                            className="plato-card"
-                            onClick={() => setPlatoSeleccionado(plato)}
-                        >
+                    platosFiltrados.map(plato => (
+                        <div key={plato.id} className="plato-card" onClick={() => setPlatoSeleccionado(plato)}>
                             <img src={plato.imagen} alt={plato.nombre} className="plato-img" />
                             <h3>{plato.nombre}</h3>
                             <p>{plato.descripcion}</p>
-                            
-                            <p className="plato-precio"> 
-                                ${plato.precio.toLocaleString()}
-                            </p>
+                            <p className="plato-precio">{formatCurrency(plato.precio)}</p>
                             {plato.destacado && <span className="plato-tag">⭐ Destacado</span>}
                         </div>
                     ))
@@ -285,13 +214,8 @@ function Restaurant() {
 
             <Link to="/" className="back-btn">⬅ Volver al inicio</Link>
 
-            {/* MODAL DE PLATO */}
             {platoSeleccionado && (
-                <PlatoModal
-                    plato={platoSeleccionado}
-                    onClose={() => setPlatoSeleccionado(null)}
-                    onAddToCart={handleAddToCart}
-                />
+                <PlatoModal plato={platoSeleccionado} onClose={() => setPlatoSeleccionado(null)} onAddToCart={handleAddToCart} />
             )}
         </div>
     );
