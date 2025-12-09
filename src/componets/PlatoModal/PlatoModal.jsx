@@ -26,7 +26,7 @@ function PlatoModal({ plato, onClose }) {
           </div>
 
           <div className="modal-info">
-            <h2>{plato.nombre}</h2>
+            <h1>{plato.nombre}</h1>
             <p className="modal-desc">{plato.descripcion}</p>
 
             <div className="modal-price">
