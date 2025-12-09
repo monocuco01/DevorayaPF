@@ -516,3 +516,113 @@
     margin-right: 10px;
     display: inline-block;
 }
+/* === CATEGORÍA NAV STICKY === */
+
+.categoria-nav {
+    display: flex;
+    gap: 12px;
+    padding: 12px 10px;
+    margin: 10px 0 25px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.categoria-nav::-webkit-scrollbar {
+    display: none;
+}
+
+/* Sticky */
+.categoria-nav.sticky {
+    position: sticky;
+    top: 60px;
+    z-index: 9999 !important;
+    background: white;
+}
+
+
+/* Botón categoría */
+.categoria-nav-btn {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #dcdcdc;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .25s ease-in-out;
+    white-space: nowrap;
+}
+
+.categoria-nav-btn:hover {
+    background: #f5f5f5;
+}
+
+/* Botón activo */
+.categoria-nav-btn.active {
+    background: #ff6b00;
+    color: white;
+    border-color: #ff6b00;
+}
+
+/* === TITULOS DE CATEGORÍAS === */
+
+.categoria-title {
+    font-size: 25px;
+    font-weight: 600;
+    margin: 30px 0 20px;
+
+}
+
+/* === SECCIÓN DE CATEGORÍA === */
+
+.categoria-section {
+    scroll-margin-top: 120px; /* ajuste para que no quede escondido debajo del sticky */
+}
+
+/* ==== RESTO DEL CSS ES TUYO (NO LO MODIFIQUÉ) ==== */
+
+/* Grid platos */
+.menu-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+/* Platos */
+.plato-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.plato-card:hover {
+    transform: translateY(-3px);
+}
+
+.plato-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.plato-tag {
+    margin-top: 8px;
+    font-size: 13px;
+    background: #ffe29a;
+    padding: 4px 10px;
+    border-radius: 10px;
+}
+
+/* Back button */
+.back-btn {
+    display: block;
+    text-align: center;
+    margin: 40px auto;
+    padding: 12px 20px;
+    background: #eee;
+    border-radius: 8px;
+    width: fit-content;
+}
