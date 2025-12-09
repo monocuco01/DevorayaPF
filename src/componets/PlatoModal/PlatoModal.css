@@ -1,204 +1,248 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
 
-.modal-contents {
-  background: #fff;
-  border-radius: 15px;
-  padding: 1rem;
-  width: 100%;
-  max-width: 950px;
-  height: 450px; /* ✅ Tamaño fijo en escritorio */
-  position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-}
+                    :root {
+                        --primary-color: #99622D; /* Color de acento (verde Rappi/Glovo) */
+                        --text-color: #000000; /* Texto claro */
+                        --bg-dark: #ffffff; /* Fondo principal oscuro */
+                        --modal-bg: #ffffff; /* Fondo del contenido del modal */
+                        --transition-duration: 0.4s;
+                    }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 10;
-}
+                    /* ================================================= */
+                    /* 1. OVERLAY Y ANIMACIÓN DE TRANSICIÓN */
+                    /* ================================================= */
 
-.modal-body {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
-  gap: 1rem;
-  height: 100%;
-}
+                    .modal-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0); /* Inicialmente invisible */
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 1000;
+                        pointer-events: none; /* No interactuable hasta que esté abierto */
+                        opacity: 0;
+                        transition: opacity var(--transition-duration) ease-in-out, 
+                                    background-color var(--transition-duration) ease-in-out;
+                    }
 
-.modal-img-container {
-  flex: 1;
-  max-width: 45%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+                    /* Estado ABIERTO del Overlay */
+                    .modal-overlay.is-open {
+                        opacity: 1;
+                        background-color: rgba(0, 0, 0, 0.75);
+                        pointer-events: auto; /* Permite clicks para cerrar */
+                    }
 
-.modal-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
-}
+                    /* Estilos iniciales del Contenido (fuera de pantalla, escalado y opacidad 0) */
+                    .modal-contents {
+                        background-color: var(--modal-bg);
+                        border-radius: 12px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                        max-width: 90%;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                        color: var(--text-color);
+                        position: relative;
+                        
+                        /* Animación: se desliza hacia arriba, se agranda y aparece */
+                        transform: translateY(50px) scale(0.9);
+                        opacity: 0;
+                        transition: transform var(--transition-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                                    opacity var(--transition-duration) ease-in-out;
+                    }
 
-.modal-info {
-  flex: 1;
-  max-width: 55%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.4rem;
-  height: 100%;
-  color: black;
-}
+                    /* Estado ABIERTO del Contenido */
+                    .modal-overlay.is-open .modal-contents {
+                        transform: translateY(0) scale(1);
+                        opacity: 1;
+                    }
 
-.modal-info h1 {
-  font-size: 1.7rem;
-  margin: 0;
-   margin-top: 10px;
-   color: black;
-}
+                    /* ================================================= */
+                    /* 2. LAYOUT Y ESTILOS INTERNOS */
+                    /* ================================================= */
 
-.modal-desc {
-  font-size: 0.9rem;
-  color: #555;
-  flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+                    .modal-body {
+                        display: flex;
+                        flex-direction: column; /* Por defecto apilado para móvil */
+                        padding: 20px;
+                        gap: 20px;
+                    }
 
-.modal-price {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+                    /* Contenedor de la Imagen */
+                    .modal-img-container {
+                        width: 100%;
+                        height: 250px;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        flex-shrink: 0; /* No se encoge en desktop */
+                    }
 
-.modal-quantity {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
-}
+                    .modal-img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    }
 
-.qty-btn {
-  background: #eee;
-  border: none;
-  padding: 0.3rem 0.8rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  border-radius: 5px;
-}
+                    /* Sección de Información */
+                    .modal-info {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                    }
 
-.add-btn {
-  margin-top: 0.6rem;
-  background: #ff5722;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
+                    .modal-info h1 {
+                        font-size: 1.8rem;
+                        font-weight: 700;
+                        margin: 0;
+                        line-height: 1.2;
+                    }
 
-.add-btn:hover {
-  background: #e64a19;
-}
+                    .modal-desc {
+                        font-size: 1rem;
+                        color: #807f7f;
+                        line-height: 1.5;
+                        margin-bottom: 10px;
+                    }
 
-/* ====================== */
-/* ✅ Responsive para móviles */
-/* ====================== */
-@media (max-width: 600px) {
-  .modal-overlay {
-    align-items: flex-start;
-    background: rgba(0, 0, 0, 0.8);
-    color: black;
-  }
+                    /* Precio */
+                    .modal-price {
+                        display: flex;
+                        align-items: baseline;
+                        gap: 10px;
+                    }
 
-  .modal-contents {
-    width: 100%;
-    height: 100vh; /* 🔥 Cubre toda la pantalla */
-    border-radius: 0;
-    padding: 0;
-    max-width: none;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
+                    .modal-price span {
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                        color: #000000;
+                    }
 
-  .close-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    color: white;
-    font-size: 1.8rem;
-    z-index: 10;
-  }
+                    .modal-price h3 {
+                        font-size: 1.8rem;
+                        color: var(--primary-color);
+                        font-weight: 800;
+                        margin: 0;
+                    }
 
-  .modal-body {
-    flex-direction: column;
-    gap: 0;
-    height: auto;
-  }
+                    /* Botón de Cierre (X) */
+                    .close-btn {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background: rgba(255, 255, 255, 0.5);
+                        color: var(--text-color);
+                        border: none;
+                        border-radius: 50%;
+                        width: 30px;
+                        height: 30px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        z-index: 10;
+                        transition: background-color 0.2s;
+                    }
 
-  .modal-img-container {
-    width: 100%;
-    max-width: none;
-    height: 220px;
-  }
+                    .close-btn:hover {
+                        background: rgba(0, 0, 0, 0.7);
+                    }
 
-  .modal-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    object-fit: cover;
-  }
 
-  .modal-info {
-    padding: 3rem;
-    max-width: none;
-    width: 95%;
-    justify-content: flex-start;
-    gap: 0.6rem;
-  }
+                    /* ================================================= */
+                    /* 3. CONTROLES DE CANTIDAD Y BOTÓN FINAL */
+                    /* ================================================= */
 
-  .modal-info h2 {
-    font-size: 2.2rem;
-  }
+                    .modal-quantity {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        width: 120px; /* Ancho fijo para el control */
+                        justify-content: space-between;
+                        margin: 10px 0;
+                        background-color: #ffffff;
+                        padding: 5px;
+                        border-radius: 50px;
+                    }
 
-  .modal-desc {
-    font-size: 0.9rem;
-  }
+                    .qty-btn {
+                        background: transparent;
+                        border: none;
+                        color: var(--text-color);
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                        width: 30px;
+                        height: 30px;
+                        line-height: 1;
+                        cursor: pointer;
+                        border-radius: 50%;
+                        transition: background-color 0.2s;
+                    }
 
-  .modal-price {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-  }
+                    .qty-btn:hover {
+                        background-color: #3d3d3d;
+                    }
 
-  .add-btn {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    margin-top: 1rem;
-  }
-}
+                    .modal-quantity span {
+                        font-size: 1.2rem;
+                        font-weight: 700;
+                    }
+
+                    /* Botón de Agregar al Carrito */
+                    .add-btn {
+                        background-color: var(--primary-color);
+                        color: var(--bg-dark); /* Color oscuro para contraste en el botón */
+                        border: none;
+                        padding: 15px 20px;
+                        border-radius: 50px;
+                        font-size: 1.1rem;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: background-color 0.2s, transform 0.1s;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        margin-top: 10px;
+                    }
+
+                    .add-btn:hover {
+                        background-color: #00b080;
+                    }
+
+                    .add-btn:active {
+                        transform: scale(0.98);
+                    }
+
+
+                    /* ================================================= */
+                    /* 4. MEDIA QUERY PARA ESCRITORIO (Desktop) */
+                    /* ================================================= */
+
+                    @media (min-width: 768px) {
+                        .modal-contents {
+                            max-width: 800px; /* Ancho más grande para desktop */
+                        }
+
+                        .modal-body {
+                            flex-direction: row; /* Diseño lado a lado */
+                            padding: 30px;
+                        }
+
+                        .modal-img-container {
+                            width: 40%; /* 40% para la imagen */
+                            height: 350px;
+                        }
+
+                        .modal-info {
+                            width: 60%; /* 60% para la info */
+                            padding-left: 30px;
+                        }
+                        
+                        .modal-info h1 {
+                            font-size: 2.2rem;
+                        }
+                        
+                        .modal-price h3 {
+                            font-size: 2.5rem;
+                        }
+                    }
+                

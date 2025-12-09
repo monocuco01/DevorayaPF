@@ -1,93 +1,507 @@
-/* Estilos Base para la página del restaurante */.restaurant-page {padding: 3rem 2rem;color: #222;font-family: "Poppins", sans-serif;background: #fafafa;min-height: 100vh;margin-top: 40px;}/* ======= CABECERA ======= */.restaurant-header {display: flex;flex-wrap: wrap;gap: 2rem;align-items: flex-start;background: #fff;padding: 1.5rem;border-radius: 1.5rem;box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);margin-bottom: 2.5rem;overflow: hidden;position: relative;}.restaurant-img {width: 380px;height: 260px;object-fit: cover;border-radius: 1rem;flex-shrink: 0;transition: all 0.3s ease;}/* ==================================== // ===== CONTENEDOR DE RESTAURANTE ===== // ==================================== */.restaurant-info {padding: 20px;border-bottom: 2px solid #EEE;background-color: #FFFFFF;flex-grow: 1;}.info-title {color: #000000;font-size: 2rem;margin-bottom: 5px;font-weight: 800;}.info-description {color: #555;font-size: 1rem;margin-bottom: 20px;line-height: 1.4;}/* ==================================== // ===== DETALLES CLAVE (Iconos) ===== // ==================================== */.info-key-details {display: flex;flex-wrap: wrap;gap: 25px;margin-bottom: 20px;padding-bottom: 15px;border-bottom: 1px dashed #DDD;}.detail-item {display: flex;align-items: center;gap: 8px;}.detail-item .icon {font-size: 1.2rem;color: #B87333;font-weight: bold;}.detail-item .detail-text {margin: 0;font-size: 0.95rem;color: #333;}/* ==================================== // ===== BADGES Y CHIPS ===== // ==================================== */.info-badges {display: flex;flex-wrap: wrap;gap: 10px;}.badge {padding: 6px 12px;border-radius: 20px;font-size: 0.85rem;font-weight: 600;white-space: nowrap;}/* Badge de Categoría */.category-badge {background-color: rgba(128, 0, 32, 0.1);color: #800020;border: 1px solid #80002030;}/* Badge de Pago */.payment-badge {background-color: rgba(184, 115, 51, 0.15);color: #B87333;}/* Badge de Estado - Abierto */.status-open {background-color: #e6ffe6;color: #2ecc71;border: 1px solid #2ecc71;}/* Badge de Estado - Cerrado */.status-closed {background-color: #ffe6e6;color: #e74c3c;border: 1px solid #e74c3c;}.whatsapp-btn {display: inline-flex;align-items: center;justify-content: center;margin-top: 1rem;padding: 0.7rem 1.4rem;background: #25d366;color: white;border-radius: 0.8rem;text-decoration: none;font-weight: 600;transition: background 0.3s ease, transform 0.2s ease;}.whatsapp-btn:hover {background: #1ebe5a;transform: translateY(-2px);}/* ======= MENÚ GENERAL ======= */.menu-title {font-size: 1.8rem;font-weight: 700;color: #222;margin-bottom: 1.5rem;text-align: center;}/* BARRA DE FILTROS ESTILO CHIPS */.filter-bar {display: flex;flex-wrap: wrap;gap: 12px;padding: 15px 0;background-color: transparent;margin: 10px 0 30px 0;align-items: center;justify-content: flex-start;}.filter-button, .filter-select, .reset-button {padding: 10px 18px;border-radius: 25px;font-weight: 600;cursor: pointer;transition: all 0.3s ease;font-size: 1rem;height: 45px;display: flex;align-items: center;}.filter-button {background-color: transparent;border: 1px solid #c0c0c0;color: #555;}.filter-button.active {background-color: #B87333;border-color: #B87333;color: white;box-shadow: 0 3px 8px rgba(184, 115, 51, 0.2);}/* Select/Dropdown (Precio) */.filter-select {border: 1px solid #c0c0c0;background-color: #fff;color: #555;appearance: none;-webkit-appearance: none;background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23800020"><path d="M7 10l5 5 5-5z"/></svg>');background-repeat: no-repeat;background-position: right 10px center;padding-right: 35px;}/* Botón Limpiar Filtros */.reset-button {background-color: transparent;border: none;color: #800020;font-size: 0.9rem;padding: 0;margin-left: 5px;height: auto;}/* === CATEGORÍA NAV STICKY === */.categoria-nav {display: flex;gap: 12px;padding: 12px 10px;margin: 10px 0 25px;overflow-x: auto;scrollbar-width: none;}.categoria-nav.sticky {position: sticky;top: 0;z-index: 50;background: #fafafa;box-shadow: 0 2px 4px rgba(0,0,0,0.05);margin: 0;}.categoria-nav-btn {padding: 8px 14px;border-radius: 20px;border: 1px solid #dcdcdc;background: white;font-size: 14px;cursor: pointer;transition: .25s ease-in-out;white-space: nowrap;}.categoria-nav-btn.active {background: #800020;color: white;border-color: #800020;}.categoria-title {font-size: 25px;font-weight: 600;margin: 30px 0 20px;}.categoria-section {scroll-margin-top: 120px;padding-bottom: 20px;}/* ======= GRID Y PLATO CARD (DEFAULT/DESKTOP) ======= */.menu-grid {display: grid;gap: 20px;grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));}.plato-card {background: #fff;padding: 15px;border-radius: 14px;box-shadow: 0 2px 8px rgba(0,0,0,0.05);transition: transform 0.2s ease, box-shadow 0.3s ease;cursor: pointer;overflow: hidden;}.plato-card:hover {transform: translateY(-3px);box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);}.plato-img {width: 100%;height: 160px;object-fit: cover;border-radius: 12px;margin-bottom: 10px;}.plato-card h3 {font-size: 1.1rem;margin: 0.5rem 0 0.2rem;color: #222;}.plato-card p {font-size: 0.9rem;color: #666;margin-bottom: 0.6rem;padding: 0;}.plato-precio {display: block;margin-bottom: 1rem;font-weight: bold;color: #800020;font-size: 1rem;margin-top: 0.5rem;}.plato-tag {display: inline-block;background: #B87333;color: white;font-size: 0.8rem;font-weight: 600;padding: 4px 10px;border-radius: 10px;margin-left: 0;margin-bottom: 8px;}/* ======= BOTÓN VOLVER ======= */.back-btn {display: block;text-align: center;margin: 40px auto;padding: 12px 20px;background: #eee;border-radius: 8px;width: fit-content;text-decoration: none;color: #800020;font-weight: 600;border: 2px solid transparent;}.back-btn:hover {border-color: #800020;}/* ======================================================= // ======= RESPONSIVE MODIFICADO (ESTILO RAPPI/MÓVIL) ======= // ======================================================= */@media (max-width: 768px) {.restaurant-page {padding: 0;min-height: 100vh;}.restaurant-header {flex-direction: column;padding: 0;border-radius: 0;}.restaurant-img {
-    width: 100%;
-    height: 220px;
-    border-radius: 0;
+/* ================================
+   Restaurant Page - Clean & Fixed
+   ================================ */
+
+/* ---------- Root / Page ---------- */
+.restaurant-page {
+  padding: 3rem 2rem;
+  color: #222;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  min-height: 100vh;
+  margin-top: 40px;
 }
 
+/* ---------- Header ---------- */
+.restaurant-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.restaurant-img {
+  width: 380px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 1rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+/* ---------- Restaurant Info ---------- */
 .restaurant-info {
+  padding: 20px;
+  border-bottom: 2px solid #eee;
+  background-color: #fff;
+  flex-grow: 1;
+}
+
+.info-title,
+.restaurant-info h1 {
+  color: #000;
+  font-size: 2rem;
+  margin-bottom: 5px;
+  font-weight: 800;
+}
+
+.info-description,
+.restaurant-info p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* ---------- Key details (icons) ---------- */
+.info-key-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #ddd;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-item .icon {
+  font-size: 1.2rem;
+  color: #b87333;
+  font-weight: bold;
+}
+
+.detail-item .detail-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* ---------- Badges / Chips ---------- */
+.info-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.category-badge {
+  background-color: rgba(128, 0, 32, 0.1);
+  color: #800020;
+  border: 1px solid rgba(128, 0, 32, 0.18);
+}
+
+.payment-badge {
+  background-color: rgba(184, 115, 51, 0.15);
+  color: #b87333;
+}
+
+.status-open {
+  background-color: #e6ffe6;
+  color: #2ecc71;
+  border: 1px solid #2ecc71;
+}
+
+.status-closed {
+  background-color: #ffe6e6;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+/* WhatsApp button */
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.7rem 1.4rem;
+  background: #25d366;
+  color: white;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebe5a;
+  transform: translateY(-2px);
+}
+
+/* ---------- Menu title ---------- */
+.menu-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* ---------- Filter bar (chips) ---------- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px 0;
+  background-color: transparent;
+  margin: 10px 0 30px 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.filter-button,
+.filter-select,
+.reset-button {
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-button {
+  background-color: transparent;
+  border: 1px solid #c0c0c0;
+  color: #555;
+}
+
+.filter-button.active {
+  background-color: #b87333;
+  border-color: #b87333;
+  color: white;
+  box-shadow: 0 3px 8px rgba(184, 115, 51, 0.2);
+}
+
+.filter-button:hover:not(.active) {
+  border-color: #b87333;
+}
+
+/* Select */
+.filter-select {
+  border: 1px solid #c0c0c0;
+  background-color: #fff;
+  color: #555;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="%23800020"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 35px;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #800020;
+}
+
+/* Reset */
+.reset-button {
+  background-color: transparent;
+  border: none;
+  color: #800020;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-left: 5px;
+  height: auto;
+}
+
+.reset-button:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Categoria nav (sticky, scrollable) ---------- */
+.categoria-nav {
+  display: flex;
+  gap: 12px;
+  padding: 12px 10px;
+  margin: 10px 0 25px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.categoria-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.categoria-nav.sticky {
+  position: sticky;
+  top: 60px; /* ajusta según tu navbar si lo hay */
+  z-index: 50;
+  background: #fafafa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin: 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.categoria-nav-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid #dcdcdc;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease-in-out;
+  white-space: nowrap;
+  flex-shrink: 0; /* evita que se encojan y rompe scroll */
+}
+
+.categoria-nav-btn.active {
+  background: #800020;
+  color: white;
+  border-color: #800020;
+}
+
+/* titulo y seccion categoria */
+.categoria-title {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 30px 0 20px;
+}
+
+.categoria-section {
+  scroll-margin-top: 120px;
+  padding-bottom: 20px;
+}
+
+/* ---------- Grid & Plato card (desktop) ---------- */
+.menu-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.plato-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.plato-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.plato-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.plato-card h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0.2rem;
+  color: #222;
+}
+
+.plato-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.6rem;
+}
+
+.plato-precio {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #800020;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.plato-tag {
+  display: inline-block;
+  background: #b87333;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 10px;
+  margin-left: 0;
+  margin-bottom: 8px;
+}
+
+/* ---------- Back button ---------- */
+.back-btn {
+  display: block;
+  text-align: center;
+  margin: 40px auto;
+  padding: 12px 20px;
+  background: #eee;
+  border-radius: 8px;
+  width: fit-content;
+  text-decoration: none;
+  color: #800020;
+  font-weight: 600;
+  border: 2px solid transparent;
+}
+
+.back-btn:hover {
+  border-color: #800020;
+}
+
+/* ---------- Responsive (mobile / Rappi compact) ---------- */
+@media (max-width: 768px) {
+  .restaurant-page {
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .restaurant-header {
+    flex-direction: column;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .restaurant-img {
+    width: 100%;
+    height: 180px; /* altura reducida en móvil */
+    border-radius: 0;
+  }
+
+  .restaurant-info {
     width: 100%;
     padding: 1rem 1.5rem;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     border-bottom: none;
-}
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+  }
 
-.restaurant-info h1 {
+  .restaurant-info h1 {
     font-size: 1.5rem;
     margin-bottom: 0.3rem;
-}
+  }
 
-.whatsapp-btn {
+  .whatsapp-btn {
     width: 100%;
     justify-content: center;
     font-size: 0.95rem;
-}
+  }
 
-/* Responsive para la barra de filtros */
-.filter-bar {
-    padding: 10px 15px; 
+  /* filtro: quepan chips y hagan scroll si es necesario */
+  .filter-bar {
+    padding: 10px 15px;
     gap: 10px;
     overflow-x: auto;
     flex-wrap: nowrap;
-}
+    -webkit-overflow-scrolling: touch;
+  }
 
-.filter-button, .filter-select {
+  .filter-button,
+  .filter-select {
     flex-shrink: 0;
     font-size: 0.9rem;
     padding: 8px 15px;
     text-align: center;
-}
+  }
 
-.categoria-title {
+  .categoria-title {
     padding: 0 15px;
-}
+  }
 
-/* >>> ZONA DE AJUSTE RAPPI/COMPACTO <<< */
-.menu-grid {
-    padding: 0 10px; /* Reducir padding horizontal */
-    /* Forzar 2 columnas con un min-width más pequeño para que quepan */
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-    gap: 10px; /* Reducir espacio entre platos */
-}
+  /* Zona compacta : forzar más columnas y reducir espacios */
+  .menu-grid {
+    padding: 10px 16px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
 
-.plato-card {
-    padding: 10px; /* Reducir padding interno de la tarjeta */
+  .plato-card {
+    padding: 10px;
     border-radius: 10px;
-}
+  }
 
-.plato-img {
-    height: 120px; /* Imagen más pequeña */
-    border-radius: 8px; 
+  .plato-img {
+    height: 100px;
+    border-radius: 8px;
     margin-bottom: 5px;
-}
+  }
 
-.plato-card h3 {
-    font-size: 1rem; /* Título más pequeño */
+  .plato-card h3 {
+    font-size: 1rem;
     margin: 0.3rem 0;
-}
+  }
 
-.plato-card p {
-    font-size: 0.8rem; /* Descripción más pequeña */
+  .plato-card p {
+    font-size: 0.8rem;
     margin-bottom: 0.4rem;
-    padding: 0;
     line-height: 1.2;
-    /* Limita la descripción a 2 líneas para uniformidad */
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-}
+  }
 
-.plato-precio {
-    font-size: 0.9rem; /* Precio más pequeño */
+  .plato-precio {
+    font-size: 0.9rem;
     margin-top: 5px;
     margin-bottom: 5px;
-}
+  }
 
-.plato-tag {
-    font-size: 0.7rem; /* Tag más pequeño */
+  .plato-tag {
+    font-size: 0.7rem;
     padding: 3px 6px;
     margin-left: 0;
+  }
 }
-/* >>> FIN ZONA DE AJUSTE RAPPI/COMPACTO <<< */
+
+/* ---------- Small phones tweaks (<=480px) ---------- */
+@media (max-width: 480px) {
+  .restaurant-img { height: 120px; }
+  .menu-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; padding: 8px 12px; }
+  .plato-img { height: 40px; }
+  .info-title { font-size: 1.5rem; }
+  .categoria-nav.sticky { top: 56px; } /* ajustar si tienes navbar fija pequeña */
 }
+
+/* ---------- Skeleton shimmer (si usas) ---------- */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+
+.skeleton-header,
+.skeleton-card {
+  animation: shimmer 1.2s infinite linear;
+  background: #e0e0e0;
+  background-image: linear-gradient(to right, #e0e0e0 0%, #f5f5f5 20%, #e0e0e0 40%);
+  background-size: 1000px 100%;
+  pointer-events: none;
+}
+
+/* individual skeleton bits (keeps your original sizes) */
+.skeleton-img-lg { width: 200px; height: 150px; background: #d1d1d1; border-radius: 8px; margin-right: 20px; }
+.skeleton-text-title { width: 80%; height: 30px; background: #b0b0b0; border-radius: 4px; margin-bottom: 12px; }
+.skeleton-plato-img { width: 100%; height: 180px; background: #d1d1d1; border-radius: 8px 8px 0 0; }
+
+/* End of file */

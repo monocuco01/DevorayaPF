@@ -106,7 +106,7 @@
 }
 
 /* ===== Responsivo ===== */
-@media (max-width: 720px) {
+@media (max-width: 720px ) {
     .platos-grid {
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     }
@@ -194,4 +194,69 @@
 .skeleton-plato-desc.short {
     width: 60%;
     height: 14px;
+}
+/* ====== Teléfonos <= 480px ====== */
+@media (max-width: 480px) {
+    .platos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .platos-section {
+        padding: 1rem;
+        margin-top: 25px;
+    }
+
+    .plato-img,
+    .skeleton-plato-img {
+        height: 110px;
+    }
+
+    .skeleton-plato-title {
+        height: 16px;
+        width: 80%;
+    }
+
+    .skeleton-plato-desc {
+        height: 12px;
+        width: 90%;
+    }
+
+    .skeleton-plato-desc.short {
+        width: 55%;
+        height: 12px;
+    }
+}
+
+/* ====== Teléfonos muy pequeños <= 360px ====== */
+@media (max-width: 360px) {
+    .platos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .platos-section {
+        padding: 0.75rem;
+        margin-top: 20px;
+    }
+
+    .plato-img,
+    .skeleton-plato-img {
+        height: 95px;
+    }
+
+    .skeleton-plato-title {
+        height: 14px;
+        width: 75%;
+    }
+
+    .skeleton-plato-desc {
+        height: 10px;
+        width: 85%;
+    }
+
+    .skeleton-plato-desc.short {
+        width: 50%;
+        height: 10px;
+    }
 }
