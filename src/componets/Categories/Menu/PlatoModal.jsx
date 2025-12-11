@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import "./Menu.css";
 import api from "../../../api/api";
 
-// 🔥 SweetAlert siempre encima
 Swal.mixin({
   customClass: { popup: "swal-super-top" },
 });
@@ -27,13 +26,12 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
       imagen: "",
       disponible: true,
       destacado: false,
-      menu_id: null,        
+      menu_id: null,
       comercio_id,
-      categoria: "", // Campo de texto para categoría
+      categoria: "",
     }
   );
 
-  // 🚀 OBTENER AUTOMÁTICAMENTE EL menu_id DEL COMERCIO
   useEffect(() => {
     const cargarMenu = async () => {
       try {
@@ -56,7 +54,6 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
     });
   };
 
-  // 🚀 CLOUDINARY
   const openWidget = () => {
     const cloudinaryConfig = {
       cloudName: "dziwyqnqk",
@@ -120,13 +117,13 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2 className="modal-title">
+    <div className="platoadmin-overlay">
+      <div className="platoadmin-box" onClick={(e) => e.stopPropagation()}>
+        <h2 className="platoadmin-title">
           {platoEditar ? "✏️ Editar Plato" : "🍽️ Nuevo Plato"}
         </h2>
 
-        <form onSubmit={handleSubmit} className="modal-form">
+        <form onSubmit={handleSubmit} className="platoadmin-form">
           <input
             type="text"
             name="nombre"
@@ -134,6 +131,7 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
             onChange={handleChange}
             placeholder="Nombre del plato"
             required
+            className="platoadmin-input"
           />
 
           <textarea
@@ -142,6 +140,7 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
             onChange={handleChange}
             placeholder="Descripción"
             required
+            className="platoadmin-textarea"
           />
 
           <input
@@ -151,36 +150,37 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
             onChange={handleChange}
             placeholder="Precio"
             required
+            className="platoadmin-input"
           />
 
-          {/* Campo de texto para categoría */}
           <input
             type="text"
             name="categoria"
             value={plato.categoria}
             onChange={handleChange}
             placeholder="Categoría del plato"
+            className="platoadmin-input"
           />
 
-          {/* Imagen */}
-          <div className="imagen-input-group">
+          <div className="platoadmin-img-row">
             <input
               type="text"
               name="imagen"
               value={plato.imagen}
               onChange={handleChange}
               placeholder="URL de la imagen"
+              className="platoadmin-input"
             />
             <button
               type="button"
-              className="subir-imagen-btn"
+              className="platoadmin-upload-btn"
               onClick={openWidget}
             >
               Subir Imagen
             </button>
           </div>
 
-          <div className="checkbox-group">
+          <div className="platoadmin-checkboxes">
             <label>
               <input
                 type="checkbox"
@@ -201,11 +201,15 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
             </label>
           </div>
 
-          <div className="modal-buttons">
-            <button type="button" onClick={onClose} className="cancelar-btn">
+          <div className="platoadmin-buttons">
+            <button
+              type="button"
+              onClick={onClose}
+              className="platoadmin-cancel"
+            >
               Cancelar
             </button>
-            <button type="submit" className="guardar-btn">
+            <button type="submit" className="platoadmin-save">
               {platoEditar ? "Actualizar" : "Guardar"}
             </button>
           </div>

@@ -1,178 +1,180 @@
 import { useState } from "react";
 import api from "../../api/api";
 import Swal from "sweetalert2";
-import "./PedidoModal.css"; // Asegúrate de que este archivo CSS existe
+import "./PedidoModal.css";
 
-// --- Función de utilidad para formato de moneda ---
+// =========================
+// Formato de moneda
+// =========================
 const formatCurrency = (amount) => {
-    // Asegura un valor por defecto si es nulo o indefinido
-    const value = amount ?? 0;
-    
-    // Formatea como moneda. Ajusta 'es-CO' y 'COP' a tu región/moneda.
-    return value.toLocaleString('es-CO', {
-        style: 'currency',
-        currency: 'COP', 
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    });
+  const value = amount ?? 0;
+  return value.toLocaleString("es-CO", {
+    style: "currency",
+    currency: "COP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 };
-// --------------------------------------------------
 
-// 🔥 Aseguramos que SweetAlert esté siempre sobre todo
+// =========================
+// SweetAlert siempre arriba
+// =========================
 Swal.mixin({
-  customClass: {
-    popup: "swal-super-top",
-  },
+  customClass: {
+    popup: "swalert-top",
+  },
 });
-
 const style = document.createElement("style");
 style.innerHTML = `
-  .swal-super-top, .swal2-container {
-    z-index: 999999 !important;
-  }
+  .swalert-top, .swal2-container {
+    z-index: 999999 !important;
+  }
 `;
 document.head.appendChild(style);
 
 function PedidoModal({ pedido, onClose, onStatusChange }) {
-
-  console.log("📦 Pedido recibido en el modal:", pedido);
-
   const [estado, setEstado] = useState(pedido.estado);
   const [loading, setLoading] = useState(false);
 
-  const handleEstadoChange = async (nuevoEstado) => {
-    setLoading(true);
-    try {
-      // ✅ Enviamos el campo correcto como lo espera el backend
-      await api.put(`/pedidos/${pedido.id}/estado`, { nuevoEstado });
+  // =========================
+  // Cambiar estado del pedido
+  // =========================
+  const handleEstadoChange = async (nuevoEstado) => {
+    setLoading(true);
+    try {
+      await api.put(`/pedidos/${pedido.id}/estado`, { nuevoEstado });
 
-      setEstado(nuevoEstado);
-      onStatusChange(nuevoEstado);
+      setEstado(nuevoEstado);
+      onStatusChange(nuevoEstado);
 
-      Swal.fire({
-        icon: "success",
-        title: "Estado actualizado",
-        text: `El pedido ahora está "${nuevoEstado}".`,
-        background: "#1e1e1e",
-        color: "#fff",
-        confirmButtonColor: "#00c896",
-      });
-    } catch (error) {
-      console.error("Error al actualizar estado:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al actualizar",
-        text: "No se pudo actualizar el estado del pedido.",
-        background: "#1e1e1e",
-        color: "#fff",
-        confirmButtonColor: "#e74c3c",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+      Swal.fire({
+        icon: "success",
+        title: "Estado actualizado",
+        text: `El pedido ahora está "${nuevoEstado}".`,
+        background: "#1e1e1e",
+        color: "#fff",
+        confirmButtonColor: "#00c896",
+      });
+    } catch (error) {
+      console.error("Error al actualizar estado:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al actualizar",
+        text: "No se pudo actualizar el estado del pedido.",
+        background: "#1e1e1e",
+        color: "#fff",
+        confirmButtonColor: "#e74c3c",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // ==========================================
-  // 🆕 FUNCIÓN PARA RENDERIZAR DETALLES DE PAGO
-  // ==========================================
-  const renderPaymentDetails = () => {
-    // Asumimos que el método de pago se envía como 'Efectivo', 'Nequi', 'Daviplata', etc.
-    const isOnlinePayment = pedido.metodo_pago && pedido.metodo_pago !== 'Efectivo';
-    const hasComprobante = !!pedido.comprobante_url;
+  // =========================
+  // Render detalle de pago
+  // =========================
+  const renderPaymentDetails = () => {
+    const isOnline = pedido.metodo_pago && pedido.metodo_pago !== "Efectivo";
+    const hasComprobante = !!pedido.comprobante_url;
 
-    return (
-      <div className="payment-details-container">
-        <h3>Detalles de Pago</h3>
-        
-        <p>
-          <strong>Método:</strong> <span className="payment-method-tag">{pedido.metodo_pago || 'Efectivo'}</span>
-        </p>
+    return (
+      <div className="pm-payment-box">
+        <h3 className="pm-section-title">Detalles de Pago</h3>
 
-        {isOnlinePayment && pedido.referencia_pago && (
-          <p>
-            <strong>Referencia de Pago:</strong> <span className="payment-ref-tag">{pedido.referencia_pago}</span>
-          </p>
-        )}
+        <p>
+          <strong>Método:</strong>{" "}
+          <span className="pm-payment-method">{pedido.metodo_pago || "Efectivo"}</span>
+        </p>
 
-        {isOnlinePayment && hasComprobante && (
-          <div className="comprobante-section">
-            <h4>Comprobante Subido</h4>
-           <img 
-            src={pedido.comprobante_url} // Ya corregido
-            alt="Comprobante de pago" 
-            className="comprobante-preview"
-        />
-          </div>
-        )}
-        
-        {isOnlinePayment && !hasComprobante && (
-            <p className="payment-pending-msg">
-                El cliente aún no ha subido el comprobante de pago.
-            </p>
+        {isOnline && pedido.referencia_pago && (
+          <p>
+            <strong>Referencia:</strong>{" "}
+            <span className="pm-payment-ref">{pedido.referencia_pago}</span>
+          </p>
         )}
-        
-      </div>
-    );
-  };
-  // ==========================================
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Pedido #{pedido.id}</h2>
-        <p>
-          <strong>Cliente:</strong> {pedido.Usuario?.nombre}
-        </p>
-        <p>
-          <strong>Dirección:</strong> {pedido.direccion_entrega}
-        </p>
-        <p>
-          <strong>Costo Domicilio:</strong> {formatCurrency(pedido.costo_envio)}
-        </p>   
-        <p>
-          <strong>Total:</strong> {formatCurrency(pedido.total)}
-        </p>
-        <p>
-          <strong>Instrucciones:</strong> {pedido.instrucciones || "Ninguna"}
-        </p>
+        {isOnline && hasComprobante && (
+          <div className="pm-proof-box">
+            <h4>Comprobante</h4>
+            <img
+              src={pedido.comprobante_url}
+              alt="Comprobante"
+              className="pm-proof-img"
+            />
+          </div>
+        )}
+
+        {isOnline && !hasComprobante && (
+          <p className="pm-pending-proof">El cliente aún no ha subido el comprobante.</p>
+        )}
+      </div>
+    );
+  };
+
+  // =========================
+  // RENDER
+  // =========================
+  return (
+    <div className="pm-overlay" onClick={onClose}>
+      <div className="pm-modal" onClick={(e) => e.stopPropagation()}>
         
-        {/* 🆕 AÑADIMOS EL DETALLE DE PAGO AQUÍ */}
+        <h2 className="pm-title">Pedido #{pedido.id}</h2>
+
+        <p>
+          <strong>Cliente:</strong> {pedido.Usuario?.nombre ?? "Sin nombre"}
+        </p>
+        <p>
+          <strong>Dirección:</strong> {pedido.direccion_entrega}
+        </p>
+        <p>
+          <strong>Costo Domicilio:</strong> {formatCurrency(pedido.costo_envio)}
+        </p>
+        <p>
+          <strong>Total:</strong> {formatCurrency(pedido.total)}
+        </p>
+        <p>
+          <strong>Instrucciones:</strong> {pedido.instrucciones || "Ninguna"}
+        </p>
+
+        {/* Detalles de pago */}
         {renderPaymentDetails()}
 
-        {/* Listado de platos */}
-        <div className="platos-container">
-          <h3> Platos del pedido</h3>
-          <ul>
-            {pedido.Platos?.map((plato) => (
-              <li key={plato.id}>
-                {plato.nombre} x {plato.PedidoPlato?.cantidad} — {formatCurrency(plato.PedidoPlato?.precio_unitario)}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Platos */}
+        <div className="pm-platos-box">
+          <h3 className="pm-section-title">Platos del pedido</h3>
+          <ul className="pm-platos-list">
+            {pedido.Platos?.map((plato) => (
+              <li key={plato.id} className="pm-plato-item">
+                {plato.nombre} x {plato.PedidoPlato?.cantidad} —{" "}
+                {formatCurrency(plato.PedidoPlato?.precio_unitario)}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        {/* Selector de estado */}
-        <div className="estado-container">
-          <label>Estado actual:</label>
-          <select
-            value={estado}
-            onChange={(e) => handleEstadoChange(e.target.value)}
-            disabled={loading}
-          >
-            <option value="pendiente">Pendiente</option>
-            <option value="aceptado">Aceptado</option>
-            <option value="rechazado">Rechazado</option>
-            <option value="en camino">En camino</option>
-            <option value="entregado">Entregado</option>
-          </select>
-        </div>
+        {/* Estado */}
+        <div className="pm-state-box">
+          <label className="pm-state-label">Estado:</label>
+          <select
+            className="pm-state-select"
+            value={estado}
+            onChange={(e) => handleEstadoChange(e.target.value)}
+            disabled={loading}
+          >
+            <option value="pendiente">Pendiente</option>
+            <option value="aceptado">Aceptado</option>
+            <option value="rechazado">Rechazado</option>
+            <option value="en camino">En camino</option>
+            <option value="entregado">Entregado</option>
+          </select>
+        </div>
 
-        <button onClick={onClose} className="cerrar-btns">
-          Cerrar
-        </button>
-      </div>
-    </div>
-  );
+        <button className="pm-close-btn" onClick={onClose}>
+          Cerrar
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default PedidoModal;

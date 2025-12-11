@@ -1,6 +1,5 @@
 /* ======== Estilo general oscuro ======== */
 body {
-
   color: #f1f1f1;
   font-family: "Inter", sans-serif;
 }
@@ -129,10 +128,9 @@ body {
 }
 
 .eliminar-btn:hover {
-  background-color: #c0392b;
+  background-color: #c0393b;
 }
 
-/* ======== Mensajes ======== */
 .sin-platos {
   text-align: center;
   margin-top: 2rem;
@@ -140,82 +138,12 @@ body {
   color: #999;
 }
 
-/* ======== Modal (PlatoModal.jsx) ======== */
-.fixed {
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease;
-}
+/* ========================================================= */
+/* ===============  NUEVO MODAL ADMIN ====================== */
+/* ========================================================= */
 
-.bg-white {
-  background-color: #1f1f1f !important;
-  color: #f1f1f1;
-}
-
-
-.subir-imagen-btn{
-   background-color: #1abc9c;
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s ease;
-  margin-left: 40px;
-}
-button {
-  font-family: inherit;
-}
-
-.bg-gray-400 {
-  background-color: #555 !important;
-}
-
-.bg-gray-400:hover {
-  background-color: #666 !important;
-}
-
-.bg-green-600 {
-  background-color: #1abc9c !important;
-}
-
-.bg-green-600:hover {
-  background-color: #16a085 !important;
-}
-
-/* ======== Animaciones ======== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* ======== Responsive ======== */
-@media (max-width: 1024px) {
-  .platos-lista {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .platos-lista {
-    grid-template-columns: 1fr;
-  }
-
-  .menu-header {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .plato-img {
-    height: 200px;
-  }
-}
-/* ======== MODAL CORREGIDO ======== */
-.modal-overlay {
+/* Overlay */
+.platoadmin-overlay {
   position: fixed;
   inset: 0;
   display: flex;
@@ -227,7 +155,8 @@ button {
   animation: fadeIn 0.3s ease;
 }
 
-.modal-content {
+/* Caja del modal */
+.platoadmin-box {
   background-color: #1f1f1f;
   color: #f1f1f1;
   padding: 2rem;
@@ -238,21 +167,22 @@ button {
   animation: zoomIn 0.25s ease;
 }
 
-.modal-title {
+.platoadmin-title {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-.modal-form {
+/* Form */
+.platoadmin-form {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
 
-.modal-form input,
-.modal-form textarea {
+.platoadmin-input,
+.platoadmin-textarea {
   background-color: #2a2a2a;
   border: 1px solid #3a3a3a;
   color: #fff;
@@ -262,13 +192,36 @@ button {
   resize: none;
 }
 
-.modal-form input:focus,
-.modal-form textarea:focus {
+.platoadmin-input:focus,
+.platoadmin-textarea:focus {
   border-color: #1abc9c;
   outline: none;
 }
 
-.checkbox-group {
+/* Imagen */
+.platoadmin-img-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.platoadmin-upload-btn {
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.platoadmin-upload-btn:hover {
+  background-color: #16a085;
+}
+
+/* Checkboxes */
+.platoadmin-checkboxes {
   display: flex;
   justify-content: space-between;
   margin-top: 0.5rem;
@@ -276,37 +229,38 @@ button {
   color: #ccc;
 }
 
-.modal-buttons {
+/* Buttons */
+.platoadmin-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
   margin-top: 1rem;
 }
 
-.cancelar-btn,
-.guardar-btn {
+.platoadmin-cancel,
+.platoadmin-save {
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
   color: #fff;
+  transition: 0.3s ease;
 }
 
-.cancelar-btn {
+.platoadmin-cancel {
   background-color: #555;
 }
 
-.cancelar-btn:hover {
+.platoadmin-cancel:hover {
   background-color: #666;
 }
 
-.guardar-btn {
+.platoadmin-save {
   background-color: #1abc9c;
 }
 
-.guardar-btn:hover {
+.platoadmin-save:hover {
   background-color: #16a085;
 }
 
@@ -328,5 +282,27 @@ button {
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .platos-lista {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .platos-lista {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-header {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .plato-img {
+    height: 200px;
   }
 }
