@@ -93,8 +93,50 @@ function PedidosList() {
         <p>No hay pedidos por el momento.</p>
       ) : (
         <table className="pedidos-table">
-          {/* … tu tabla igual */}
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Dirección</th>
+              <th>Método de Pago</th> {/* ← AGREGADO */}
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {pedidos.map((pedido) => (
+              <tr key={pedido.id}>
+                <td>{pedido.id}</td>
+                <td>{pedido.nombre_recibe || "Sin nombre"}</td>
+                <td>{pedido.direccion_entrega}</td>
+
+                {/* ----- MÉTODO DE PAGO ----- */}
+                <td>{pedido.metodo_pago || "No especificado"}</td>
+
+                <td>${pedido.total?.toLocaleString()}</td>
+
+                <td>
+                  <span className={`estado-tag ${getEstadoColor(pedido.estado)}`}>
+                    {pedido.estado}
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    className="ver-btn"
+                    onClick={() => setPedidoSeleccionado(pedido)}
+                  >
+                    Ver
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
+       
       )}
 
       {pedidoSeleccionado && (
@@ -117,3 +159,5 @@ function PedidosList() {
 }
 
 export default PedidosList;
+
+  
