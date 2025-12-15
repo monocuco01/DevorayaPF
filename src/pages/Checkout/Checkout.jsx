@@ -8,25 +8,19 @@ import Swal from "sweetalert2";
 
 const getUserId = () => {
   try {
-    const raw = localStorage.getItem("usuarioActivo") || null;
-    if (!raw) return null;
-    return JSON.parse(raw)?.id ?? null;
+    const raw = localStorage.getItem("usuarioActivo");
+    return raw ? JSON.parse(raw)?.id : null;
   } catch {
     return null;
   }
 };
 
-// Mapeo de métodos a claves del backend
 const paymentMethodMap = {
   Nequi: "nequi",
   "Daviplata/Davivienda": "daviplata",
   "Bre-B": "breb",
   Bancolombia: "bancolombia",
 };
-
-// Cloudinary
-const CLOUDINARY_CLOUD_NAME = "dziwyqnqk";
-const CLOUDINARY_UPLOAD_PRESET = "kifrxmwu";
 
 export default function Checkout() {
   const { carrito, limpiarCarrito } = useCarrito();
@@ -35,12 +29,9 @@ export default function Checkout() {
   const [nombreRecibe, setNombreRecibe] = useState("");
   const [direccion, setDireccion] = useState("");
   const [instrucciones, setInstrucciones] = useState("");
-
   const [metodoPago, setMetodoPago] = useState("Efectivo");
-
   const [referenciaPago, setReferenciaPago] = useState("");
   const [comprobanteUrl, setComprobanteUrl] = useState("");
-  const [previewComprobante, setPreviewComprobante] = useState(null);
 
   const [comercioConfig, setComercioConfig] = useState(null);
   const [costoEnvio, setCostoEnvio] = useState(0);
@@ -51,50 +42,24 @@ export default function Checkout() {
   const usuario_id = getUserId();
   const comercio_id = carrito[0]?.comercio_id;
 
-  const subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  const subtotal = carrito.reduce(
+    (acc, item) => acc + item.precio * item.cantidad,
+    0
+  );
+
   const totalFinal = subtotal + costoEnvio + TARIFA_SERVICIO;
 
-  const generarReferencia = useCallback(() => {
-    return `REF-${Date.now()}-${Math.floor(Math.random() * 900) + 100}`;
-  }, []);
-
-  const openCloudinaryWidget = () => {
-    if (!window.cloudinary) {
-      Swal.fire("Error", "El módulo de subida aún no ha cargado.", "error");
-      return;
-    }
-
-    setComprobanteUrl("");
-    setPreviewComprobante(null);
-
-    const widget = window.cloudinary.createUploadWidget(
-      {
-        cloudName: CLOUDINARY_CLOUD_NAME,
-        uploadPreset: CLOUDINARY_UPLOAD_PRESET,
-        sources: ["local", "url", "camera"],
-        multiple: false,
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          setComprobanteUrl(result.info.secure_url);
-          setPreviewComprobante(result.info.secure_url);
-          setReferenciaPago(generarReferencia());
-          Swal.fire("Comprobante Subido", "Todo listo 👍", "success");
-        }
-      }
-    );
-
-    widget.open();
-  };
-
+  /* =====================================================
+     🔥 DEBUG: VER CARRITO COMPLETO
+  ===================================================== */
   useEffect(() => {
-    if (!window.cloudinary) {
-      const script = document.createElement("script");
-      script.src = "https://widget.cloudinary.com/v2.0/global/js/widget.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
+    console.log("🛒 CARRITO COMPLETO:", JSON.stringify(carrito, null, 2));
+  }, [carrito]);
 
+  /* =====================================================
+     Cargar datos iniciales
+  ===================================================== */
+  useEffect(() => {
     const fetchData = async () => {
       if (!usuario_id || !comercio_id) {
         setCargando(false);
@@ -106,7 +71,9 @@ export default function Checkout() {
         setDireccion(u.data.direccion || "");
         setNombreRecibe(u.data.nombre || "");
 
-        const envio = await api.get(`/pedidos/costo-envio/${comercio_id}/${usuario_id}`);
+        const envio = await api.get(
+          `/pedidos/costo-envio/${comercio_id}/${usuario_id}`
+        );
         setCostoEnvio(envio.data.costo_envio || 0);
 
         const comercio = await api.get(`/comercios/panel/${comercio_id}`);
@@ -121,196 +88,127 @@ export default function Checkout() {
     fetchData();
   }, [usuario_id, comercio_id]);
 
-  const selectedPaymentDetails = useMemo(() => {
-    if (!comercioConfig?.acepta_pago_online) return null;
-
-    const key = paymentMethodMap[metodoPago];
-    const details = comercioConfig.metodos_pago?.[key];
-
-    if (!details || !details.qr) return null;
-
-    return {
-      name: metodoPago,
-      number: details.numero,
-      titular: details.titular,
-      qrUrl: details.qr,
-      instrucciones: comercioConfig.metodos_pago.instrucciones || "",
-    };
-  }, [metodoPago, comercioConfig]);
-
-  const qrMostrado = Boolean(selectedPaymentDetails);
-
+  /* =====================================================
+     Confirmar pedido
+  ===================================================== */
   const handleConfirmar = async () => {
     if (!usuario_id) {
-      Swal.fire("Atención", "Inicia sesión para continuar.", "warning");
+      Swal.fire("Atención", "Inicia sesión.", "warning");
       return navigate("/login");
     }
 
-    if (!direccion) {
-      Swal.fire("Dirección requerida", "Actualiza tu dirección.", "warning");
+    if (!direccion || carrito.length === 0) {
+      Swal.fire("Error", "Datos incompletos.", "warning");
       return;
     }
 
-    if (carrito.length === 0) {
-      Swal.fire("Carrito vacío", "", "info");
-      return;
-    }
+    const payload = {
+      usuario_id,
+      comercio_id,
+      instrucciones,
+      metodo_pago: metodoPago,
+      nombre_recibe: nombreRecibe,
+      comprobante_url: comprobanteUrl || null,
+      referencia_pago: referenciaPago || null,
 
-    if (qrMostrado && (!comprobanteUrl || !referenciaPago)) {
-      Swal.fire("Pago incompleto", "Sube el comprobante para continuar.", "warning");
-      return;
-    }
+      // 🔥 AQUÍ VA LA MAGIA
+      platos: carrito.map((item) => ({
+        id: item.id,
+        cantidad: item.cantidad,
+        precio: item.precio,
+
+        // 👇 OPCIONES (CLAVE)
+        opciones: item.opciones || [],
+      })),
+    };
+
+    // 🔥 DEBUG FINAL
+    console.log(
+      "🚀 PAYLOAD ENVIADO AL BACKEND:",
+      JSON.stringify(payload, null, 2)
+    );
 
     try {
-      await api.post("/pedidos", {
-        usuario_id,
-        comercio_id,
-        instrucciones,
-        metodo_pago: metodoPago,
-        nombre_recibe: nombreRecibe,
-        comprobante_url: comprobanteUrl || null,
-        referencia_pago: referenciaPago || null,
-        platos: carrito.map((item) => ({
-          id: item.id,
-          cantidad: item.cantidad,
-          precio: item.precio,
-        })),
-      });
+      await api.post("/pedidos", payload);
 
-      Swal.fire("Pedido Confirmado", "Tu pedido está en camino 🚀", "success");
+      Swal.fire("Pedido confirmado", "Todo salió bien 🚀", "success");
       limpiarCarrito();
       navigate("/");
     } catch (err) {
+      console.error("❌ ERROR PEDIDO:", err);
       Swal.fire("Error", "No se pudo crear el pedido.", "error");
     }
   };
 
-  if (cargando) return <p className="loading-state">Cargando...</p>;
+  if (cargando) return <p>Cargando...</p>;
 
+  /* =====================================================
+     RENDER
+  ===================================================== */
   return (
     <div className="checkout-wrapper">
       <div className="checkout-container">
         {/* IZQUIERDA */}
         <div className="checkout-left">
           <div className="checkout-card">
-            <h3><MapPin size={20}/> Dirección de entrega</h3>
+            <h3>
+              <MapPin size={18} /> Dirección
+            </h3>
 
-            <div className="input-group">
-              <User size={18}/>
-              <input
-                value={nombreRecibe}
-                onChange={(e) => setNombreRecibe(e.target.value)}
-                placeholder="Nombre de quien recibe"
-              />
-            </div>
+            <input
+              value={nombreRecibe}
+              onChange={(e) => setNombreRecibe(e.target.value)}
+              placeholder="Nombre de quien recibe"
+            />
 
-            <div className="input-group">
-              <MapPin size={18}/>
-              <input value={direccion} readOnly />
-            </div>
+            <input value={direccion} readOnly />
 
             <textarea
-              placeholder="Instrucciones de entrega (opcional)"
+              placeholder="Instrucciones"
               value={instrucciones}
               onChange={(e) => setInstrucciones(e.target.value)}
             />
           </div>
 
-          {/* METODO PAGO */}
           <div className="checkout-card">
-            <h3><CreditCard size={20}/> Método de pago</h3>
+            <h3>
+              <Package size={18} /> Detalle del pedido
+            </h3>
 
-            <select value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
-              <option value="Efectivo">Efectivo / Contra Entrega</option>
+            {carrito.map((item) => (
+              <div key={item.id}>
+                <strong>
+                  {item.cantidad}x {item.nombre}
+                </strong>
 
-              {comercioConfig?.acepta_pago_online && (
-                <>
-                  <option value="Nequi">Nequi</option>
-                  <option value="Daviplata/Davivienda">Daviplata/Davivienda</option>
-                  <option value="Bre-B">Bre-B</option>
-                  <option value="Bancolombia">Bancolombia</option>
-                </>
-              )}
-            </select>
-
-            {qrMostrado && (
-              <div className="qr-box">
-                <h4>Cuenta {selectedPaymentDetails.name}</h4>
-                <p><strong>Titular:</strong> {selectedPaymentDetails.titular}</p>
-                <p><strong>Número:</strong> {selectedPaymentDetails.number}</p>
-
-                <p className="qr-text">Escanea el QR:</p>
-                <img src={selectedPaymentDetails.qrUrl} className="qr-img" />
-
-                <button
-                  type="button"
-                  onClick={openCloudinaryWidget}
-                  className="cloudinary-upload-button boton-confirmar"
-                  style={{
-                    backgroundColor: comprobanteUrl ? "#34A853" : "#FF620C",
-                    marginTop: "10px",
-                  }}
-                >
-                  {comprobanteUrl ? "Cambiar Comprobante" : "Subir Comprobante"}
-                </button>
-
-                {previewComprobante && (
-                  <img src={previewComprobante} className="preview-comp" />
-                )}
-
-                {referenciaPago && (
-                  <div className="input-group" style={{ background: "#eee" }}>
-                    <span>Ref. Automática:</span>
-                    <input value={referenciaPago} readOnly />
-                  </div>
+                {/* 🔥 OPCIONES VISIBLES */}
+                {item.opciones?.length > 0 && (
+                  <ul>
+                    {item.opciones.map((op, i) => (
+                      <li key={i}>
+                        ▸ {op.nombre_opcion}: <b>{op.valor}</b>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </div>
-            )}
-          </div>
-
-          {/* DETALLE */}
-          <div className="checkout-card">
-            <h3><Package size={20}/> Detalle del pedido</h3>
-
-            <div className="resumen-detalle-lista">
-              {carrito.map((item) => (
-                <div key={item.id} className="detalle-item">
-                  <span className="detalle-cantidad">{item.cantidad}x</span>
-                  <p className="detalle-nombre">{item.nombre}</p>
-                  <p className="detalle-precio">
-                    ${(item.precio * item.cantidad).toLocaleString()}
-                  </p>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
 
         {/* DERECHA */}
         <div className="checkout-right">
           <div className="checkout-final-card">
-            <h3>Resumen</h3>
+            <h3>Total</h3>
 
-            <div className="total-lines">
-              <span>Subtotal:</span> <span>${subtotal.toLocaleString()}</span>
-            </div>
-            <div className="total-lines shipping-line">
-              <span>Envío:</span> <span>${costoEnvio.toLocaleString()}</span>
-            </div>
-            <div className="total-lines">
-              <span>Tarifa de Servicio:</span> <span>${TARIFA_SERVICIO.toLocaleString()}</span>
-            </div>
+            <p>Subtotal: ${subtotal.toLocaleString()}</p>
+            <p>Envío: ${costoEnvio.toLocaleString()}</p>
+            <p>Servicio: ${TARIFA_SERVICIO.toLocaleString()}</p>
 
-            <h2 className="total-final">
-              <span>Total:</span> <span>${totalFinal.toLocaleString()}</span>
-            </h2>
+            <h2>Total: ${totalFinal.toLocaleString()}</h2>
 
-            <button
-              onClick={handleConfirmar}
-              className="boton-confirmar"
-              disabled={qrMostrado && !comprobanteUrl}
-            >
-              Confirmar Pedido (${totalFinal.toLocaleString()})
+            <button onClick={handleConfirmar} className="boton-confirmar">
+              Confirmar Pedido
             </button>
           </div>
         </div>

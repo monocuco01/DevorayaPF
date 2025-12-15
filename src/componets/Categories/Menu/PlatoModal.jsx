@@ -19,17 +19,23 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
   const cloudinaryWidget = useRef(null);
 
   const [plato, setPlato] = useState(
-    platoEditar || {
-      nombre: "",
-      descripcion: "",
-      precio: "",
-      imagen: "",
-      disponible: true,
-      destacado: false,
-      menu_id: null,
-      comercio_id,
-      categoria: "",
-    }
+    platoEditar
+      ? {
+          ...platoEditar,
+          opciones: platoEditar.OpcionPlatos || [],
+        }
+      : {
+          nombre: "",
+          descripcion: "",
+          precio: "",
+          imagen: "",
+          disponible: true,
+          destacado: false,
+          menu_id: null,
+          comercio_id,
+          categoria: "",
+          opciones: [],
+        }
   );
 
   useEffect(() => {
@@ -43,6 +49,7 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
         console.error("❌ Error cargando menú:", error);
       }
     };
+
     if (!platoEditar) cargarMenu();
   }, [comercio_id, platoEditar]);
 
@@ -54,6 +61,32 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
     });
   };
 
+  /* =========================
+     OPCIONES DEL PLATO
+     ========================= */
+
+  const agregarOpcion = () => {
+    setPlato((prev) => ({
+      ...prev,
+      opciones: [...prev.opciones, { nombre: "", obligatorio: false }],
+    }));
+  };
+
+  const cambiarOpcion = (index, campo, valor) => {
+    const nuevas = [...plato.opciones];
+    nuevas[index][campo] = valor;
+    setPlato({ ...plato, opciones: nuevas });
+  };
+
+  const eliminarOpcion = (index) => {
+    setPlato({
+      ...plato,
+      opciones: plato.opciones.filter((_, i) => i !== index),
+    });
+  };
+
+  /* ========================= */
+
   const openWidget = () => {
     const cloudinaryConfig = {
       cloudName: "dziwyqnqk",
@@ -64,8 +97,7 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
       cloudinaryConfig,
       (error, result) => {
         if (!error && result && result.event === "success") {
-          const imageUrl = result.info.secure_url;
-          setPlato((prev) => ({ ...prev, imagen: imageUrl }));
+          setPlato((prev) => ({ ...prev, imagen: result.info.secure_url }));
         }
       }
     );
@@ -82,6 +114,9 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
         precio: Number(plato.precio),
         comercio_id: Number(plato.comercio_id),
         menu_id: Number(plato.menu_id),
+        opciones: plato.opciones.filter(
+          (o) => o.nombre && o.nombre.trim() !== ""
+        ),
       };
 
       if (platoEditar) {
@@ -200,6 +235,48 @@ export default function PlatoModal({ onClose, platoEditar, comercio_id }) {
               Destacado
             </label>
           </div>
+
+          {/* ===== OPCIONES DEL PLATO ===== */}
+          <div className="platoadmin-opciones">
+            <h4>Opciones del plato</h4>
+
+            {plato.opciones.map((opcion, index) => (
+              <div key={index} className="platoadmin-opcion">
+                <input
+                  type="text"
+                  value={opcion.nombre}
+                  placeholder="Nombre de la opción"
+                  onChange={(e) =>
+                    cambiarOpcion(index, "nombre", e.target.value)
+                  }
+                  className="platoadmin-input"
+                />
+
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={opcion.obligatorio}
+                    onChange={(e) =>
+                      cambiarOpcion(index, "obligatorio", e.target.checked)
+                    }
+                  />
+                  Obligatoria
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => eliminarOpcion(index)}
+                >
+                  ❌
+                </button>
+              </div>
+            ))}
+
+            <button type="button" onClick={agregarOpcion}>
+              ➕ Agregar opción
+            </button>
+          </div>
+          {/* ============================== */}
 
           <div className="platoadmin-buttons">
             <button

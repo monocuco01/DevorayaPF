@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../api/api";
 import Swal from "sweetalert2";
 import "./PedidoModal.css";
@@ -24,6 +24,7 @@ Swal.mixin({
     popup: "swalert-top",
   },
 });
+
 const style = document.createElement("style");
 style.innerHTML = `
   .swalert-top, .swal2-container {
@@ -35,6 +36,13 @@ document.head.appendChild(style);
 function PedidoModal({ pedido, onClose, onStatusChange }) {
   const [estado, setEstado] = useState(pedido.estado);
   const [loading, setLoading] = useState(false);
+
+  // =========================
+  // Ver los datos de pedido que llegan
+  // =========================
+  useEffect(() => {
+    console.log("Pedido recibido:", pedido); // <-- Aquí puedes ver todo el pedido
+  }, [pedido]);
 
   // =========================
   // Cambiar estado del pedido
@@ -83,13 +91,17 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
 
         <p>
           <strong>Método:</strong>{" "}
-          <span className="pm-payment-method">{pedido.metodo_pago || "Efectivo"}</span>
+          <span className="pm-payment-method">
+            {pedido.metodo_pago || "Efectivo"}
+          </span>
         </p>
 
         {isOnline && pedido.referencia_pago && (
           <p>
             <strong>Referencia:</strong>{" "}
-            <span className="pm-payment-ref">{pedido.referencia_pago}</span>
+            <span className="pm-payment-ref">
+              {pedido.referencia_pago}
+            </span>
           </p>
         )}
 
@@ -105,7 +117,9 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         )}
 
         {isOnline && !hasComprobante && (
-          <p className="pm-pending-proof">El cliente aún no ha subido el comprobante.</p>
+          <p className="pm-pending-proof">
+            El cliente aún no ha subido el comprobante.
+          </p>
         )}
       </div>
     );
@@ -117,40 +131,64 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
   return (
     <div className="pm-overlay" onClick={onClose}>
       <div className="pm-modal" onClick={(e) => e.stopPropagation()}>
-        
         <h2 className="pm-title">Pedido #{pedido.id}</h2>
 
         <p>
-          <strong>Cliente:</strong> {pedido.Usuario?.nombre ?? "Sin nombre"}
+          <strong>Cliente:</strong>{" "}
+          {pedido.Usuario?.nombre ?? "Sin nombre"}
         </p>
+
         <p>
           <strong>Dirección:</strong> {pedido.direccion_entrega}
         </p>
+
         <p>
-          <strong>Costo Domicilio:</strong> {formatCurrency(pedido.costo_envio)}
+          <strong>Costo Domicilio:</strong>{" "}
+          {formatCurrency(pedido.costo_envio)}
         </p>
+
         <p>
           <strong>Total:</strong> {formatCurrency(pedido.total)}
         </p>
+
         <p>
-          <strong>Instrucciones:</strong> {pedido.instrucciones || "Ninguna"}
+          <strong>Instrucciones:</strong>{" "}
+          {pedido.instrucciones || "Ninguna"}
         </p>
 
         {/* Detalles de pago */}
         {renderPaymentDetails()}
 
         {/* Platos */}
-        <div className="pm-platos-box">
-          <h3 className="pm-section-title">Platos del pedido</h3>
-          <ul className="pm-platos-list">
-            {pedido.Platos?.map((plato) => (
-              <li key={plato.id} className="pm-plato-item">
-                {plato.nombre} x {plato.PedidoPlato?.cantidad} —{" "}
-                {formatCurrency(plato.PedidoPlato?.precio_unitario)}
+        {/* Platos */}
+<div className="pm-platos-box">
+  <h3 className="pm-section-title">Platos del pedido</h3>
+
+  <ul className="pm-platos-list">
+    {pedido.PedidoPlatos?.map((pp) => (
+      <li key={pp.id} className="pm-plato-item">
+        <div className="pm-plato-main">
+          <strong>{pp.Plato?.nombre}</strong>{" "}
+          x {pp.cantidad} — {formatCurrency(pp.precio_unitario)}
+        </div>
+
+        {/* ✅ Opciones seleccionadas */}
+        {Array.isArray(pp.PedidoPlatoOpcions) && pp.PedidoPlatoOpcions.length > 0 && (
+          <ul className="pm-opciones-list">
+            {pp.PedidoPlatoOpcions.map((opcion) => (
+              <li key={opcion.id} className="pm-opcion-item">
+                ▸ <span className="pm-opcion-nombre">{opcion.nombre_opcion}</span>
+             
               </li>
             ))}
           </ul>
-        </div>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
+
 
         {/* Estado */}
         <div className="pm-state-box">
