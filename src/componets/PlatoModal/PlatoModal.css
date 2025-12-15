@@ -10,6 +10,38 @@
                     /* ================================================= */
                     /* 1. OVERLAY Y ANIMACIÓN DE TRANSICIÓN */
                     /* ================================================= */
+/* ===== Estilo para selects dentro de modales ===== */
+.modal-options {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-options label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #343a40; /* Gris oscuro */
+  font-size: 0.95em;
+}
+
+.modal-options select {
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  padding: 10px 12px; /* Relleno cómodo */
+  font-size: 1em;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  box-sizing: border-box;
+  appearance: none; /* Elimina estilos por defecto del navegador */
+  transition: all 0.3s ease;
+}
+
+.modal-options select:focus {
+  border-color: #F75555; /* Rojo vibrante */
+  box-shadow: 0 0 0 3px rgba(247, 85, 85, 0.2); /* Sombra suave roja */
+  outline: none;
+}
 
                     .modal-overlay {
                         position: fixed;

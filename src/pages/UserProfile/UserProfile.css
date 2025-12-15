@@ -96,7 +96,7 @@
 .personal-data input[type="text"],
 .personal-data input[type="email"],
 .personal-data input[type="password"],
-.personal-data select {
+.personal-data  select{
     width: 100%;
     padding: 12px 15px; 
     border: 1px solid #dee2e6; /* Borde más limpio */
@@ -131,12 +131,7 @@
 }
 
 .direccion-grid {
-    display: grid;
-    /* Distribución para desktop: 
-       Tipo (1fr) | Calle/Nombre (2fr) | # | Número 1 (1fr) | - | Número 2 (1fr) | Dpto (1fr) */
-    grid-template-columns: 1fr 2fr auto 1fr auto 1fr 1fr; 
-    gap: 10px; /* Aumentamos el gap general */
-    align-items: center;
+   display: flex;
 }
 
 /* Ocultar separadores de dirección en desktop (usamos solo el input) */
@@ -149,6 +144,12 @@
     .direccion-grid {
         grid-template-columns: 1fr; 
         gap: 15px; /* Más espacio vertical entre campos */
+        flex-direction: column
+
+
+
+
+
     }
     
     /* Mostrar todos los campos como bloques en móvil */

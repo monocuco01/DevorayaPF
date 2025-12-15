@@ -98,7 +98,7 @@ export default function Checkout() {
   };
 
   /* =============================
-     LOAD DATA
+     LOAD DATA + VALIDACIONES
   ============================= */
   useEffect(() => {
     if (!window.cloudinary) {
@@ -108,16 +108,47 @@ export default function Checkout() {
       document.body.appendChild(script);
     }
 
-    const fetchData = async () => {
-      if (!usuario_id || !comercio_id) {
-        setCargando(false);
-        return;
-      }
+    // ❌ No ha iniciado sesión
+    if (!usuario_id) {
+      Swal.fire({
+        title: "Inicia sesión",
+        text: "Debes iniciar sesión para continuar con el pedido.",
+        icon: "warning",
+        confirmButtonText: "Iniciar sesión",
+      }).then(() => navigate("/login"));
+      return;
+    }
 
+    // ❌ Carrito vacío
+    if (!comercio_id) {
+      setCargando(false);
+      return;
+    }
+
+    const fetchData = async () => {
       try {
         const u = await api.get(`/usuarios/${usuario_id}`);
-        setDireccion(u.data.direccion || "");
         setNombreRecibe(u.data.nombre || "");
+        setDireccion(u.data.direccion || "");
+
+        // ⚠️ Usuario sin dirección
+        if (!u.data.direccion) {
+          Swal.fire({
+            title: "Falta tu dirección",
+            text: "Para hacer pedidos debes agregar una dirección en tu perfil.",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Ir a mi perfil",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/perfil");
+            }
+          });
+
+          setCargando(false);
+          return;
+        }
 
         const envio = await api.get(
           `/pedidos/costo-envio/${comercio_id}/${usuario_id}`
@@ -134,7 +165,7 @@ export default function Checkout() {
     };
 
     fetchData();
-  }, [usuario_id, comercio_id]);
+  }, [usuario_id, comercio_id, navigate]);
 
   /* =============================
      PAGO SELECCIONADO
@@ -162,11 +193,17 @@ export default function Checkout() {
   const handleConfirmar = async () => {
     if (!usuario_id) {
       Swal.fire("Atención", "Inicia sesión.", "warning");
-      return navigate("/login");
+      navigate("/login");
+      return;
     }
 
-    if (!direccion || carrito.length === 0) {
-      Swal.fire("Error", "Datos incompletos.", "warning");
+    if (!direccion) {
+      Swal.fire({
+        title: "Dirección requerida",
+        text: "Agrega tu dirección en el perfil para continuar.",
+        icon: "warning",
+        confirmButtonText: "Ir a mi perfil",
+      }).then(() => navigate("/perfil"));
       return;
     }
 
