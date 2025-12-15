@@ -29,6 +29,24 @@ function PedidosList() {
   const audioRef = useRef(null);
 
   const comercioId = getComercioId();
+const getEstadoColor = (estado) => {
+  switch (estado) {
+    case "pendiente":
+      return "estado-pendiente";
+    case "aceptado":
+      return "estado-aceptado";
+    case "en_preparacion":
+      return "estado-preparacion";
+    case "en_camino":
+      return "estado-camino";
+    case "entregado":
+      return "estado-entregado";
+    case "cancelado":
+      return "estado-cancelado";
+    default:
+      return "estado-default";
+  }
+};
 
   useEffect(() => {
     audioRef.current = new Audio("../../../public/sounds/sonido.mp3");
