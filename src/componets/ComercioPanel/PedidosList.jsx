@@ -49,7 +49,7 @@ const getEstadoColor = (estado) => {
 };
 
   useEffect(() => {
-    audioRef.current = new Audio("../../../public/sounds/sonido.mp3");
+  audioRef.current = new Audio("/sounds/sonido.mp3");
   }, []);
 
   const fetchPedidos = async (showAlert = false) => {
