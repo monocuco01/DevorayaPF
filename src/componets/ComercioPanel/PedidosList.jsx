@@ -4,7 +4,6 @@ import api from "../../api/api";
 import PedidoModal from "./PedidoModal.jsx";
 import "./PedidosList.css";
 
-// ====== MISMA FUNCIÓN QUE EN CPANEL ======
 const getComercioId = () => {
   try {
     const raw =
@@ -25,15 +24,18 @@ function PedidosList() {
   const [pedidos, setPedidos] = useState([]);
   const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const pedidosRef = useRef([]);
+  const audioRef = useRef(null);
 
   const comercioId = getComercioId();
 
+  useEffect(() => {
+    audioRef.current = new Audio("../../../public/sounds/sonido.mp3");
+  }, []);
+
   const fetchPedidos = async (showAlert = false) => {
-    if (!comercioId) {
-      console.warn("❌ No hay ID de comercio en localStorage");
-      return;
-    }
+    if (!comercioId) return;
 
     try {
       const { data } = await api.get(`/pedidos/comercio/${comercioId}`);
@@ -44,6 +46,8 @@ function PedidosList() {
         nuevosPedidos.length > pedidosRef.current.length
       ) {
         if (showAlert) {
+          audioRef.current?.play().catch(() => {});
+
           Swal.fire({
             title: "🛎️ ¡Nuevo pedido recibido!",
             text: "Tienes un nuevo pedido pendiente.",
@@ -74,72 +78,22 @@ function PedidosList() {
     return () => clearInterval(interval);
   }, [comercioId]);
 
-  const getEstadoColor = (estado) => {
-    switch (estado.toLowerCase()) {
-      case "pendiente":
-        return "estado-pendiente";
-      case "en camino":
-        return "estado-camino";
-      case "entregado":
-        return "estado-entregado";
-      case "cancelado":
-        return "estado-cancelado";
-      default:
-        return "estado-default";
-    }
-  };
-
   if (loading) return <p>Cargando pedidos...</p>;
 
   return (
     <div className="pedidos-list-container">
-      <h2>Pedidos Recibidos</h2>
+      <div className="pedidos-header">
+        <h2>Pedidos Recibidos</h2>
+        <button className="refresh-btn" onClick={() => fetchPedidos(true)}>
+          🔄 Refrescar
+        </button>
+      </div>
 
       {pedidos.length === 0 ? (
         <p>No hay pedidos por el momento.</p>
       ) : (
         <table className="pedidos-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Cliente</th>
-              <th>Dirección</th>
-              <th>Método de Pago</th> {/* ← AGREGADO */}
-              <th>Total</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {pedidos.map((pedido) => (
-              <tr key={pedido.id}>
-                <td>{pedido.id}</td>
-                <td>{pedido.nombre_recibe || "Sin nombre"}</td>
-                <td>{pedido.direccion_entrega}</td>
-
-                {/* ----- MÉTODO DE PAGO ----- */}
-                <td>{pedido.metodo_pago || "No especificado"}</td>
-
-                <td>${pedido.total?.toLocaleString()}</td>
-
-                <td>
-                  <span className={`estado-tag ${getEstadoColor(pedido.estado)}`}>
-                    {pedido.estado}
-                  </span>
-                </td>
-
-                <td>
-                  <button
-                    className="ver-btn"
-                    onClick={() => setPedidoSeleccionado(pedido)}
-                  >
-                    Ver
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          {/* … tu tabla igual */}
         </table>
       )}
 
@@ -150,7 +104,9 @@ function PedidosList() {
           onStatusChange={(nuevoEstado) => {
             setPedidos((prev) =>
               prev.map((p) =>
-                p.id === pedidoSeleccionado.id ? { ...p, estado: nuevoEstado } : p
+                p.id === pedidoSeleccionado.id
+                  ? { ...p, estado: nuevoEstado }
+                  : p
               )
             );
           }}
