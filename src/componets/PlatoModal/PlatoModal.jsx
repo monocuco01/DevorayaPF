@@ -80,78 +80,80 @@ function PlatoModal({ plato, onClose }) {
       className={`modal-overlay ${isVisible ? "is-open" : ""}`}
       onClick={handleClose}
     >
-      <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={handleClose}>
-          ✖
-        </button>
+     <div className="modal-contents" onClick={(e) => e.stopPropagation()}>
+  <button className="close-btn" onClick={handleClose}>✖</button>
 
-        <div className="modal-body">
-          <div className="modal-img-container">
-            <img
-              src={displayPlato.imagen}
-              alt={displayPlato.nombre}
-              className="modal-img"
-            />
-          </div>
+  <div className="modal-layout">
+    
+    {/* COLUMNA IZQUIERDA: IMAGEN */}
+    <div className="layout-left">
+      <img
+        src={displayPlato.imagen}
+        alt={displayPlato.nombre}
+        className="product-img"
+      />
+    </div>
 
-          <div className="modal-info">
-            <h1>{displayPlato.nombre}</h1>
-            <p className="modal-desc">{displayPlato.descripcion}</p>
-
-            {/* ===== OPCIONES ===== */}
-            {tieneOpciones && (
-              <div className="modal-options">
-                <label>
-                  Opción {opcionObligatoria && <span>*</span>}
-                </label>
-                <select
-                  value={opcionSeleccionada}
-                  onChange={(e) => setOpcionSeleccionada(e.target.value)}
-                >
-                  <option value="">
-                    {opcionObligatoria
-                      ? "Selecciona una opción"
-                      : "Sin opción"}
-                  </option>
-                  {opciones.map((op) => (
-                    <option key={op.id} value={op.id}>
-                      {op.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            <div className="modal-price">
-              <span>Precio:</span>
-              <h3>
-                $
-                {(displayPlato.precio * cantidad).toLocaleString()}
-              </h3>
-            </div>
-
-            <div className="modal-quantity">
-              <button
-                onClick={() => setCantidad((c) => Math.max(1, c - 1))}
-                className="qty-btn"
-              >
-                -
-              </button>
-              <span>{cantidad}</span>
-              <button
-                onClick={() => setCantidad((c) => c + 1)}
-                className="qty-btn"
-              >
-                +
-              </button>
-            </div>
-
-            <button className="add-btn" onClick={handleAdd}>
-              Agregar al carrito
-            </button>
-          </div>
+    {/* COLUMNA DERECHA: INFO + OPCIONES + FOOTER */}
+    <div className="layout-right">
+      
+      {/* Zona Scrolleable (Título, descripción, opciones) */}
+      <div className="scrollable-content">
+        <div className="product-header">
+          <h1>{displayPlato.nombre}</h1>
+          <p className="product-desc">{displayPlato.descripcion}</p>
         </div>
+
+        {tieneOpciones && (
+          <div className="options-container">
+            <div className="options-header">
+              <label>
+                Elige tu Base {opcionObligatoria && <span className="tag-required">Obligatorio</span>}
+              </label>
+              <span className="subtitle">Selecciona 1 opción</span>
+            </div>
+
+            <div className="options-list">
+              {opciones.map((op) => (
+                <label key={op.id} className={`option-item ${opcionSeleccionada === op.id ? 'selected' : ''}`}>
+                  <input
+                    type="radio"
+                    name="opcion-producto"
+                    value={op.id}
+                    checked={opcionSeleccionada === op.id}
+                    onChange={() => setOpcionSeleccionada(op.id)}
+                  />
+                  <div className="option-row">
+                    {op.imagen && <img src={op.imagen} alt={op.nombre} className="opt-img" />}
+                    <span className="opt-name">{op.nombre}</span>
+                    <div className="radio-circle">
+                      <div className="radio-dot"></div>
+                    </div>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Footer Fijo (Siempre abajo en la columna derecha) */}
+      <div className="modal-footer">
+        <div className="qty-control">
+           <button onClick={() => setCantidad(Math.max(1, cantidad - 1))}>-</button>
+           <span>{cantidad}</span>
+           <button onClick={() => setCantidad(cantidad + 1)}>+</button>
+        </div>
+        
+        <button className="add-btn" onClick={handleAdd}>
+          <span>Agregar</span>
+          <span>${(displayPlato.precio * cantidad).toLocaleString()}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
     </div>
   );
 }

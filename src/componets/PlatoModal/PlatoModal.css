@@ -1,280 +1,317 @@
+/* =========================================
+   1. EL FONDO (CRÍTICO: Si falta esto, no se ve nada o queda detrás)
+   ========================================= */
+.modal-overlay {
+  position: fixed; /* Fijo a la pantalla */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ancho total */
+  height: 100vh; /* Alto total */
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  z-index: 9999; /* ¡Muy alto para que salga encima de todo! */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: flex-end; /* En móvil: alineado abajo */
+}
 
-                    :root {
-                        --primary-color: #99622D; /* Color de acento (verde Rappi/Glovo) */
-                        --text-color: #000000; /* Texto claro */
-                        --bg-dark: #ffffff; /* Fondo principal oscuro */
-                        --modal-bg: #ffffff; /* Fondo del contenido del modal */
-                        --transition-duration: 0.4s;
-                    }
-
-                    /* ================================================= */
-                    /* 1. OVERLAY Y ANIMACIÓN DE TRANSICIÓN */
-                    /* ================================================= */
-/* ===== Estilo para selects dentro de modales ===== */
-.modal-options {
-  margin-bottom: 20px;
+/* =========================================
+   2. EL CONTENEDOR DEL MODAL
+   ========================================= */
+.modal-contents {
+  background: #ffffff;
+  width: 100%;
+  
+  /* MÓVIL (Por defecto) */
+  height: 100vh; /* Ocupa el 90% de la altura en móvil */
+  border-radius: 20px 20px 0 0; /* Redondeado solo arriba */
+  
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out;
 }
 
-.modal-options label {
+/* Animación de entrada suave */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Estructura Interna */
+.modal-layout {
+  display: flex;
+  flex-direction: column; /* Vertical en móvil */
+  height: 100%; /* Toma toda la altura disponible */
+  overflow: hidden;
+}
+
+/* =========================================
+   3. COLUMNA IZQUIERDA (IMAGEN)
+   ========================================= */
+.layout-left {
+  width: 100%;
+  height: 250px; /* Altura FIJA en móvil para que no desaparezca */
+  flex-shrink: 0; /* Evita que se aplaste */
+  background-color: #eee; /* Color de fondo por si la imagen tarda en cargar */
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================
+   4. COLUMNA DERECHA (CONTENIDO)
+   ========================================= */
+.layout-right {
+  flex: 1; /* Ocupa el resto del espacio */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: white;
+}
+
+/* Scroll solo en el contenido */
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  /* Espacio extra abajo para que no se pegue al texto */
+}
+
+.product-header h1 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  color: #222;
+}
+
+.product-desc {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Opciones *//* =========================================
+   ESTILO DE LISTA: MINIMALISTA (Opción B)
+   ========================================= */
+.options-list {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04); 
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.option-item {
+  position: relative;
+  background: #fff;
+  border-bottom: 1px solid #f5f5f5; 
+  /* Transición suave para que no "brinque" el color al seleccionar */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  margin: 0;
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+/* Efecto sutil al pasar el mouse */
+.option-item:hover {
+  background-color: #fcfcfc;
+}
+
+/* --- ESTILO CUANDO SE SELECCIONA --- */
+.option-item.selected,
+.option-item:has(input:checked) {
+  background-color: #faf5f0; /* Tu café ultra suave */
+}
+
+/* Detalle Premium: Barra lateral izquierda al seleccionar */
+.option-item:has(input:checked)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px; /* Una línea delgada */
+  background-color: #99622D; /* Tu color café */
+  transition: opacity 0.3s;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.opt-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  margin-right: 15px;
+  border: 1px solid #eee;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.opt-name {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #222;
+  flex: 1;
+  transition: color 0.3s;
+}
+
+/* El nombre cambia a tu color cuando se selecciona */
+.option-item:has(input:checked) .opt-name {
+  color: #99622D;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: #343a40; /* Gris oscuro */
-  font-size: 0.95em;
 }
 
-.modal-options select {
-  width: 100%; /* Ocupa todo el ancho del contenedor */
-  padding: 10px 12px; /* Relleno cómodo */
-  font-size: 1em;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background-color: #fff;
-  color: #333;
-  box-sizing: border-box;
-  appearance: none; /* Elimina estilos por defecto del navegador */
-  transition: all 0.3s ease;
+/* Radio Button Minimalista */
+.radio-circle {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0; /* Evita que se aplaste */
+ margin-right: 8%;
+  transition: border-color 0.3s;
 }
 
-.modal-options select:focus {
-  border-color: #F75555; /* Rojo vibrante */
-  box-shadow: 0 0 0 3px rgba(247, 85, 85, 0.2); /* Sombra suave roja */
-  outline: none;
+.radio-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: #99622D;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-                    .modal-overlay {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(0, 0, 0, 0); /* Inicialmente invisible */
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        z-index: 1000;
-                        pointer-events: none; /* No interactuable hasta que esté abierto */
-                        opacity: 0;
-                        transition: opacity var(--transition-duration) ease-in-out, 
-                                    background-color var(--transition-duration) ease-in-out;
-                    }
+/* Animación al seleccionar */
+.option-item input:checked + .option-row .radio-circle {
+  border-color: #99622D;
+}
 
-                    /* Estado ABIERTO del Overlay */
-                    .modal-overlay.is-open {
-                        opacity: 1;
-                        background-color: rgba(0, 0, 0, 0.75);
-                        pointer-events: auto; /* Permite clicks para cerrar */
-                    }
+.option-item input:checked + .option-row .radio-dot {
+  transform: translate(-50%, -50%) scale(1);
+}
+.option-item input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+}
+/* =========================================
+   5. FOOTER (BOTONES)
+   ========================================= */
+.modal-footer {
+  padding: 15px 20px;
+  background: white;
+  border-top: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  /* Asegura que esté siempre abajo */
+  flex-shrink: 0; 
+  padding-bottom: max(15px, env(safe-area-inset-bottom)); /* Para iPhone X+ */
+}
 
-                    /* Estilos iniciales del Contenido (fuera de pantalla, escalado y opacidad 0) */
-                    .modal-contents {
-                        background-color: var(--modal-bg);
-                        border-radius: 12px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-                        max-width: 90%;
-                        max-height: 90vh;
-                        overflow-y: auto;
-                        color: var(--text-color);
-                        position: relative;
-                        
-                        /* Animación: se desliza hacia arriba, se agranda y aparece */
-                        transform: translateY(50px) scale(0.9);
-                        opacity: 0;
-                        transition: transform var(--transition-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                                    opacity var(--transition-duration) ease-in-out;
-                    }
+.qty-control {
+  background: #f5f5f5;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  gap: 15px;
+}
 
-                    /* Estado ABIERTO del Contenido */
-                    .modal-overlay.is-open .modal-contents {
-                        transform: translateY(0) scale(1);
-                        opacity: 1;
-                    }
+.qty-control button {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #99622D;
+}
 
-                    /* ================================================= */
-                    /* 2. LAYOUT Y ESTILOS INTERNOS */
-                    /* ================================================= */
+.add-btn {
+  background: #99622D;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  flex: 1;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
 
-                    .modal-body {
-                        display: flex;
-                        flex-direction: column; /* Por defecto apilado para móvil */
-                        padding: 20px;
-                        gap: 20px;
-                    }
+/* Botón cerrar */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
 
-                    /* Contenedor de la Imagen */
-                    .modal-img-container {
-                        width: 100%;
-                        height: 250px;
-                        border-radius: 8px;
-                        overflow: hidden;
-                        flex-shrink: 0; /* No se encoge en desktop */
-                    }
+/* =========================================
+   6. VERSIÓN ESCRITORIO (PC)
+   ========================================= */
+@media (min-width: 768px) {
+  .modal-overlay {
+    align-items: center; /* Centrado vertical en PC */
+  }
 
-                    .modal-img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        display: block;
-                    }
+  .modal-contents {
+    width: 900px; /* Ancho fijo */
+    height: 600px; /* Alto fijo: IMPORTANTE para que se vea */
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 16px; /* Bordes redondeados completos */
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
 
-                    /* Sección de Información */
-                    .modal-info {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 15px;
-                    }
+  /* Cambiamos a horizontal */
+  .modal-layout {
+    flex-direction: row; 
+  }
 
-                    .modal-info h1 {
-                        font-size: 1.8rem;
-                        font-weight: 700;
-                        margin: 0;
-                        line-height: 1.2;
-                    }
+  .layout-left {
+    width: 45%; /* Mitad izquierda */
+    height: 100%; /* Altura completa del padre */
+  }
 
-                    .modal-desc {
-                        font-size: 1rem;
-                        color: #807f7f;
-                        line-height: 1.5;
-                        margin-bottom: 10px;
-                    }
-
-                    /* Precio */
-                    .modal-price {
-                        display: flex;
-                        align-items: baseline;
-                        gap: 10px;
-                    }
-
-                    .modal-price span {
-                        font-size: 1.1rem;
-                        font-weight: 500;
-                        color: #000000;
-                    }
-
-                    .modal-price h3 {
-                        font-size: 1.8rem;
-                        color: var(--primary-color);
-                        font-weight: 800;
-                        margin: 0;
-                    }
-
-                    /* Botón de Cierre (X) */
-                    .close-btn {
-                        position: absolute;
-                        top: 10px;
-                        right: 10px;
-                        background: rgba(255, 255, 255, 0.5);
-                        color: var(--text-color);
-                        border: none;
-                        border-radius: 50%;
-                        width: 30px;
-                        height: 30px;
-                        cursor: pointer;
-                        font-size: 1rem;
-                        z-index: 10;
-                        transition: background-color 0.2s;
-                    }
-
-                    .close-btn:hover {
-                        background: rgba(0, 0, 0, 0.7);
-                    }
-
-
-                    /* ================================================= */
-                    /* 3. CONTROLES DE CANTIDAD Y BOTÓN FINAL */
-                    /* ================================================= */
-
-                    .modal-quantity {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        width: 120px; /* Ancho fijo para el control */
-                        justify-content: space-between;
-                        margin: 10px 0;
-                        background-color: #ffffff;
-                        padding: 5px;
-                        border-radius: 50px;
-                    }
-
-                    .qty-btn {
-                        background: transparent;
-                        border: none;
-                        color: var(--text-color);
-                        font-size: 1.5rem;
-                        font-weight: 600;
-                        width: 30px;
-                        height: 30px;
-                        line-height: 1;
-                        cursor: pointer;
-                        border-radius: 50%;
-                        transition: background-color 0.2s;
-                    }
-
-                    .qty-btn:hover {
-                        background-color: #3d3d3d;
-                    }
-
-                    .modal-quantity span {
-                        font-size: 1.2rem;
-                        font-weight: 700;
-                    }
-
-                    /* Botón de Agregar al Carrito */
-                    .add-btn {
-                        background-color: var(--primary-color);
-                        color: var(--bg-dark); /* Color oscuro para contraste en el botón */
-                        border: none;
-                        padding: 15px 20px;
-                        border-radius: 50px;
-                        font-size: 1.1rem;
-                        font-weight: 700;
-                        cursor: pointer;
-                        transition: background-color 0.2s, transform 0.1s;
-                        text-transform: uppercase;
-                        letter-spacing: 0.5px;
-                        margin-top: 10px;
-                    }
-
-                    .add-btn:hover {
-                        background-color: #00b080;
-                    }
-
-                    .add-btn:active {
-                        transform: scale(0.98);
-                    }
-
-
-                    /* ================================================= */
-                    /* 4. MEDIA QUERY PARA ESCRITORIO (Desktop) */
-                    /* ================================================= */
-
-                    @media (min-width: 768px) {
-                        .modal-contents {
-                            max-width: 800px; /* Ancho más grande para desktop */
-                        }
-
-                        .modal-body {
-                            flex-direction: row; /* Diseño lado a lado */
-                            padding: 30px;
-                        }
-
-                        .modal-img-container {
-                            width: 40%; /* 40% para la imagen */
-                            height: 350px;
-                        }
-
-                        .modal-info {
-                            width: 60%; /* 60% para la info */
-                            padding-left: 30px;
-                        }
-                        
-                        .modal-info h1 {
-                            font-size: 2.2rem;
-                        }
-                        
-                        .modal-price h3 {
-                            font-size: 2.5rem;
-                        }
-                    }
-                
+  .layout-right {
+    width: 55%; /* Mitad derecha */
+  }
+  
+  .close-btn {
+    top: 20px;
+    right: 20px;
+  }
+}
