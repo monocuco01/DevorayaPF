@@ -1,9 +1,11 @@
+/* ==================================== */
 /* Archivo: src/components/Checkout/Checkout.css (Responsive Optimizado) */
+/* Checkout - Responsive Completo */
+/* ==================================== */
 
 /* ---------------------- */
-/* 1. ESTRUCTURA GENERAL  */
+/* 1. ESTRUCTURA GENERAL */
 /* ---------------------- */
-
 .checkout-wrapper {
     max-width: 1100px;
     width: 100%;
@@ -17,8 +19,8 @@
     display: flex;
     width: 100%;
     gap: 30px;
-    
     align-items: flex-start;
+    flex-wrap: wrap; /* Evita recorte en móviles */
 }
 
 .checkout-left {
@@ -27,11 +29,13 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
+    min-width: 0; /* Previene overflow de tarjetas largas */
 }
 
 .checkout-right {
     flex: 1;
     width: 100%;
+    min-width: 0;
 }
 
 /* Títulos y estados */
@@ -46,7 +50,6 @@
 /* ---------------------- */
 /* 2. TARJETAS / CARDS    */
 /* ---------------------- */
-
 .checkout-card {
     background: white;
     padding: 25px;
@@ -82,7 +85,6 @@
 /* ---------------------- */
 /* 3. INPUTS MEJORADOS    */
 /* ---------------------- */
-
 .input-group {
     display: flex;
     align-items: center;
@@ -92,6 +94,7 @@
     border: 1px solid #ddd;
     height: 46px;
     margin-bottom: 15px;
+    min-width: 0; /* Evita overflow en móviles */
 }
 
 .input-group input {
@@ -122,7 +125,6 @@
 /* ---------------------- */
 /* 4. QR + COMPROBANTE    */
 /* ---------------------- */
-
 .qr-box {
     border-top: 2px solid #f75555;
     padding-top: 20px;
@@ -177,7 +179,6 @@
 /* ---------------------- */
 /* 5. RESUMEN DE PAGO     */
 /* ---------------------- */
-
 .checkout-final-card {
     background: white;
     padding: 25px;
@@ -186,6 +187,8 @@
     position: sticky;
     top: 20px;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .total-lines {
@@ -232,10 +235,11 @@
 /* ---------------------- */
 /* 6. DETALLE DE PEDIDO   */
 /* ---------------------- */
-
 .resumen-detalle-lista {
     border-top: 1px solid #eee;
     padding-top: 15px;
+    max-height: 300px; /* Scroll si hay muchos items */
+    overflow-y: auto;
 }
 
 .detalle-item {
@@ -299,12 +303,11 @@
     .checkout-wrapper {
         padding: 12px;
         margin-top: 80px;
-     width: 90%;
+        width: 95%;
     }
     .checkout-card {
         padding: 18px;
         border-radius: 10px;
-        
     }
     .checkout-card h3 {
         font-size: 1.2em;
@@ -312,16 +315,21 @@
     .qr-img {
         max-width: 130px;
     }
-    .checkout-final-card{
-   background: white;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-    position: sticky;
-
-    width: 90%;
+    .checkout-final-card {
+        padding: 20px;
+        width: 100%;
+        border-radius: 12px;
+        position: static;
     }
-    
+    .input-group{
+        width: 88%;
+    }
+    .detalle-item{
+        width: 93%;
+    }
+   .checkout-card select{
+    width: 95%;
+   }
 }
 
 /* Móviles muy pequeños */

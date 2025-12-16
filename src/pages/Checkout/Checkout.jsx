@@ -268,6 +268,7 @@ export default function Checkout() {
             </div>
 
             <textarea
+            className="Instrucciones"
               placeholder="Instrucciones"
               value={instrucciones}
               onChange={(e) => setInstrucciones(e.target.value)}
@@ -331,7 +332,7 @@ export default function Checkout() {
 
             <p>Subtotal: ${subtotal.toLocaleString()}</p>
             <p>Envío: ${costoEnvio.toLocaleString()}</p>
-            <p>Servicio: ${TARIFA_SERVICIO.toLocaleString()}</p>
+            <p>Tarifa Servicio: ${TARIFA_SERVICIO.toLocaleString()}</p>
 
             <h2>Total: ${totalFinal.toLocaleString()}</h2>
 
