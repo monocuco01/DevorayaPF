@@ -112,23 +112,35 @@ const PedidoItem = ({ pedido }) => {
                     {/* Barra estilo tu screenshot */}
                     <EstadoProgress estado={pedido.estado} />
 
-                    <h4>Productos ({pedido.Platos?.length || 0})</h4>
+               <h4>Productos ({pedido.PedidoPlatos?.length || 0})</h4>
 
-                    <ul className="productos-list">
-                        {pedido.Platos?.length > 0 ? (
-                            pedido.Platos.map((plato, index) => (
-                                <li key={index}>
-                                    <strong>{plato.PedidoPlato?.cantidad || 1}x</strong>{" "}
-                                    {plato.nombre}
-                                    <span className="item-price">
-                                        ${(plato.precio * (plato.PedidoPlato?.cantidad || 1)).toLocaleString()}
-                                    </span>
-                                </li>
-                            ))
-                        ) : (
-                            <li>No hay productos</li>
-                        )}
-                    </ul>
+<ul className="productos-list">
+  {pedido.PedidoPlatos?.length > 0 ? (
+
+    pedido.PedidoPlatos.map((pp) => (
+      <li key={pp.id}>
+        <strong>{pp.cantidad || 1}x</strong> {pp.Plato?.nombre || "Sin nombre"} 
+        <span className="item-price">
+          ${(pp.precio_unitario * (pp.cantidad || 1)).toLocaleString()}
+        </span>
+
+        {/* Opciones seleccionadas */}
+        {pp.PedidoPlatoOpcions?.length > 0 && (
+          <ul className="opciones-list">
+            {pp.PedidoPlatoOpcions.map((op) => (
+              <li key={op.id}>
+                ▸ {op.nombre_opcion} ({op.valor})
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))
+  ) : (
+    <li>No hay productos</li>
+  )}
+</ul>
+
                 </div>
             )}
         </div>
@@ -173,6 +185,7 @@ const UserOrders = () => {
                 {pedidos.length === 0 ? (
                     <p>No tienes pedidos aún.</p>
                 ) : (
+   
                     <div className="pedidos-list">
                         {pedidos.map((pedido) => (
                             <PedidoItem key={pedido.id} pedido={pedido} />
