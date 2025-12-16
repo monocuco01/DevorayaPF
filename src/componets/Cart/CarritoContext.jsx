@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CarritoContext = createContext();
 
@@ -16,6 +17,18 @@ export function CarritoProvider({ children }) {
   }, [carrito]);
 
   const agregarAlCarrito = (producto) => {
+    if (carrito.length > 0) {
+      const comercioActual = carrito[0].comercio_id;
+      if (producto.comercio_id !== comercioActual) {
+        Swal.fire({
+          icon: "warning",
+          title: "¡Ups!",
+          text: "No puedes agregar platos de otro restaurante al carrito.",
+        });
+        return; // ❌ No agregar
+      }
+    }
+
     setCarrito((prev) => {
       const exists = prev.find((p) => p.id === producto.id);
       if (exists) {
