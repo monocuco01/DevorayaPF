@@ -100,7 +100,6 @@ function PlatosSection() {
                   ComercioId: comercio.id,
                 })
               );
-              console.log(platosDestacados)
           } catch (err) {
             console.warn("Error platos comercio", comercio.id);
           }
@@ -118,15 +117,17 @@ function PlatosSection() {
   }, []);
 
   /* ---------- Lo más vendido (HARDCODED) ---------- */
-const masVendidoIds = [35, 36, 41];
+  const masVendidoIds = [35, 36, 41];
 
-const masVendido = comercios.filter((c) =>
-  masVendidoIds.includes(c.id)
-);
+  const masVendido = comercios.filter((c) =>
+    masVendidoIds.includes(c.id)
+  );
 
-
-  /* ---------- Recomendados ---------- */
-  const recomendados = comercios.slice(0, 8);
+  /* ---------- Recomendados (id 35 primero) ---------- */
+  const recomendados = [
+    ...comercios.filter((c) => c.id === 35),
+    ...comercios.filter((c) => c.id !== 35),
+  ].slice(0, 8);
 
   return (
     <>
