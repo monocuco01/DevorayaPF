@@ -97,3 +97,18 @@
 .btn-view:hover {
     color: #2980b9;
 }
+
+.pedidos-filtros select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #dcdfe6;
+  font-size: 0.95rem;
+  background: #fff;
+  cursor: pointer;
+  min-width: 220px;
+}
+
+.pedidos-filtros select:focus {
+  outline: none;
+  border-color: #3498db;
+}
