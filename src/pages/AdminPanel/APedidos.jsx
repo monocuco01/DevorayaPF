@@ -73,11 +73,22 @@ const APedidos = () => {
   /* ===============================
      HELPERS
   =============================== */
+
+  /*
+  // ===============================
+  // FORMATEO FECHA / HORA (DESHABILITADO)
+  // ===============================
+  // Usa createdAt del pedido
+  // Formato: fecha corta + hora
+  // Para reactivar:
+  // 1) Descomentar este helper
+  // 2) Descomentar la columna y el <td> en la tabla
   const formatFecha = (dateString) =>
     new Date(dateString).toLocaleString('es-CO', {
       dateStyle: 'short',
       timeStyle: 'short',
     });
+  */
 
   const getEstadoInfo = (estado) => {
     switch ((estado || '').toLowerCase()) {
@@ -134,7 +145,14 @@ const APedidos = () => {
                   <FontAwesomeIcon icon={faStore} /> Comercio
                 </th>
                 <th>Total</th>
+
+                {/*
+                // ===============================
+                // COLUMNA FECHA / HORA (DESHABILITADA)
+                // ===============================
                 <th>Fecha/Hora</th>
+                */}
+
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -153,7 +171,14 @@ const APedidos = () => {
                     <td>
                       ${pedido.total.toLocaleString('es-CO')}
                     </td>
+
+                    {/*
+                    // ===============================
+                    // CELDA FECHA / HORA (DESHABILITADA)
+                    // ===============================
                     <td>{formatFecha(pedido.createdAt)}</td>
+                    */}
+
                     <td>
                       <span
                         className="estado-tag-pedido"
