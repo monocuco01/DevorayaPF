@@ -3,9 +3,9 @@ import api from "../../api/api";
 import Swal from "sweetalert2";
 import "./PedidoModal.css";
 
-// =========================
-// Formato de moneda
-// =========================
+/* =========================
+   Formato de moneda
+========================= */
 const formatCurrency = (amount) => {
   const value = amount ?? 0;
   return value.toLocaleString("es-CO", {
@@ -16,9 +16,20 @@ const formatCurrency = (amount) => {
   });
 };
 
-// =========================
-// SweetAlert siempre arriba
-// =========================
+/* =========================
+   Formato fecha y hora
+========================= */
+const formatFechaHora = (dateString) => {
+  if (!dateString) return "—";
+  return new Date(dateString).toLocaleString("es-CO", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+};
+
+/* =========================
+   SweetAlert siempre arriba
+========================= */
 Swal.mixin({
   customClass: {
     popup: "swalert-top",
@@ -37,16 +48,16 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
   const [estado, setEstado] = useState(pedido.estado);
   const [loading, setLoading] = useState(false);
 
-  // =========================
-  // Ver los datos de pedido que llegan
-  // =========================
+  /* =========================
+     Ver datos del pedido
+  ========================= */
   useEffect(() => {
-    console.log("Pedido recibido:", pedido); // <-- Aquí puedes ver todo el pedido
+    console.log("Pedido recibido:", pedido);
   }, [pedido]);
 
-  // =========================
-  // Cambiar estado del pedido
-  // =========================
+  /* =========================
+     Cambiar estado
+  ========================= */
   const handleEstadoChange = async (nuevoEstado) => {
     setLoading(true);
     try {
@@ -78,11 +89,12 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
     }
   };
 
-  // =========================
-  // Render detalle de pago
-  // =========================
+  /* =========================
+     Detalles de pago
+  ========================= */
   const renderPaymentDetails = () => {
-    const isOnline = pedido.metodo_pago && pedido.metodo_pago !== "Efectivo";
+    const isOnline =
+      pedido.metodo_pago && pedido.metodo_pago !== "Efectivo";
     const hasComprobante = !!pedido.comprobante_url;
 
     return (
@@ -125,13 +137,19 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
     );
   };
 
-  // =========================
-  // RENDER
-  // =========================
+  /* =========================
+     RENDER
+  ========================= */
   return (
     <div className="pm-overlay" onClick={onClose}>
       <div className="pm-modal" onClick={(e) => e.stopPropagation()}>
         <h2 className="pm-title">Pedido #{pedido.id}</h2>
+
+        {/* ✅ FECHA Y HORA */}
+        <p className="pm-fecha">
+          <strong>Fecha y hora:</strong>{" "}
+          {formatFechaHora(pedido.createdAt)}
+        </p>
 
         <p>
           <strong>Cliente:</strong>{" "}
@@ -159,44 +177,54 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         {/* Detalles de pago */}
         {renderPaymentDetails()}
 
-        {/* Platos */}
-        {/* Platos */}
-<div className="pm-platos-box">
-  <h3 className="pm-section-title">Platos del pedido</h3>
+        {/* =========================
+           PLATOS
+        ========================= */}
+        <div className="pm-platos-box">
+          <h3 className="pm-section-title">Platos del pedido</h3>
 
-  <ul className="pm-platos-list">
-    {pedido.PedidoPlatos?.map((pp) => (
-      <li key={pp.id} className="pm-plato-item">
-        <div className="pm-plato-main">
-          <strong>{pp.Plato?.nombre}</strong>{" "}
-          x {pp.cantidad} — {formatCurrency(pp.precio_unitario)}
-        </div>
+          <ul className="pm-platos-list">
+            {pedido.PedidoPlatos?.map((pp) => (
+              <li key={pp.id} className="pm-plato-item">
+                <div className="pm-plato-main">
+                  <strong>{pp.Plato?.nombre}</strong>{" "}
+                  x {pp.cantidad} —{" "}
+                  {formatCurrency(pp.precio_unitario)}
+                </div>
 
-        {/* ✅ Opciones seleccionadas */}
-        {Array.isArray(pp.PedidoPlatoOpcions) && pp.PedidoPlatoOpcions.length > 0 && (
-          <ul className="pm-opciones-list">
-            {pp.PedidoPlatoOpcions.map((opcion) => (
-              <li key={opcion.id} className="pm-opcion-item">
-                ▸ <span className="pm-opcion-nombre">{opcion.nombre_opcion}</span>
-             
+                {/* Opciones */}
+                {Array.isArray(pp.PedidoPlatoOpcions) &&
+                  pp.PedidoPlatoOpcions.length > 0 && (
+                    <ul className="pm-opciones-list">
+                      {pp.PedidoPlatoOpcions.map((opcion) => (
+                        <li
+                          key={opcion.id}
+                          className="pm-opcion-item"
+                        >
+                          ▸{" "}
+                          <span className="pm-opcion-nombre">
+                            {opcion.nombre_opcion}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </li>
             ))}
           </ul>
-        )}
-      </li>
-    ))}
-  </ul>
-</div>
+        </div>
 
-
-
-        {/* Estado */}
+        {/* =========================
+           ESTADO
+        ========================= */}
         <div className="pm-state-box">
           <label className="pm-state-label">Estado:</label>
           <select
             className="pm-state-select"
             value={estado}
-            onChange={(e) => handleEstadoChange(e.target.value)}
+            onChange={(e) =>
+              handleEstadoChange(e.target.value)
+            }
             disabled={loading}
           >
             <option value="pendiente">Pendiente</option>
