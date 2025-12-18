@@ -61,13 +61,31 @@ const APedidos = () => {
   }, [pedidos]);
 
   /* ===============================
-     FILTRO DE PEDIDOS
+     SHUFFLE (RANDOM)
+     - No muta el array original
+  =============================== */
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  /* ===============================
+     FILTRO + RANDOM
   =============================== */
   const pedidosFiltrados = useMemo(() => {
-    if (comercioSeleccionado === 'todos') return pedidos;
-    return pedidos.filter(
-      (p) => p.Comercio?.id === Number(comercioSeleccionado)
-    );
+    const filtrados =
+      comercioSeleccionado === 'todos'
+        ? pedidos
+        : pedidos.filter(
+            (p) => p.Comercio?.id === Number(comercioSeleccionado)
+          );
+
+    // 🔀 Desordenar pedidos
+    return shuffleArray(filtrados);
   }, [pedidos, comercioSeleccionado]);
 
   /* ===============================
@@ -78,11 +96,6 @@ const APedidos = () => {
   // ===============================
   // FORMATEO FECHA / HORA (DESHABILITADO)
   // ===============================
-  // Usa createdAt del pedido
-  // Formato: fecha corta + hora
-  // Para reactivar:
-  // 1) Descomentar este helper
-  // 2) Descomentar la columna y el <td> en la tabla
   const formatFecha = (dateString) =>
     new Date(dateString).toLocaleString('es-CO', {
       dateStyle: 'short',
@@ -145,14 +158,6 @@ const APedidos = () => {
                   <FontAwesomeIcon icon={faStore} /> Comercio
                 </th>
                 <th>Total</th>
-
-                {/*
-                // ===============================
-                // COLUMNA FECHA / HORA (DESHABILITADA)
-                // ===============================
-                <th>Fecha/Hora</th>
-                */}
-
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -171,14 +176,6 @@ const APedidos = () => {
                     <td>
                       ${pedido.total.toLocaleString('es-CO')}
                     </td>
-
-                    {/*
-                    // ===============================
-                    // CELDA FECHA / HORA (DESHABILITADA)
-                    // ===============================
-                    <td>{formatFecha(pedido.createdAt)}</td>
-                    */}
-
                     <td>
                       <span
                         className="estado-tag-pedido"
