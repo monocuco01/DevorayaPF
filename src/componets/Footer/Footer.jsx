@@ -26,7 +26,7 @@ export default function Footer() {
         <div className="footer-column">
           <h4>Colabora con Devoraya</h4>
           <ul>
-            <li><a href="#">Registra tu restaurante</a></li>
+            <li><a href="https://wa.me/573215955801?text=Hola%2C%20quiero%20unirme%20a%20ustedes">Registra tu restaurante</a></li>
             <li><a href="#">Hazte repartidor</a></li>
             <li><a href="#">Trabaja con nosotros</a></li>
           </ul>
