@@ -224,7 +224,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         </div>
 
         <button className="pm-close-btn" onClick={onClose}>
-          Cerrar
+          Cerrars
         </button>
       </div>
     </div>
