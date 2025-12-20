@@ -1,5 +1,3 @@
-// Archivo: src/components/admin/APedidos.jsx
-
 import React, { useState, useEffect, useMemo } from 'react';
 import api from '../../api/api';
 import Swal from 'sweetalert2';
@@ -12,6 +10,7 @@ import {
   faTruck,
   faBan,
   faEye,
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 import './APedidos.css';
 
@@ -20,9 +19,9 @@ const APedidos = () => {
   const [loading, setLoading] = useState(true);
   const [comercioSeleccionado, setComercioSeleccionado] = useState('todos');
 
-  /* ===============================
-     FETCH PEDIDOS
-  =============================== */
+  // ===============================
+  // FETCH PEDIDOS
+  // ===============================
   const fetchPedidos = async () => {
     setLoading(true);
     try {
@@ -32,12 +31,8 @@ const APedidos = () => {
       });
       setPedidos(data);
     } catch (error) {
-      console.error("Error al obtener pedidos:", error.response?.data);
-      Swal.fire(
-        'Error',
-        'No se pudieron cargar los pedidos.',
-        'error'
-      );
+      console.error('Error al obtener pedidos:', error.response?.data);
+      Swal.fire('Error', 'No se pudieron cargar los pedidos.', 'error');
     } finally {
       setLoading(false);
     }
@@ -47,23 +42,20 @@ const APedidos = () => {
     fetchPedidos();
   }, []);
 
-  /* ===============================
-     COMERCIOS ÚNICOS (PARA EL SELECT)
-  =============================== */
+  // ===============================
+  // COMERCIOS ÚNICOS
+  // ===============================
   const comercios = useMemo(() => {
     const map = new Map();
     pedidos.forEach((p) => {
-      if (p.Comercio) {
-        map.set(p.Comercio.id, p.Comercio);
-      }
+      if (p.Comercio) map.set(p.Comercio.id, p.Comercio);
     });
     return Array.from(map.values());
   }, [pedidos]);
 
-  /* ===============================
-     SHUFFLE (RANDOM)
-     - No muta el array original
-  =============================== */
+  // ===============================
+  // SHUFFLE
+  // ===============================
   const shuffleArray = (array) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -73,36 +65,20 @@ const APedidos = () => {
     return shuffled;
   };
 
-  /* ===============================
-     FILTRO + RANDOM
-  =============================== */
+  // ===============================
+  // FILTRO + RANDOM
+  // ===============================
   const pedidosFiltrados = useMemo(() => {
     const filtrados =
       comercioSeleccionado === 'todos'
         ? pedidos
-        : pedidos.filter(
-            (p) => p.Comercio?.id === Number(comercioSeleccionado)
-          );
-
-    // 🔀 Desordenar pedidos
+        : pedidos.filter((p) => p.Comercio?.id === Number(comercioSeleccionado));
     return shuffleArray(filtrados);
   }, [pedidos, comercioSeleccionado]);
 
-  /* ===============================
-     HELPERS
-  =============================== */
-
-  /*
   // ===============================
-  // FORMATEO FECHA / HORA (DESHABILITADO)
+  // ESTADOS
   // ===============================
-  const formatFecha = (dateString) =>
-    new Date(dateString).toLocaleString('es-CO', {
-      dateStyle: 'short',
-      timeStyle: 'short',
-    });
-  */
-
   const getEstadoInfo = (estado) => {
     switch ((estado || '').toLowerCase()) {
       case 'nuevo':
@@ -127,9 +103,7 @@ const APedidos = () => {
       </h2>
 
       <div className="section-card">
-        {/* ===============================
-            FILTRO POR COMERCIO
-        =============================== */}
+        {/* FILTRO POR COMERCIO */}
         <div className="pedidos-filtros">
           <FontAwesomeIcon icon={faStore} />
           <select
@@ -157,6 +131,9 @@ const APedidos = () => {
                 <th>
                   <FontAwesomeIcon icon={faStore} /> Comercio
                 </th>
+                <th>
+                  <FontAwesomeIcon icon={faPhone} /> Teléfono
+                </th>
                 <th>Total</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -165,17 +142,30 @@ const APedidos = () => {
             <tbody>
               {pedidosFiltrados.map((pedido) => {
                 const estadoInfo = getEstadoInfo(pedido.estado || 'Nuevo');
+
                 return (
                   <tr key={pedido.id}>
                     <td>#{pedido.id}</td>
+
                     <td>
                       <strong>
                         {pedido.Comercio?.nombre || 'Comercio Eliminado'}
                       </strong>
                     </td>
+
+                    {/* TELÉFONO DEL USUARIO */}
                     <td>
-                      ${pedido.total.toLocaleString('es-CO')}
+                      {pedido.Usuario?.telefono ? (
+                        <a href={`tel:${pedido.Usuario.telefono}`}>
+                          {pedido.Usuario.telefono}
+                        </a>
+                      ) : (
+                        'No registrado'
+                      )}
                     </td>
+
+                    <td>${pedido.total.toLocaleString('es-CO')}</td>
+
                     <td>
                       <span
                         className="estado-tag-pedido"
@@ -191,11 +181,9 @@ const APedidos = () => {
                         {estadoInfo.label}
                       </span>
                     </td>
+
                     <td>
-                      <button
-                        className="btn-icon btn-view"
-                        title="Ver Detalles"
-                      >
+                      <button className="btn-icon btn-view" title="Ver Detalles">
                         <FontAwesomeIcon icon={faEye} />
                       </button>
                     </td>

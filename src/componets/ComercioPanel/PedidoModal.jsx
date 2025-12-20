@@ -94,7 +94,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
   ========================= */
   const renderPaymentDetails = () => {
     const isOnline =
-      pedido.metodo_pago && pedido.metodo_pago !== "Efectivo";
+      pedido.metodo_pago && pedido.metodo_pago.toLowerCase() !== "efectivo";
     const hasComprobante = !!pedido.comprobante_url;
 
     return (
@@ -111,9 +111,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         {isOnline && pedido.referencia_pago && (
           <p>
             <strong>Referencia:</strong>{" "}
-            <span className="pm-payment-ref">
-              {pedido.referencia_pago}
-            </span>
+            <span className="pm-payment-ref">{pedido.referencia_pago}</span>
           </p>
         )}
 
@@ -145,24 +143,29 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
       <div className="pm-modal" onClick={(e) => e.stopPropagation()}>
         <h2 className="pm-title">Pedido #{pedido.id}</h2>
 
-        {/* ✅ FECHA Y HORA */}
+        {/* FECHA Y HORA */}
         <p className="pm-fecha">
-          <strong>Fecha y hora:</strong>{" "}
-          {formatFechaHora(pedido.createdAt)}
+          <strong>Fecha y hora:</strong> {formatFechaHora(pedido.createdAt)}
         </p>
 
+        {/* CLIENTE */}
         <p>
-          <strong>Cliente:</strong>{" "}
-          {pedido.Usuario?.nombre ?? "Sin nombre"}
+          <strong>Cliente:</strong> {pedido.Usuario?.nombre ?? "Sin nombre"}
         </p>
 
+        {/* TELÉFONO */}
+        <p>
+          <strong>Teléfono:</strong>{" "}
+          {pedido.Usuario?.telefono ?? "No registrado"}
+        </p>
+
+        {/* DIRECCIÓN */}
         <p>
           <strong>Dirección:</strong> {pedido.direccion_entrega}
         </p>
 
         <p>
-          <strong>Costo Domicilio:</strong>{" "}
-          {formatCurrency(pedido.costo_envio)}
+          <strong>Costo Domicilio:</strong> {formatCurrency(pedido.costo_envio)}
         </p>
 
         <p>
@@ -170,16 +173,13 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         </p>
 
         <p>
-          <strong>Instrucciones:</strong>{" "}
-          {pedido.instrucciones || "Ninguna"}
+          <strong>Instrucciones:</strong> {pedido.instrucciones || "Ninguna"}
         </p>
 
         {/* Detalles de pago */}
         {renderPaymentDetails()}
 
-        {/* =========================
-           PLATOS
-        ========================= */}
+        {/* PLATOS */}
         <div className="pm-platos-box">
           <h3 className="pm-section-title">Platos del pedido</h3>
 
@@ -187,24 +187,16 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
             {pedido.PedidoPlatos?.map((pp) => (
               <li key={pp.id} className="pm-plato-item">
                 <div className="pm-plato-main">
-                  <strong>{pp.Plato?.nombre}</strong>{" "}
-                  x {pp.cantidad} —{" "}
+                  <strong>{pp.Plato?.nombre}</strong> x {pp.cantidad} —{" "}
                   {formatCurrency(pp.precio_unitario)}
                 </div>
 
-                {/* Opciones */}
                 {Array.isArray(pp.PedidoPlatoOpcions) &&
                   pp.PedidoPlatoOpcions.length > 0 && (
                     <ul className="pm-opciones-list">
                       {pp.PedidoPlatoOpcions.map((opcion) => (
-                        <li
-                          key={opcion.id}
-                          className="pm-opcion-item"
-                        >
-                          ▸{" "}
-                          <span className="pm-opcion-nombre">
-                            {opcion.nombre_opcion}
-                          </span>
+                        <li key={opcion.id} className="pm-opcion-item">
+                          ▸ <span className="pm-opcion-nombre">{opcion.nombre_opcion}</span>
                         </li>
                       ))}
                     </ul>
@@ -214,17 +206,13 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
           </ul>
         </div>
 
-        {/* =========================
-           ESTADO
-        ========================= */}
+        {/* ESTADO */}
         <div className="pm-state-box">
           <label className="pm-state-label">Estado:</label>
           <select
             className="pm-state-select"
             value={estado}
-            onChange={(e) =>
-              handleEstadoChange(e.target.value)
-            }
+            onChange={(e) => handleEstadoChange(e.target.value)}
             disabled={loading}
           >
             <option value="pendiente">Pendiente</option>
@@ -236,7 +224,7 @@ function PedidoModal({ pedido, onClose, onStatusChange }) {
         </div>
 
         <button className="pm-close-btn" onClick={onClose}>
-          Cerrar
+          Cerrars
         </button>
       </div>
     </div>

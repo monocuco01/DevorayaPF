@@ -34,11 +34,17 @@ export default function JoinUs() {
             plataforma te ayuda a crecer y aumentar tus ventas.
           </p>
           <button
-            className="joinus-btn"
-            onClick={() => navigate("/register")}
-          >
-            Regístrate aquí
-          </button>
+  className="joinus-btn"
+  onClick={() =>
+    window.open(
+      "https://wa.me/573215955801?text=Hola%2C%20quiero%20unirme%20a%20ustedes",
+      "_blank"
+    )
+  }
+>
+  Regístrate aquí
+</button>
+
         </div>
 
         {/* Card de repartidores */}
